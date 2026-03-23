@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SLBROS</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+  <!-- AOS Library -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="header" id="header">
+  <nav class="navbar">
+    <div class="logo"><a href="#">Slbros</a></div>
+
+    <div class="menu-btn" id="menuBtn" aria-label="Open menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+</header>
+
+<section class="hero" id="hero">
+  <div class="hero-bg" data-aos="zoom-out" data-aos-duration="1200" data-aos-easing="ease-out"></div>
+
+  <div class="hero-content">
+    <div class="small-top" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="1600">Hi, We are</div>
+    <h1 class="main-title" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="600">Slbros</h1>
+    <div class="small-bottom" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="2100">Welcome to our Sunny Universe</div>
+  </div>
+</section>
+
+<nav class="menu" id="menu">
+  <ul>
+    <li><a href="#">首頁</a></li>
+    <li><a href="#">關於我們</a></li>
+    <li><a href="#">Stake</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</nav>
+
+  <!-- About 橫向滾動區 -->
+  <section class="about-section about">
+    <div class="about-track">
+
+      <!-- Panel 1 -->
+      <div class="panel panel-1">
+        <div class="panel1-mouse-bg"></div>
+        <div class="panel1-overlay"></div>
+
+        <div class="panel1-text">
+          <div class="panel1-label">/關於晴天兄弟</div>
+          <div class="panel1-intro">
+            我們是「晴天兄弟 Sunluckbros」，兩個熱愛冒險與挑戰的創作者
+          </div>
+          <div class="panel1-reveal">
+            <span>旅</span><span>行</span><span>、</span><span>拍</span><span>攝</span><span>、</span><span>任</span><span>務</span><span>挑</span><span>戰</span><span>，</span><span>是</span><span>我</span><span>們</span><span>的</span><span>日</span><span>常</span><span>，</span><span>而</span><span>娛</span><span>樂</span><span>與</span><span>遊</span><span>戲</span><span>則</span><span>是</span><span>我</span><span>們</span><span>與</span><span>世</span><span>界</span><span>互</span><span>動</span><span>的</span><span>方</span><span>式</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 2 -->
+      <div class="panel panel-2 panel-dark">
+        <div class="panel2-mouse-bg"></div>
+        <div class="panel2-grid"></div>
+
+        <div class="panel2-text panel-copy-lines">
+          <div class="copy-line">
+            在 Web3 與數位娛樂的世界裡，我們透過 Stake 等加密娛樂平台，
+          </div>
+          <div class="copy-line">
+            
+          </div>
+          <div class="copy-line">
+            體驗各種遊戲與挑戰，
+          </div>
+          <div class="copy-line">
+            從輪盤、21 點到 slots、德州撲克
+          </div>
+              <div class="copy-line">
+            與電競對戰
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 3 -->
+      <div class="panel panel-3 panel-dark">
+        <div class="panel3-mouse-bg"></div>
+        <div class="panel3-text panel-copy-lines">
+          <div class="copy-line">
+            我們相信，冒險精神是品牌的核心
+          </div>
+            <div class="copy-line">
+            每一次挑戰，都是對自我的超越
+          </div>
+        </div>
+      </div>
+    </div>
+    <img src="image/star-2.png" class="star star-2" alt="" />
+    <img src="image/star-2.png" class="star star-3" alt="" />
+  </section>
+    <!-- brand -->
+  <section class="brand slide-section">
+    <div class="section-inner">
+      <div class="brand__inner">
+        <div class="brand__content">
+          <h2 class="brand__title">
+            Brand<br />
+            Partnerships
+          </h2>
+
+          <div class="brand__card">
+            <div class="brand__card-title">slbros</div>
+            <p class="brand__card-text">
+              We delivery the enjoyment to<br />
+              selling, we guide you finding your play
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stake-section slide-section" id="stake">
+    <div class="section-inner">
+      <div class="stake-bg-wrap">
+        <img src="./image/STAKE-BG1.png" alt="" class="stake-bg" />
+      </div>
+
+      <div class="stake-container">
+        <div class="stake-head">
+          <div class="stake-head-left">
+            <h2 class="stake-title">STAKE</h2>
+            <p class="stake-desc">
+              From discovery to deployment to scaling, we guide you through
+              everystep—making automation Simple, fast, and built for growth.
+            </p>
+          </div>
+
+          <a href="#" class="stake-go-btn">
+            <span>GO</span>
+            <span class="arrow">→</span>
+          </a>
+        </div>
+
+        <div class="stake-cards">
+          <article class="stake-card">
+            <div class="stake-card-inner">
+              <div class="stake-card-number">01</div>
+              <h3 class="stake-card-title">STAKE</h3>
+              <p class="stake-card-text">
+                From discovery to deployment to scaling, we guide you through everystep
+              </p>
+            </div>
+          </article>
+
+          <article class="stake-card stake-card--active">
+            <div class="stake-card-inner">
+              <div class="stake-card-number">02</div>
+              <h3 class="stake-card-title">STAKE</h3>
+              <p class="stake-card-text">
+                From discovery to deployment to scaling, we guide you through everystep
+              </p>
+            </div>
+          </article>
+
+          <article class="stake-card">
+            <div class="stake-card-inner">
+              <div class="stake-card-number">03</div>
+              <h3 class="stake-card-title">STAKE</h3>
+              <p class="stake-card-text">
+                From discovery to deployment to scaling, we guide you through everystep
+              </p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 跑馬燈效果（可重用元件掛載點） -->
+  <section
+    class="marquee-section js-marquee-component"
+    data-marquee-text="SLBROS"
+    data-marquee-groups="3"
+    data-marquee-repeat="6"
+    data-marquee-icon="./image/marquee-icon.png"
+  ></section>
+
+  <!-- Poker 區塊 -->
+  <section class="poker" id="poker">
+    <div class="poker__inner">
+      <div class="poker__head">
+        <h2 class="poker__title" data-aos="fade-up" data-aos-duration="1000" data-aos-easing="ease-out">POKER</h2>
+
+        <button class="poker__toggle" id="pokerToggle" type="button" aria-label="toggle poker list">
+          <img src="./image/marquee-icon-2.png" alt="toggle icon" />
+        </button>
+      </div>
+
+      <div class="poker__list poker__stack">
+        <article class="poker__item">
+          <div class="poker__item-inner">
+            <div class="poker__thumb">
+              <img src="./image/poker-1.png" alt="POKER1" />
+            </div>
+
+            <div class="poker__body">
+              <h3 class="poker__name">POKER1</h3>
+              <p class="poker__desc">
+                Great products don't just happen, they're shaped by insight. We dig into
+                research, audits, and user testing to understand what people need, then
+                translate those findings into smart, intuitive UX solutions where every
+                decision has purpose.
+              </p>
+              <a href="#" class="stake-go-btn poker__go-btn">
+                <span>GO</span>
+                <span class="arrow">→</span>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <article class="poker__item">
+          <div class="poker__item-inner">
+            <div class="poker__thumb">
+              <img src="./image/poker-2.png" alt="POKER2" />
+            </div>
+
+            <div class="poker__body">
+              <h3 class="poker__name">POKER2</h3>
+              <p class="poker__desc">
+                Great products don't just happen, they're shaped by insight. We dig into
+                research, audits, and user testing to understand what people need, then
+                translate those findings into smart, intuitive UX solutions where every
+                decision has purpose.
+              </p>
+              <a href="#" class="stake-go-btn poker__go-btn">
+                <span>GO</span>
+                <span class="arrow">→</span>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <article class="poker__item">
+          <div class="poker__item-inner">
+            <div class="poker__thumb">
+              <img src="./image/poker-3.png" alt="POKER3" />
+            </div>
+
+            <div class="poker__body">
+              <h3 class="poker__name">POKER3</h3>
+              <p class="poker__desc">
+                Great products don't just happen, they're shaped by insight. We dig into
+                research, audits, and user testing to understand what people need, then
+                translate those findings into smart, intuitive UX solutions where every
+                decision has purpose.
+              </p>
+              <a href="#" class="stake-go-btn poker__go-btn">
+                <span>GO</span>
+                <span class="arrow">→</span>
+              </a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Adventure Content Section -->
+  <section class="adventure" id="adventure">
+    <div
+      class="adventure__marquee adventure__marquee--top js-marquee-component"
+      aria-hidden="true"
+      data-marquee-text="SLBROS"
+      data-marquee-groups="2"
+      data-marquee-repeat="6"
+      data-marquee-separator="✦"
+    ></div>
+
+    <div class="adventure__inner">
+      <div class="adventure__rail adventure__rail--left">
+        <img src="./image/Adventure Content-icon-01.png" alt="" class="adventure__icon adventure__icon--01" />
+        <img src="./image/Adventure Content-icon-03.png" alt="" class="adventure__icon adventure__icon--03" />
+        <img src="./image/Adventure Content-icon-05.png" alt="" class="adventure__icon adventure__icon--05" />
+        <img src="./image/Adventure Content-icon-07.png" alt="" class="adventure__icon adventure__icon--07" />
+        <img src="./image/Adventure Content-icon-09.png" alt="" class="adventure__icon adventure__icon--09" />
+      </div>
+
+      <div class="adventure__content">
+        <div class="adventure__line-wrap">
+          <div class="adventure__line">走進晴天宇宙，開啟屬於你的冒險日常</div>
+        </div>
+        <div class="adventure__line-wrap">
+          <div class="adventure__line adventure__line--small">從城市漫遊到戶外探索，發現不同的生活風景</div>
+        </div>
+        <div class="adventure__line-wrap">
+          <div class="adventure__line">每一段旅程，都是一種風格的延伸</div>
+        </div>
+        <div class="adventure__line-wrap">
+          <div class="adventure__line">透過影像與故事，感受世界的更多可能</div>
+        </div>
+        <div class="adventure__line-wrap">
+          <div class="adventure__line">在晴天兄弟，找到你的冒險靈感</div>
+        </div>
+      </div>
+
+      <div class="adventure__rail adventure__rail--right">
+        <img src="./image/Adventure Content-icon-02.png" alt="" class="adventure__icon adventure__icon--02" />
+        <img src="./image/Adventure Content-icon-04.png" alt="" class="adventure__icon adventure__icon--04" />
+        <img src="./image/Adventure Content-icon-06.png" alt="" class="adventure__icon adventure__icon--06" />
+        <img src="./image/Adventure Content-icon-08.png" alt="" class="adventure__icon adventure__icon--08" />
+        <img src="./image/Adventure Content-icon-10.png" alt="" class="adventure__icon adventure__icon--10" />
+      </div>
+    </div>
+
+    <div
+      class="adventure__marquee adventure__marquee--bottom js-marquee-component"
+      aria-hidden="true"
+      data-marquee-text="Adventure"
+      data-marquee-groups="2"
+      data-marquee-repeat="6"
+      data-marquee-separator="✱"
+      data-marquee-reverse="true"
+    ></div>
+  </section>
+
+    <!--  QA section-->
+      <section class="faq-section" id="faq">
+  <div class="faq-wrapper">
+    <div class="faq-intro">
+      <div class="faq-arrow">
+        <img src="image/QA-icon-1.png" alt="QA icon" class="arrow-desktop">
+        <img src="image/QA-icon-2.png" alt="QA icon" class="arrow-mobile">
+      </div>
+
+      <div class="faq-title-box">
+        <span class="faq-title-mask"></span>
+        <h2 class="faq-title">
+          <span>常見問題</span>
+        </h2>
+      </div>
+
+      <p class="faq-desc">
+        我們整理了常見問題與解答，幫助您<br>
+        更快速找到所需資訊！
+      </p>
+    </div>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-question" type="button">
+          <div class="faq-question-left">
+            <span class="faq-number">01</span>
+            <span class="faq-text">都能樣的她都做我一直，更多民想要介紹變化</span>
+          </div>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer-wrap">
+          <div class="faq-answer">
+            這裡是第一個問題的答案內容，您可以替換成自己的文字。
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" type="button">
+          <div class="faq-question-left">
+            <span class="faq-number">02</span>
+            <span class="faq-text">都能樣的她都做我一直，更多民想要介紹變化</span>
+          </div>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer-wrap">
+          <div class="faq-answer">
+            這裡是第二個問題的答案內容，您可以替換成自己的文字。
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" type="button">
+          <div class="faq-question-left">
+            <span class="faq-number">03</span>
+            <span class="faq-text">都能樣的她都做我一直，更多民想要介紹變化</span>
+          </div>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer-wrap">
+          <div class="faq-answer">
+            這裡是第三個問題的答案內容，您可以替換成自己的文字。
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer" data-aos="footer-gradient" data-aos-duration="900" data-aos-easing="ease-out">
+  <div class="footer-inner">
+    <div class="footer-top-line" data-aos="fade-right" data-aos-duration="500" data-aos-delay="1220" data-aos-easing="ease-out"></div>
+
+    <div class="footer-content" data-aos="fade-up" data-aos-duration="900" data-aos-delay="1280" data-aos-easing="ease-out">
+      <div class="footer-brand">
+        <h2 class="footer-logo">SLBROS</h2>
+        <p class="footer-desc">
+          我們重新定義「冒險」的樣貌，<br>
+          讓每個人都能找到屬於自己的生活風格
+        </p>
+      </div>
+
+      <div class="footer-links-wrap">
+        <ul class="footer-links">
+          <li><a href="#">首頁</a></li>
+          <li><a href="#">關於我們</a></li>
+          <li><a href="#">STAKE</a></li>
+        </ul>
+
+        <ul class="footer-links">
+          <li><a href="#">隱私權政策</a></li>
+          <li><a href="#">免責聲明</a></li>
+          <li><a href="#">聯絡我們</a></li>
+        </ul>
+
+        <div class="footer-social">
+          <a href="#" aria-label="Facebook">
+            <img src="image/footer-fb.png" alt="Facebook" />
+          </a>
+          <a href="#" aria-label="Instagram">
+            <img src="image/footer-ig.png" alt="Instagram" />
+          </a>
+          <a href="#" aria-label="LINE">
+            <img src="image/footer-line.png" alt="LINE" />
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bg-text" data-aos="footer-bg-text" data-aos-duration="1300" data-aos-delay="860" data-aos-easing="ease-out">SLBROS</div>
+
+    <div class="footer-copyright" data-aos="fade-up" data-aos-duration="900" data-aos-delay="1420" data-aos-easing="ease-out">
+      © 2026 晴天兄弟 SLbros. All Rights Reserved.<br class="mobile-br">
+      本網站僅提供娛樂資訊與內容分享，不涉及金流或博彩服務
+    </div>
+  </div>
+</footer>
+
+<div class="custom-cursor" aria-hidden="true">
+  <img src="image/custom-cursor.png" alt="" />
+</div>
+
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      duration: 1000,
+      easing: 'ease-in-out',
+      once: false,
+      offset: 100
+    });
+  </script>
+  <script src="js/script.js"></script>
+</body>
+</html>
