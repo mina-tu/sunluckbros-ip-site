@@ -449,7 +449,7 @@ body {
 }
 
 .panel1-reveal {
-  margin-top: 24px;
+  margin-top: 60px;
 }
 
 .panel1-reveal span {
@@ -509,8 +509,12 @@ body {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: min(80vw, 720px);
+  width: min(92vw, 1000px);
   will-change: transform;
+}
+
+.panel2-text .copy-line {
+  white-space: nowrap;
 }
 
 .copy-line {
@@ -824,11 +828,25 @@ body {
 }
 
 .stake-desc {
-  max-width: 700px;
-  font-size: clamp(18px, 1.5vw, 24px);
+  max-width: 500px;
+  font-size: clamp(18px, 1vw, 20px);
   line-height: 1.35;
   font-weight: 700;
+  padding: 10px 10px;
   color: rgba(255, 255, 255, 0.92);
+}
+
+@media (min-width: 1200px) {
+  .stake-head-left {
+    flex: 1;
+    max-width: none;
+    min-width: 0;
+  }
+
+  .stake-desc {
+    max-width: none;
+    white-space: nowrap;
+  }
 }
 
 /* GO 按鈕 */
@@ -983,7 +1001,7 @@ body {
 }
 
 .stake-card-title {
-  font-size: clamp(34px, 3vw, 40px);
+  font-size: clamp(24px, 1vw, 40px);
   line-height: 1;
   font-weight: 900;
   color: #fff;
@@ -998,9 +1016,9 @@ body {
 
 .stake-card-text {
   max-width: 280px;
-  font-size: 18px;
-  line-height: 1.35;
-  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 500;
   color: rgba(255, 255, 255, 0.95);
 }
 
@@ -1245,7 +1263,7 @@ body {
   display: grid;
   grid-template-columns: 480px 1fr;
   gap: 40px;
-  align-items: start;
+  align-items: center;
   padding: 18px 20px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
   overflow: hidden;
@@ -1269,23 +1287,29 @@ body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-left: auto;
-  max-width: 750px;
+  margin: 0 auto;
+  max-width: 700px;
   text-align: left;
 }
 
 .poker__name {
   margin-bottom: 10px;
   color: #ff6a00;
-  font-size: clamp(24px, 2.5vw, 45px);
+  font-size: clamp(20px, 2vw, 36px);
   font-weight: 800;
   line-height: 1;
 }
 
+.poker__name--ggpoker {
+  font-weight: 700;
+}
+
 .poker__desc {
   color: rgba(255, 255, 255, 0.88);
-  font-size: 28px;
-  line-height: 1.42;
+  font-size: 19px;
+  font-weight: 700;
+  padding: 1rem 0;
+  line-height: 1.5;
 }
 
 .poker__go-btn {
@@ -1403,12 +1427,12 @@ body {
     height: 60px;
   }
 .poker__name {
-    font-size: 36px;
+    font-size: 32px;
     padding: auto;
   }
 
   .poker__desc {
-    font-size: 20px;
+    font-size: 16px;
     padding: 1rem 0;
   }
 }
