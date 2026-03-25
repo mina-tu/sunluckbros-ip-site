@@ -611,6 +611,12 @@ body {
     width: 82vw;
   }
 
+  .panel2-text .copy-line {
+    width: 100%;
+    white-space: normal;
+    text-align: center;
+  }
+
   .panel3-text {
     left: 50%;
     right: auto;
@@ -1394,7 +1400,7 @@ body {
   }
 
   .brand__title {
-    font-size: 70px;
+    font-size: 62px;
   }
   .brand__card {
     width: 100%;
@@ -1406,7 +1412,8 @@ body {
     font-weight: 800;
   }
 .brand__card-text {
-    font-size: 18px;
+  font-size: 16px;
+  font-weight: 500;
   }
 
   .poker__inner {
@@ -1426,14 +1433,20 @@ body {
     width: 60px;
     height: 60px;
   }
-.poker__name {
+
+  .poker__item-inner {
+    gap: 12px;
+  }
+
+  .poker__name {
     font-size: 32px;
-    padding: auto;
+    margin-bottom: 12px;
+    padding: 0;
   }
 
   .poker__desc {
     font-size: 16px;
-    padding: 1rem 0;
+    padding: 0;
   }
 }
 
@@ -1732,7 +1745,7 @@ body {
   }
 
   .adventure__line {
-    font-size: 26px;
+    font-size: 22px;
     font-weight: 500;
     line-height: 1.35;
     max-width: 100%;
