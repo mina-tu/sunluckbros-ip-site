@@ -25,12 +25,28 @@ function toggleNavbarGlass() {
   if (!header || !hero) return;
 
   const heroBottom = hero.offsetTop + hero.offsetHeight;
-  const triggerPoint = heroBottom - header.offsetHeight - 20;
+  const triggerPoint = heroBottom;
+  const isPastHero = window.scrollY >= triggerPoint;
+  const isDesktop = window.matchMedia("(min-width: 769px)").matches;
+  const isAnyScroll = window.scrollY > 0;
 
-  if (window.scrollY >= triggerPoint) {
+  if (isPastHero) {
     header.classList.add("scrolled");
   } else {
     header.classList.remove("scrolled");
+
+    // Keep desktop hero state clean: hide overlay menu when hamburger is hidden.
+    if (isDesktop) {
+      menuBtn?.classList.remove("active");
+      menu?.classList.remove("active");
+    }
+  }
+
+  // Desktop nav mode: switch to compact hamburger as soon as user scrolls.
+  if (isDesktop && isAnyScroll) {
+    header.classList.add("compact");
+  } else {
+    header.classList.remove("compact");
   }
 }
 
@@ -100,11 +116,11 @@ const aboutPanel1RevealChars = document.querySelectorAll(".panel1-reveal span");
 const aboutPanel1Text = document.querySelector(".panel1-text");
 
 if (aboutPanel1Label && aboutPanel1Intro && aboutPanel1RevealChars.length && aboutPanel1Text) {
-  gsap.set(".panel1-label", { opacity: 1, y: 0 });
-  gsap.set(".panel1-intro", { opacity: 1, y: 0 });
-  gsap.set(".panel1-reveal span", { opacity: 1, y: 0 });
-  gsap.set(".panel2-text .copy-line", { opacity: 1, y: 0 });
-  gsap.set(".panel3-text .copy-line", { opacity: 1, y: 0 });
+  gsap.set(".panel1-label", { opacity: 0, y: 18 });
+  gsap.set(".panel1-intro", { opacity: 0, y: 22 });
+  gsap.set(".panel1-reveal span", { opacity: 0, y: 18 });
+  gsap.set(".panel2-text .copy-line", { opacity: 0, y: 24 });
+  gsap.set(".panel3-text .copy-line", { opacity: 0, y: 24 });
 }
 
 ScrollTrigger.matchMedia({
@@ -154,7 +170,7 @@ ScrollTrigger.matchMedia({
       duration: 0.2
     }, 0.3);
 
-    aboutTimeline.addLabel("panel2Start", 0.42);
+    aboutTimeline.addLabel("panel2Start", 0.36);
 
     aboutTimeline.to(".about-track", {
       x: () => -window.innerWidth,
@@ -165,10 +181,10 @@ ScrollTrigger.matchMedia({
     aboutTimeline.to(".panel2-text .copy-line", {
       opacity: 1,
       y: 0,
-      stagger: 0.08,
+      stagger: 0.035,
       ease: "none",
-      duration: 0.14
-    }, "panel2Start+=0.12");
+      duration: 0.1
+    }, "panel2Start+=0.04");
 
     aboutTimeline.addLabel("panel3Start", 0.72);
 
@@ -190,6 +206,12 @@ ScrollTrigger.matchMedia({
   "(max-width: 768px)": function () {
     gsap.set(".about-track", { clearProps: "transform" });
     gsap.set(".panel1-text", { clearProps: "x,y" });
+
+    gsap.set(".panel1-label", { opacity: 1, y: 0 });
+    gsap.set(".panel1-intro", { opacity: 1, y: 0 });
+    gsap.set(".panel1-reveal span", { opacity: 1, y: 0 });
+    gsap.set(".panel2-text .copy-line", { opacity: 1, y: 0 });
+    gsap.set(".panel3-text .copy-line", { opacity: 1, y: 0 });
   }
 });
 
@@ -246,7 +268,7 @@ function initAboutMouseParallax() {
     {
       panelSelector: ".panel-2",
       bgSelector: ".panel2-mouse-bg",
-      textSelector: ".panel2-text"
+      textSelector: null
     },
     {
       panelSelector: ".panel-3",
@@ -258,7 +280,7 @@ function initAboutMouseParallax() {
   configs.forEach(({ panelSelector, bgSelector, textSelector }) => {
     const panel = document.querySelector(panelSelector);
     const bg = document.querySelector(bgSelector);
-    const text = document.querySelector(textSelector);
+    const text = textSelector ? document.querySelector(textSelector) : null;
 
     if (!panel || !bg) return;
 
@@ -707,15 +729,29 @@ function initAdventureStoryboard() {
     // 你之後只要改這裡，就能分別調整 01~10 的位置，不必逐段改 phase。
     const adventureIconOffsets = {
       "01": { x: -150, y:-20 },
-      "02": { x: 180, y: 0 },
-      "03": { x: 10, y: 200 },
-      "04": { x: -100, y: 0 },
+      "02": { x: 30, y: -10 },
+      "03": { x: -20, y: 120 },
+      "04": { x: 250, y: -50 },
       "05": { x: -250, y: 150 },
-      "06": { x: 0, y: -750 },
-      "07": { x: 100, y: -620 },
-      "08": { x: 280, y: 0 },
-      "09": { x: 90, y: 150 },
+      "06": { x:300, y: -650 },
+      "07": { x: -400, y: -720 },
+      "08": { x: 180, y: -100 },
+      "09": { x: 90, y: -90 },
       "10": { x: -100, y: 10 }
+    };
+
+    // 每張 icon 的尺寸倍率（以 phase 裡的 scale 為基礎再乘上此倍率）
+    const adventureIconScaleMultiplier = {
+      "01": 1,
+      "02": 0.9,
+      "03": 2.3,
+      "04": 1,
+      "05": 1,
+      "06": 1,
+      "07": 0.5,
+      "08": 0.6,
+      "09": 0.9,
+      "10": 1.4
     };
 
     const getOffsetScale = () => {
@@ -726,10 +762,15 @@ function initAdventureStoryboard() {
       return 0.62; // 769~1099
     };
 
-    const getIconOffset = (icon) => {
+    const getIconKey = (icon) => {
       const nameClass = Array.from(icon.classList).find((cls) => cls.startsWith("adventure__icon--"));
-      if (!nameClass) return { x: 0, y: 0 };
-      const key = nameClass.replace("adventure__icon--", "");
+      if (!nameClass) return null;
+      return nameClass.replace("adventure__icon--", "");
+    };
+
+    const getIconOffset = (icon) => {
+      const key = getIconKey(icon);
+      if (!key) return { x: 0, y: 0 };
       const base = adventureIconOffsets[key] || { x: 0, y: 0 };
       const ratio = getOffsetScale();
       return {
@@ -738,17 +779,24 @@ function initAdventureStoryboard() {
       };
     };
 
+    const getIconScaleMultiplier = (icon) => {
+      const key = getIconKey(icon);
+      if (!key) return 1;
+      return adventureIconScaleMultiplier[key] ?? 1;
+    };
+
     leftIcons.forEach((icon, idx) => {
       const state = leftPhases[0][idx];
       if (!state) return;
       const offset = getIconOffset(icon);
+      const scaleMultiplier = getIconScaleMultiplier(icon);
       gsap.set(icon, {
         xPercent: -50,
         yPercent: -50,
         x: state.x + offset.x,
         y: state.y + offset.y,
         rotation: state.rotate,
-        scale: state.scale,
+        scale: state.scale * scaleMultiplier,
         opacity: state.opacity
       });
     });
@@ -757,13 +805,14 @@ function initAdventureStoryboard() {
       const state = rightPhases[0][idx];
       if (!state) return;
       const offset = getIconOffset(icon);
+      const scaleMultiplier = getIconScaleMultiplier(icon);
       gsap.set(icon, {
         xPercent: -50,
         yPercent: -50,
         x: state.x + offset.x,
         y: state.y + offset.y,
         rotation: state.rotate,
-        scale: state.scale,
+        scale: state.scale * scaleMultiplier,
         opacity: state.opacity
       });
     });
@@ -807,11 +856,12 @@ function initAdventureStoryboard() {
         const state = leftPhases[i][idx];
         if (!state) return;
         const offset = getIconOffset(icon);
+        const scaleMultiplier = getIconScaleMultiplier(icon);
         tl.to(icon, {
           x: state.x + offset.x,
           y: state.y + offset.y,
           rotation: state.rotate,
-          scale: state.scale,
+          scale: state.scale * scaleMultiplier,
           opacity: state.opacity,
           duration: 0.45,
           ease: "none"
@@ -822,11 +872,12 @@ function initAdventureStoryboard() {
         const state = rightPhases[i][idx];
         if (!state) return;
         const offset = getIconOffset(icon);
+        const scaleMultiplier = getIconScaleMultiplier(icon);
         tl.to(icon, {
           x: state.x + offset.x,
           y: state.y + offset.y,
           rotation: state.rotate,
-          scale: state.scale,
+          scale: state.scale * scaleMultiplier,
           opacity: state.opacity,
           duration: 0.45,
           ease: "none"
@@ -965,125 +1016,44 @@ function initAdventureStoryboard() {
 
 initAdventureStoryboard();
 
-/* QA section */
-const faqItems = document.querySelectorAll(".faq-item");
-const faqButtons = document.querySelectorAll(".faq-question");
+const ctaSection = document.querySelector(".cta-section");
 
-faqButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    const currentItem = button.closest(".faq-item");
-    const isActive = currentItem.classList.contains("active");
+if (ctaSection) {
+  gsap.set(".cta-title", { opacity: 0, y: 30 });
+  gsap.set(".cta-copy", { opacity: 0, y: 24 });
+  gsap.set(".cta-btn", { opacity: 0, y: 20 });
 
-    faqItems.forEach((item) => item.classList.remove("active"));
-
-    if (!isActive) {
-      currentItem.classList.add("active");
+  const ctaTl = gsap.timeline({
+    scrollTrigger: {
+      trigger: ".cta-section",
+      start: "top 80%",
+      toggleActions: "play none none reverse"
     }
   });
-});
 
-gsap.set(".faq-title span", {
-  opacity: 0
-});
-
-gsap.set(".faq-desc", {
-  x: -40,
-  opacity: 0
-});
-
-gsap.set(".faq-item", {
-  x: 90,
-  opacity: 0,
-  filter: "blur(8px)"
-});
-
-const faqTl = gsap.timeline({
-  scrollTrigger: {
-    trigger: ".faq-section",
-    start: "top 72%",
-    end: "bottom 30%",
-    toggleActions: "play reverse play reverse"
-  }
-});
-
-faqTl
-  .to(".faq-title-mask", {
-    width: "100%",
-    duration: 0.42,
-    ease: "power3.inOut"
-  })
-  .to(".faq-title span", {
+  ctaTl.to(".cta-title", {
     opacity: 1,
-    duration: 0.01
-  }, "-=0.08")
-  .to(".faq-title-mask", {
-    left: "100%",
-    width: "0%",
-    duration: 0.42,
-    ease: "power3.inOut"
+    y: 0,
+    duration: 0.6,
+    ease: "power3.out"
   });
 
-faqTl.to(".faq-desc", {
-  x: 0,
-  opacity: 1,
-  duration: 0.7,
-  ease: "power3.out"
-}, "-=0.05");
+  ctaTl.to(".cta-copy", {
+    opacity: 1,
+    y: 0,
+    duration: 0.6,
+    stagger: 0.12,
+    ease: "power3.out"
+  }, "-=0.25");
 
-faqTl.to(".faq-item", {
-  x: 0,
-  opacity: 1,
-  filter: "blur(0px)",
-  duration: 0.75,
-  stagger: 0.14,
-  ease: "power3.out",
-  onStart: () => {
-    gsap.to(".faq-item", {
-      "--shineX": "120%",
-      duration: 0.8,
-      stagger: 0.14,
-      ease: "power2.out"
-    });
-  }
-}, "-=0.2");
-
-document.querySelectorAll(".faq-item").forEach((item) => {
-  gsap.set(item, { "--shineX": "-120%" });
-  item.style.setProperty("--shineX", "-120%");
-});
-
-ScrollTrigger.create({
-  trigger: ".faq-section",
-  start: "top 72%",
-  onEnter: () => {
-    document.querySelectorAll(".faq-item").forEach((item, index) => {
-      gsap.fromTo(
-        item,
-        { "--shineX": "-120%" },
-        {
-          "--shineX": "120%",
-          duration: 0.85,
-          delay: 1.05 + index * 0.14,
-          ease: "power2.out"
-        }
-      );
-    });
-  },
-  onEnterBack: () => {
-    document.querySelectorAll(".faq-item").forEach((item, index) => {
-      gsap.fromTo(
-        item,
-        { "--shineX": "-120%" },
-        {
-          "--shineX": "120%",
-          duration: 0.85,
-          delay: 0.9 + index * 0.12,
-          ease: "power2.out"
-        }
-      );
-    });
-  }
-});
+  ctaTl.to(".cta-btn", {
+    opacity: 1,
+    y: 0,
+    duration: 0.5,
+    stagger: 0.12,
+    ease: "power3.out"
+  }, "-=0.2");
+}
 
 // ── Footer BG Text Split on Scroll ──────────────────────────────
 const footerBgEl = document.querySelector('.footer-bg-text');
@@ -1125,23 +1095,15 @@ if (window.matchMedia("(min-width: 769px)").matches && customCursor) {
     const clickableSelector = [
       "a",
       "button",
-      ".faq-question",
-      ".faq-item",
       "[role='button']",
       "input[type='submit']",
       "input[type='button']"
-    ].join(",");
-
-    const faqSelector = [
-      ".faq-item",
-      ".faq-question"
     ].join(",");
 
     let targetScale = 1;
     let targetRotate = 0;
 
     let isHover = false;
-    let isFAQ = false;
     let isDown = false;
 
     gsap.set(customCursor, {
@@ -1193,27 +1155,16 @@ if (window.matchMedia("(min-width: 769px)").matches && customCursor) {
 
     function updateCursorState(animated = false) {
       if (isDown) {
-        targetScale = isFAQ ? 0.96 : 0.92;
-      } else if (isFAQ && isHover) {
-        targetScale = 1.22;
-      } else if (isFAQ) {
-        targetScale = 1.14;
+        targetScale = 0.92;
       } else if (isHover) {
         targetScale = 1.18;
       } else {
         targetScale = 1;
       }
 
-      if (isFAQ && isDown) {
-        targetRotate = -10;
-      } else if (isFAQ) {
-        targetRotate = -14;
-      } else {
-        targetRotate = 0;
-      }
+      targetRotate = 0;
 
       customCursor.classList.toggle("is-hover", isHover);
-      customCursor.classList.toggle("is-faq", isFAQ);
 
       gsap.to(customCursorImg, {
         scale: targetScale,
@@ -1233,19 +1184,6 @@ if (window.matchMedia("(min-width: 769px)").matches && customCursor) {
 
       el.addEventListener("mouseleave", () => {
         isHover = false;
-        updateCursorState(true);
-      });
-    });
-
-    const faqElements = document.querySelectorAll(faqSelector);
-    faqElements.forEach((el) => {
-      el.addEventListener("mouseenter", () => {
-        isFAQ = true;
-        updateCursorState(true);
-      });
-
-      el.addEventListener("mouseleave", () => {
-        isFAQ = false;
         updateCursorState(true);
       });
     });
