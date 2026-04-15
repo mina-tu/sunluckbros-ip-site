@@ -104,7 +104,7 @@ html {
   inset: 0;
   background:
     radial-gradient(circle at center, rgba(255,255,255,0.08), transparent 40%),
-    url("../image/banner.png") center center / cover no-repeat,
+    url("../image/banner.webp") center center / cover no-repeat,
     #000;
   transform: scale(1.08);
   opacity: 0;
@@ -457,7 +457,7 @@ html {
 .panel1-mouse-bg {
   position: absolute;
   inset: -3%;
-  background: url("../image/about-section-bg-1.png") center center / 78% auto no-repeat;
+  background: url("../image/about-section-bg-1.webp") center center / 78% auto no-repeat;
   transform: scale(1.08);
   transform-origin: center center;
   will-change: transform;
@@ -555,11 +555,11 @@ html {
 }
 
 .panel2-mouse-bg {
-  background: url("../image/about-section-bg-2.png") center center / 78% auto no-repeat;
+  background: url("../image/about-section-bg-2.webp") center center / 78% auto no-repeat;
 }
 
 .panel3-mouse-bg {
-  background: url("../image/about-section-bg-3.png") center center / 78% auto no-repeat;
+  background: url("../image/about-section-bg-3.webp") center center / 78% auto no-repeat;
 }
 
 .panel2-text {
@@ -642,7 +642,7 @@ html {
   .hero-bg {
     background:
       radial-gradient(circle at center, rgba(255,255,255,0.08), transparent 40%),
-      url("../image/banner-phone.png") center center / cover no-repeat,
+      url("../image/banner-phone.webp") center center / cover no-repeat,
       #000;
   }
 
@@ -1184,7 +1184,7 @@ html {
   position: relative;
   min-height: 100vh;
   overflow: hidden;
-  background: url("../image/Brand-bg1.png") center center / cover no-repeat;
+  background: url("../image/Brand-bg1.webp") center center / cover no-repeat;
   transform-origin: center top;
   will-change: transform, opacity;
 }
@@ -1247,7 +1247,7 @@ html {
 
 @media (max-width: 768px) {
   .brand {
-    background: url("../image/Brand-phone-bg1.png") center center / cover no-repeat;
+    background: url("../image/Brand-phone-bg1.webp") center center / cover no-repeat;
   }
 }
 
@@ -1513,7 +1513,7 @@ html {
 ========================= */
 .adventure {
   position: relative;
-  background: #000 url("../image/Adventure Content-bg.png") center center / contain no-repeat;
+  background: #000 url("../image/Adventure Content-bg.webp") center center / contain no-repeat;
   color: #fff;
   min-height: 100vh;
   overflow: hidden;
@@ -1750,7 +1750,7 @@ html {
 
 @media (max-width: 768px) {
   .adventure {
-    background: #000 url("../image/Adventure Content-phone-bg.png") center center / contain no-repeat;
+    background: #000 url("../image/Adventure Content-phone-bg.webp") center center / contain no-repeat;
   }
 
   .adventure__inner {
@@ -1847,7 +1847,7 @@ html {
 
   /* Layout A: Panel 1 */
   .panel-1 {
-    background-image: url("../image/about-section-phone-bg-1.png");
+    background-image: url("../image/about-section-phone-bg-1.webp");
   }
 
   .panel1-overlay {
@@ -1916,11 +1916,11 @@ html {
   }
 
   .panel-2 {
-    background-image: url("../image/about-section-phone-bg-2.png");
+    background-image: url("../image/about-section-phone-bg-2.webp");
   }
 
   .panel-3 {
-    background-image: url("../image/about-section-phone-bg-3.png");
+    background-image: url("../image/about-section-phone-bg-3.webp");
   }
 
   .panel2-grid,
