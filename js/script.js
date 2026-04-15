@@ -6,6 +6,7 @@ const menuBtn = document.getElementById("menuBtn");
 const menu = document.getElementById("menu");
 const header = document.getElementById("header");
 const hero = document.getElementById("hero");
+const scrollTopBtn = document.getElementById("scrollTopBtn");
 
 menuBtn?.addEventListener("click", () => {
   menuBtn.classList.toggle("active");
@@ -52,6 +53,27 @@ function toggleNavbarGlass() {
 
 window.addEventListener("scroll", toggleNavbarGlass);
 window.addEventListener("resize", toggleNavbarGlass);
+
+function toggleScrollTopButton() {
+  if (!scrollTopBtn) return;
+
+  const isMobile = window.matchMedia("(max-width: 768px)").matches;
+  const threshold = hero ? hero.offsetHeight * 0.6 : 240;
+  const shouldShow = isMobile && window.scrollY > threshold;
+
+  scrollTopBtn.classList.toggle("is-visible", shouldShow);
+}
+
+scrollTopBtn?.addEventListener("click", () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+});
+
+window.addEventListener("load", toggleScrollTopButton);
+window.addEventListener("scroll", toggleScrollTopButton);
+window.addEventListener("resize", toggleScrollTopButton);
 
 function initMarqueeComponents() {
   const marqueeRoots = document.querySelectorAll(".js-marquee-component");
