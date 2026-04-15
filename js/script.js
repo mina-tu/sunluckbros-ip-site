@@ -137,7 +137,9 @@ const aboutPanel1Intro = document.querySelector(".panel1-intro");
 const aboutPanel1RevealChars = document.querySelectorAll(".panel1-reveal span");
 const aboutPanel1Text = document.querySelector(".panel1-text");
 
-if (aboutPanel1Label && aboutPanel1Intro && aboutPanel1RevealChars.length && aboutPanel1Text) {
+const isDesktopViewport = window.matchMedia("(min-width: 769px)").matches;
+
+if (isDesktopViewport && aboutPanel1Label && aboutPanel1Intro && aboutPanel1RevealChars.length && aboutPanel1Text) {
   gsap.set(".panel1-label", { opacity: 0, y: 18 });
   gsap.set(".panel1-intro", { opacity: 0, y: 22 });
   gsap.set(".panel1-reveal span", { opacity: 0, y: 18 });
@@ -227,13 +229,16 @@ ScrollTrigger.matchMedia({
 
   "(max-width: 768px)": function () {
     gsap.set(".about-track", { clearProps: "transform" });
-    gsap.set(".panel1-text", { clearProps: "x,y" });
+    gsap.set(".panel1-text", { clearProps: "x,y,transform" });
+    gsap.set(".panel1-label", { clearProps: "x,y,transform" });
+    gsap.set(".panel1-intro", { clearProps: "x,y,transform" });
+    gsap.set(".panel1-reveal span", { clearProps: "x,y,transform" });
 
-    gsap.set(".panel1-label", { opacity: 1, y: 0 });
-    gsap.set(".panel1-intro", { opacity: 1, y: 0 });
-    gsap.set(".panel1-reveal span", { opacity: 1, y: 0 });
-    gsap.set(".panel2-text .copy-line", { opacity: 1, y: 0 });
-    gsap.set(".panel3-text .copy-line", { opacity: 1, y: 0 });
+    gsap.set(".panel1-label", { opacity: 1 });
+    gsap.set(".panel1-intro", { opacity: 1 });
+    gsap.set(".panel1-reveal span", { opacity: 1 });
+    gsap.set(".panel2-text .copy-line", { opacity: 1, clearProps: "y,transform" });
+    gsap.set(".panel3-text .copy-line", { opacity: 1, clearProps: "y,transform" });
   }
 });
 
