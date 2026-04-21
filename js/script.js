@@ -1,3 +1,24 @@
+// ── 防右鍵 / 防拷保護 ──────────────────────────────────
+document.addEventListener("contextmenu", (e) => e.preventDefault());
+
+document.addEventListener("keydown", (e) => {
+  // 封鎖 F12、Ctrl+Shift+I/J/C/U、Ctrl+U、Ctrl+S、Ctrl+A
+  if (
+    e.key === "F12" ||
+    (e.ctrlKey && e.shiftKey && ["I", "J", "C"].includes(e.key.toUpperCase())) ||
+    (e.ctrlKey && ["U", "S", "A"].includes(e.key.toUpperCase()))
+  ) {
+    e.preventDefault();
+  }
+});
+
+document.addEventListener("copy",  (e) => e.preventDefault());
+document.addEventListener("cut",   (e) => e.preventDefault());
+document.addEventListener("dragstart", (e) => e.preventDefault());
+
+document.addEventListener("selectstart", (e) => e.preventDefault());
+// ────────────────────────────────────────────────────────
+
 window.addEventListener("load", () => {
   toggleNavbarGlass();
 });
