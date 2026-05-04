@@ -1,0 +1,413 @@
+﻿<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>晴天兄弟｜Web3與撲克領域內容IP</title>
+  <link rel="icon" type="image/jpeg" href="image/favicon-2.jpg" />
+  <meta name="description" content="晴天兄弟為專注於Web3與撲克領域的內容IP，由兩位創作者組成，分享市場觀察、產業解析與國際娛樂趨勢，連結亞洲與全球機會。" />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+  <!-- AOS Library -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+
+  <header class="header" id="header">
+    <nav class="navbar">
+      <div class="logo"><a href="#">SLBROS</a></div>
+
+      <ul class="desktop-nav" aria-label="Desktop navigation">
+        <li><a href="#">晴天兄弟</a></li>
+        <li><a href="#stake">web3代言平台</a></li>
+        <li><a href="#poker">poker代言平台</a></li>
+      </ul>
+
+      <div class="menu-btn" id="menuBtn" aria-label="Open menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </nav>
+  </header>
+
+  <section class="hero" id="hero">
+    <div class="hero-bg" data-aos="zoom-out" data-aos-duration="1200" data-aos-easing="ease-out"></div>
+
+    <div class="hero-content">
+      <div class="small-top" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="1600">Hi, we're SunLuckBros ☀️</div>
+      <h1 class="main-title" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="600">Welcome to the SunLuckVerse</h1>
+      <div class="small-bottom" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="2100">Powered by Sun. Driven by Luck.</div>
+    </div>
+  </section>
+
+  <nav class="menu" id="menu">
+    <ul>
+      <li><a href="#">晴天兄弟</a></li>
+      <li><a href="#stake">web3代言平台</a></li>
+      <li><a href="#poker">poker代言平台</a></li>
+    </ul>
+  </nav>
+
+  <!-- About 橫向滾動區 -->
+  <section class="about-section about">
+    <div class="about-track">
+
+      <!-- Panel 1 -->
+      <div class="panel panel-1">
+        <div class="panel1-mouse-bg"></div>
+        <div class="panel1-overlay"></div>
+
+        <div class="panel1-text">
+          <div class="panel1-label">/關於晴天兄弟</div>
+          <div class="panel1-intro">
+            我們是「晴天兄弟 Sunluckbros」<br>
+            兩個熱愛冒險與挑戰的創作者
+          </div>
+          <div class="panel1-reveal">
+            <span>旅</span><span>行</span><span>、</span><span>拍</span><span>攝</span><span>、</span><span>任</span><span>務</span><span>挑</span><span>戰</span><span>，</span><span>是</span><span>我</span><span>們</span><span>的</span><span>日</span><span>常</span><br>
+            <span>而</span><span>娛</span><span>樂</span><span>與</span><span>遊</span><span>戲</span><span>則</span><span>是</span><span>我</span><span>們</span><span>與</span><span>世</span><span>界</span><span>互</span><span>動</span><span>的</span><span>方</span><span>式</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 2 -->
+      <div class="panel panel-2 panel-dark">
+        <div class="panel2-mouse-bg"></div>
+        <div class="panel2-grid"></div>
+
+        <div class="panel2-text panel-copy-lines">
+          <div class="copy-line">
+            在 Web3 與數位娛樂的世界裡
+          </div>
+          <div class="copy-line">
+            我們透過 Stake 等加密娛樂平台<br>體驗各種遊戲與挑戰
+          </div>
+          <div class="copy-line">
+            從輪盤、21 點到 slots、德州撲克與電競對戰
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 3 -->
+      <div class="panel panel-3 panel-dark">
+        <div class="panel3-mouse-bg"></div>
+        <div class="panel3-text panel-copy-lines">
+          <div class="copy-line">
+            我們相信，冒險精神是品牌的核心
+          </div>
+          <div class="copy-line">
+            每一次挑戰，都是對自我的超越
+          </div>
+        </div>
+      </div>
+    </div>
+    <img src="image/star-2.png" class="star star-2" alt="" loading="lazy" decoding="async" />
+    <img src="image/star-2.png" class="star star-3" alt="" loading="lazy" decoding="async" />
+  </section>
+  <!-- brand -->
+  <section class="brand slide-section">
+    <div class="section-inner">
+      <div class="brand__inner">
+        <div class="brand__content">
+          <h2 class="brand__title">
+            Brand<br />
+            Partnerships
+          </h2>
+
+          <div class="brand__card">
+            <div class="brand__card-title">slbros</div>
+            <p class="brand__card-text">
+                  Find your play.Create your adventure.<br />
+                  Every moment is a chance to explore something new.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stake-section slide-section" id="stake">
+    <div class="section-inner">
+      <div class="stake-bg-wrap">
+        <img src="./image/STAKE-BG1.webp" alt="" class="stake-bg" loading="lazy" decoding="async" />
+      </div>
+
+      <div class="stake-container">
+        <div class="stake-head">
+          <div class="stake-head-left">
+            <h2 class="stake-title">STAKE</h2>
+            <p class="stake-desc">
+              全球主流 Web3 Casino 平台之一，結合加密貨幣與線上娛樂，提供安全、流暢且多元的遊戲體驗
+            </p>
+          </div>
+
+          <a href="https://stake.com/" class="stake-go-btn">
+            <span>GO</span>
+            <span class="arrow">→</span>
+          </a>
+        </div>
+
+        <div class="stake-cards">
+          <article class="stake-card">
+            <div class="stake-card-inner">
+              <div class="stake-card-number">01</div>
+              <h3 class="stake-card-title">自有遊戲系統</h3>
+              <p class="stake-card-text">
+                Stake 擁有自家開發的娛樂遊戲系統，包含 Crash、Dice、Limbo 等經典玩法，並持續更新新遊戲與機制，帶來穩定且創新的娛樂體驗
+              </p>
+            </div>
+          </article>
+
+          <article class="stake-card stake-card--active">
+            <div class="stake-card-inner">
+              <div class="stake-card-number">02</div>
+              <h3 class="stake-card-title">安全與加密交易</h3>
+              <p class="stake-card-text">
+                透過主流加密貨幣與區塊鏈技術，提供安全透明的資金管理方式。支援多種加密資產，出入款流程快速且便利，打造高效率的娛樂環境
+              </p>
+            </div>
+          </article>
+
+          <article class="stake-card">
+            <div class="stake-card-inner">
+              <div class="stake-card-number">03</div>
+              <h3 class="stake-card-title">全球娛樂平台</h3>
+              <p class="stake-card-text">
+                Stake 作為全球使用者廣泛的 Web3 娛樂平台，提供多樣化的 Casino 與體育娛樂內容，並持續拓展不同地區與玩家社群
+              </p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 跑馬燈效果（可重用元件掛載點） -->
+  <section class="marquee-section js-marquee-component" data-marquee-text="SLBROS" data-marquee-groups="3"
+    data-marquee-repeat="6" data-marquee-icon="./image/marquee-icon.png"></section>
+
+  <!-- Poker 區塊 -->
+  <section class="poker" id="poker">
+    <div class="poker__inner">
+      <div class="poker__head">
+        <h2 class="poker__title" data-aos="fade-up" data-aos-duration="1000" data-aos-easing="ease-out">POKER</h2>
+
+        <button class="poker__toggle" id="pokerToggle" type="button" aria-label="toggle poker list">
+          <img src="./image/marquee-icon-2.png" alt="toggle icon" loading="lazy" decoding="async" />
+        </button>
+      </div>
+
+      <div class="poker__list poker__stack">
+        <article class="poker__item">
+          <div class="poker__item-inner">
+            <div class="poker__thumb">
+              <img src="./image/poker-3.webp" alt="POKER3" loading="lazy" decoding="async" />
+            </div>
+
+            <div class="poker__body">
+              <h3 class="poker__name">QQ PK</h3>
+              <p class="poker__desc">
+                QQ PK 為亞洲快速成長的線上撲克平台之一，並與國際頂級賽事品牌 Triton Poker Series 建立深度合作關係。
+                透過官方聯名賽事與線上衛星賽，玩家可直接晉級 Triton 高額撲克賽事，銜接全球頂尖撲克舞台。
+
+                平台結合娛樂性與競技性，提供多樣化桌局與賽事體驗，讓玩家不僅能享受德州撲克樂趣，更有機會踏上世界級賽事舞台
+              </p>
+              <a href="https://qqpk5.app:51999?shareCode=MGY5L8" class="stake-go-btn poker__go-btn">
+                <span>GO</span>
+                <span class="arrow">→</span>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <article class="poker__item">
+          <div class="poker__item-inner">
+            <div class="poker__thumb">
+              <img src="./image/poker-1.webp" alt="POKER1" loading="lazy" decoding="async" />
+            </div>
+
+            <div class="poker__body">
+              <h3 class="poker__name poker__name--ggpoker">GG撲克 GGPoker</h3>
+              <p class="poker__desc">
+                GG撲克（GGPoker）是亞洲最受歡迎的線上撲克平台之一，結合 WSOP、APL、APT 等國際級賽事，擁有完整的競技體系與高活躍玩家生態。
+                在中港澳地區也提供專屬遊戲環境與服務，讓玩家能夠更順暢地參與全球撲克賽事，體驗世界級德州撲克對局
+              </p>
+              <a href="http://ggpuke888.com/allen" class="stake-go-btn poker__go-btn">
+                <span>GO</span>
+                <span class="arrow">→</span>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <article class="poker__item">
+          <div class="poker__item-inner">
+            <div class="poker__thumb">
+              <img src="./image/poker-2.webp" alt="POKER2" loading="lazy" decoding="async" />
+            </div>
+
+            <div class="poker__body">
+              <h3 class="poker__name">Natural8</h3>
+              <p class="poker__desc">
+                Natural8 為 GGNetwork（GG撲克體系）旗下亞洲合作品牌，與 GGPoker 共享全球玩家池與賽事系統。
+                在台灣即可直接參與國際撲克賽事，無需跨區操作，提供穩定流暢的遊戲體驗，是連接全球撲克舞台的重要入口
+              </p>
+              <a href="https://www.natural8.com/sign-up?ref=teamallen" class="stake-go-btn poker__go-btn">
+                <span>GO</span>
+                <span class="arrow">→</span>
+              </a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Adventure Content Section -->
+  <section class="adventure" id="adventure">
+    <div class="adventure__marquee adventure__marquee--top js-marquee-component" aria-hidden="true"
+      data-marquee-text="SLBROS" data-marquee-groups="2" data-marquee-repeat="6" data-marquee-separator="✦"></div>
+
+    <div class="adventure__inner">
+      <div class="adventure__rail adventure__rail--left">
+        <img src="./image/Adventure Content-icon-01.webp" alt="" class="adventure__icon adventure__icon--01" loading="lazy" decoding="async" />
+        <img src="./image/Adventure Content-icon-03.webp" alt="" class="adventure__icon adventure__icon--03" loading="lazy" decoding="async" />
+        <img src="./image/Adventure Content-icon-05.webp" alt="" class="adventure__icon adventure__icon--05" loading="lazy" decoding="async" />
+        <img src="./image/Adventure Content-icon-07.webp" alt="" class="adventure__icon adventure__icon--07" loading="lazy" decoding="async" />
+        <img src="./image/Adventure Content-icon-09.webp" alt="" class="adventure__icon adventure__icon--09" loading="lazy" decoding="async" />
+      </div>
+
+      <div class="adventure__content">
+        <div class="adventure__line-wrap">
+          <div class="adventure__line">走進晴天宇宙，開啟屬於你的冒險日常</div>
+        </div>
+        <div class="adventure__line-wrap">
+          <div class="adventure__line adventure__line--small">從城市漫遊到戶外探索，發現不同的生活風景</div>
+        </div>
+        <div class="adventure__line-wrap">
+          <div class="adventure__line">每一段旅程，都是一種風格的延伸</div>
+        </div>
+        <div class="adventure__line-wrap">
+          <div class="adventure__line">透過影像與故事，感受世界的更多可能</div>
+        </div>
+        <div class="adventure__line-wrap">
+          <div class="adventure__line">在晴天兄弟，找到你的冒險靈感</div>
+        </div>
+      </div>
+
+      <div class="adventure__rail adventure__rail--right">
+        <img src="./image/Adventure Content-icon-02.webp" alt="" class="adventure__icon adventure__icon--02" loading="lazy" decoding="async" />
+        <img src="./image/Adventure Content-icon-04.webp" alt="" class="adventure__icon adventure__icon--04" loading="lazy" decoding="async" />
+        <img src="./image/Adventure Content-icon-06.webp" alt="" class="adventure__icon adventure__icon--06" loading="lazy" decoding="async" />
+        <img src="./image/Adventure Content-icon-08.webp" alt="" class="adventure__icon adventure__icon--08" loading="lazy" decoding="async" />
+        <img src="./image/Adventure Content-icon-10.webp" alt="" class="adventure__icon adventure__icon--10" loading="lazy" decoding="async" />
+      </div>
+    </div>
+
+    <div class="adventure__marquee adventure__marquee--bottom js-marquee-component" aria-hidden="true"
+      data-marquee-text="Adventure" data-marquee-groups="2" data-marquee-repeat="6" data-marquee-separator="✱"
+      data-marquee-reverse="true"></div>
+  </section>
+
+  <section class="cta-section" id="cta">
+    <div class="cta-wrapper">
+      <h2 class="cta-title">一起參與晴天宇宙</h2>
+
+      <div class="cta-copy">
+        <p>在 Web3 的變動世界中</p>
+        <p>我們持續與優秀的品牌、平台與創作者共同前行</p>
+      </div>
+
+      <div class="cta-copy cta-copy--second">
+        <p>如果你也認同晴天精神</p>
+        <p>歡迎與我們建立長期合作關係</p>
+      </div>
+
+      <div class="cta-actions">
+        <a href="#" class="cta-btn">商務合作</a>
+        <a href="#" class="cta-btn">加入我們</a>
+        <a href="#" class="cta-btn">聯絡我們</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer" data-aos="footer-gradient" data-aos-duration="900" data-aos-easing="ease-out">
+    <div class="footer-inner">
+      <div class="footer-top-line" data-aos="fade-right" data-aos-duration="500" data-aos-delay="1220"
+        data-aos-easing="ease-out"></div>
+
+      <div class="footer-content" data-aos="fade-up" data-aos-duration="900" data-aos-delay="1280"
+        data-aos-easing="ease-out">
+        <div class="footer-brand">
+          <h2 class="footer-logo">SLBROS</h2>
+          <p class="footer-desc">
+            我們重新定義「冒險」的樣貌，<br>
+            讓每個人都能找到屬於自己的生活風格
+          </p>
+        </div>
+
+        <div class="footer-links-wrap">
+          <ul class="footer-links">
+            <li><a href="#">首頁</a></li>
+            <li><a href="#">關於我們</a></li>
+            <li><a href="#">STAKE</a></li>
+          </ul>
+
+          <ul class="footer-links">
+            <li><a href="#">隱私權政策</a></li>
+            <li><a href="#">免責聲明</a></li>
+            <li><a href="#">聯絡我們</a></li>
+          </ul>
+
+          <div class="footer-social">
+            <a href="#" aria-label="Facebook">
+              <img src="image/footer-fb.png" alt="Facebook" loading="lazy" decoding="async" />
+            </a>
+            <a href="#" aria-label="Instagram">
+              <img src="image/footer-ig.png" alt="Instagram" loading="lazy" decoding="async" />
+            </a>
+            <a href="#" aria-label="LINE">
+              <img src="image/footer-line.png" alt="LINE" loading="lazy" decoding="async" />
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bg-text" data-aos="footer-bg-text" data-aos-duration="1300" data-aos-delay="860"
+        data-aos-easing="ease-out">SLBROS</div>
+
+      <div class="footer-copyright">
+        © 2026 晴天兄弟 SLbros. All Rights Reserved.<br class="mobile-br">
+        本網站僅提供娛樂資訊與內容分享，不涉及金流或博彩服務
+      </div>
+    </div>
+  </footer>
+
+  <button class="scroll-top-btn" id="scrollTopBtn" type="button" aria-label="回到頁面頂端">
+    <img src="image/UP-icon.png" alt="" loading="lazy" decoding="async" />
+  </button>
+
+  <div class="custom-cursor" aria-hidden="true">
+    <img src="image/custom-cursor.png" alt="" />
+  </div>
+
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      duration: 1000,
+      easing: 'ease-in-out',
+      once: false,
+      offset: 100
+    });
+  </script>
+  <script src="js/script.js"></script>
+</body>
+
+</html>
