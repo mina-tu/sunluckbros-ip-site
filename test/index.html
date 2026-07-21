@@ -1,0 +1,1138 @@
+<!doctype html>
+<html lang="zh-Hant" class="has-splash">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hero Motion Demo — LQVE style</title>
+  <meta name="description" content="Recreation of the lqve.jp splash + hero reveal.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Shippori+Mincho:wght@500;600&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --c-bg: #fff;
+      --c-text: #000;
+      --c-red: #ff5c00;
+      --pad: 28px;
+      --font-sans: "Suisse Intl", "Helvetica Neue", Helvetica, Arial, "Noto Sans TC", sans-serif;
+      --font-jp: "Shippori Mincho", "Noto Serif TC", serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body { height: 100%; }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      background: var(--c-bg);
+      color: var(--c-text);
+      font-family: var(--font-sans);
+      font-size: 12px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ---- 頂部紅線 ---- */
+    .topLine {
+      position: fixed;
+      left: 0; top: 0;
+      width: 100%; height: 4px;
+      background: var(--c-red);
+      z-index: 40;
+    }
+
+    /* ================= 三層像素雲海背景（疊在 hero 內，依序浮上來） ================= */
+    .fvBg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .fvBg_layer {
+      position: absolute;
+      inset: 0;
+      background-position: center bottom;
+      background-repeat: no-repeat;
+      background-size: cover;
+      will-change: transform;
+    }
+    .fvBg_sky  { background-image: url("image/lg-bg-01.webp"); background-color: #fca63a; }
+    .fvBg_mid  { background-image: url("image/lg-bg-02.webp"); }
+    .fvBg_dark { background-image: url("image/lg-bg-03.webp"); }
+
+    /* ---- 格線層：壓在雲海背景上、大標 / 貼紙 / header 之下 ---- */
+    .fvGrid {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      --line-c: rgba(255, 240, 217, 0.22);
+      --line-w: calc(1px + 0.5pt);
+    }
+    .fvGrid .v {
+      position: absolute;
+      top: 0; bottom: 0;
+      width: var(--line-w);
+      background: var(--line-c);
+    }
+    .fvGrid .h {
+      position: absolute;
+      left: 0; right: 0;
+      height: var(--line-w);
+      background: var(--line-c);
+    }
+    /* 線條交接處的大十字（比照參考圖：粗十字 + 中央階梯狀加寬） */
+    .fvGrid .cross {
+      position: absolute;
+      width: var(--cs, 42px);
+      height: var(--cs, 42px);
+      transform: translate(-50%, -50%);
+      color: rgba(255, 250, 240, 0.92);
+    }
+    .fvGrid .cross::before,
+    .fvGrid .cross::after {
+      content: "";
+      position: absolute;
+      background: currentColor;
+    }
+    .fvGrid .cross::before { left: 50%; top: 0; bottom: 0; width: calc(var(--cs, 42px) * 0.2); transform: translateX(-50%); }
+    .fvGrid .cross::after  { top: 50%; left: 0; right: 0; height: calc(var(--cs, 42px) * 0.2); transform: translateY(-50%); }
+    .fvGrid .cross i {
+      position: absolute;
+      left: 50%; top: 50%;
+      width: calc(var(--cs, 42px) * 0.36);
+      height: calc(var(--cs, 42px) * 0.46);
+      background: currentColor;
+      transform: translate(-50%, -50%);
+    }
+
+    /* ---- 大標周圍的星星（star 系列素材，一閃一閃） ---- */
+    .heroStars {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .heroStars img {
+      position: absolute;
+      width: var(--sw, 32px);
+      height: auto;
+      transform: translate(-50%, -50%);
+      animation: starTwinkle var(--twd, 3s) ease-in-out var(--twl, 0s) infinite;
+    }
+    @keyframes starTwinkle {
+      0%, 100% { opacity: 1; }
+      50%      { opacity: 0.1; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .heroStars img { animation: none; }
+    }
+
+    /* ---- 第一 / 第二階段的置中文字層 ---- */
+    .stageText {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      pointer-events: none;
+      opacity: 0;   /* 由 JS 時間軸控制；無 JS 時直接呈現完成畫面 */
+    }
+
+    /* 第一階段小標：Hi, We are */
+    .splashLabel {
+      font-family: var(--font-sans);
+      font-size: clamp(20px, 2.4vw, 30px);
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      margin: 0 0 14px;
+      color: #fff;
+    }
+
+    /* 第一階段大字：SunLuckBros（逐字由下往上升起，overflow 遮住下方待命的字） */
+    .splashWord {
+      font-family: "Pixelify Sans", var(--font-sans);
+      font-size: clamp(40px, 9vw, 96px);
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      line-height: 1.1;
+      margin: 0;
+      color: #fff;
+      text-shadow: 0 4px 0 rgba(163, 74, 0, 0.35);
+      overflow: hidden;
+      text-align: center;
+    }
+    .splashWord span {
+      display: inline-block;
+      white-space: pre;
+      will-change: transform;
+    }
+
+    /* 第二階段大標題：Welcome to the SunLuckVerse. */
+    .stageHeadline {
+      font-family: var(--font-sans);
+      font-size: clamp(22px, 4.2vw, 48px);
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      line-height: 1.05;
+      text-align: center;
+      margin: 0;
+      padding: 0 var(--pad);
+    }
+    .stage2 .stageHeadline {
+      color: #fff;
+      text-shadow: 0 5px 0 rgba(60, 12, 0, 0.4);
+    }
+
+    /* 第三階段標語：Powered by Sun. Driven by Luck. */
+    /* 第三階段大字 logotype：SLBROS（撐滿容器寬度，字級由 JS 計算） */
+    .homeFv_title { text-align: center; }
+    .heroWord {
+      display: inline-block;
+      font-family: "Silkscreen", var(--font-sans);
+      font-size: 200px;            /* 後備值；JS 會覆寫成滿版寬度 */
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      line-height: 0.9;
+      white-space: nowrap;
+      margin: 0;
+      /* 外框線：奶油白字身 + 藍紫描邊（原本 0.035em 再加粗 10pt），paint-order 讓描邊畫在字的外側 */
+      color: #fff0d9;
+      -webkit-text-stroke: calc(0.035em + min(10pt, 1.8vw)) #516bf0;   /* 小螢幕時加粗量跟著縮，避免描邊吃掉字身 */
+      paint-order: stroke fill;
+      text-shadow: 0 0.045em 0 rgba(43, 58, 143, 0.35);
+    }
+
+    /* 第三階段只保留大字，隱藏其餘 hero 裝飾 */
+    .homeFv_textEn,
+    .homeFv_textJp,
+    .homeFv_vi { display: none; }
+
+    /* ================= HEADER / 固定 UI ================= */
+    .siteHeader {
+      position: fixed;
+      left: 0; top: 0;
+      width: 100%;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px var(--pad) 0;
+      pointer-events: none;
+    }
+
+    .siteHeader > * { pointer-events: auto; }
+
+    .headerLogo svg { height: 18px; width: auto; display: block; }
+    .headerLogo {
+      font-family: var(--font-sans);
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: #fff;
+    }
+
+    /* 置中導覽連結 */
+    .headerNav {
+      position: absolute;
+      left: 50%;
+      top: 20px;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 44px;
+      font-size: calc(14px + 2pt);
+      font-weight: 500;
+      letter-spacing: 0.06em;
+    }
+    .headerNav a { color: #fff; }
+    .headerNav a:hover,
+    .headerLogo:hover { color: #000; }
+
+    /* 手機版漢堡按鈕：極簡白色三條線 */
+    .navToggle {
+      display: none;
+      width: 40px;
+      height: 36px;
+      padding: 0;
+      background: transparent;
+      border: 0;
+      cursor: pointer;
+    }
+    .navToggle i {
+      display: block;
+      width: 24px;
+      height: 3px;
+      margin: 5px auto;
+      background: #fff;
+    }
+    /* 展開時瞬間切成像素叉叉（不做平滑過渡，保留像素感） */
+    .navToggle.is-open i:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .navToggle.is-open i:nth-child(2) { visibility: hidden; }
+    .navToggle.is-open i:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    @media (max-width: 900px) {
+      .navToggle { display: block; }
+
+      .headerNav {
+        left: auto;
+        right: var(--pad);
+        top: 56px;
+        transform: none;
+        flex-direction: column;
+        gap: 0;
+        display: none;
+        min-width: 200px;
+        padding: 6px;
+        background: #000;
+        border: 3px solid var(--c-red);
+        box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.45);
+      }
+      .headerNav.is-open { display: flex; }
+      .headerNav a {
+        font-family: var(--font-sans);
+        font-size: 15px;
+        color: var(--c-red);
+        padding: 12px 14px;
+        border-bottom: 2px dashed rgba(255, 92, 0, 0.4);
+      }
+      .headerNav a:last-child { border-bottom: 0; }
+      .headerNav a:hover,
+      .headerNav a:active {
+        background: var(--c-red);
+        color: #000;
+      }
+    }
+
+    /* ================= 跑馬燈列（放在 hero 底部） ================= */
+    .footerUI {
+      position: absolute;
+      bottom: 16px;
+      z-index: 5;
+      font-size: 11px;
+      letter-spacing: 0.02em;
+    }
+
+    .footerMusic {
+      left: 50%;
+      transform: translateX(-50%);
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .footerMusic .navBtn { cursor: pointer; white-space: nowrap; }
+    .footerMusic .navBtn:hover { color: var(--c-red); }
+
+    /* 滾動標語（比周圍 UI 大 5px） */
+    .marquee {
+      width: 280px;
+      overflow: hidden;
+      white-space: nowrap;
+      font-size: 16px;
+    }
+
+    .marquee span {
+      display: inline-block;
+      padding-right: 24px;
+      animation: marquee 9s linear infinite;
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .marquee span { animation: none; }
+    }
+
+    /* 深色雲海上仍可讀：白字 + difference 混色（白底時自動變黑字） */
+    .footerMusic {
+      color: #fff;
+      mix-blend-mode: difference;
+    }
+
+    /* ================= HERO ================= */
+    /* 第三階段：三層雲海疊滿後的完整畫面 */
+    .homeFv {
+      position: relative;
+      height: 100svh;
+      min-height: 560px;
+      padding-top: 56px;
+      background: var(--c-bg);
+      overflow: hidden;
+    }
+
+    .homeFv_title {
+      position: absolute;
+      left: 0;
+      top: 40%;               /* 比照 mockup：大標落在畫面中上段 */
+      transform: translateY(-50%);
+      width: 100%;
+      padding: 0 var(--pad);
+      z-index: 1;
+    }
+
+    .homeFv_title svg { width: 100%; height: auto; display: block; }
+    .homeFv_title .logoFill { fill: #000; }
+
+    /* 中央主視覺（可替換成自己的圖） */
+    .homeFv_vi {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%);
+      height: 78%;
+      z-index: 2;
+    }
+
+    .homeFv_vi svg,
+    .homeFv_vi img {
+      height: 100%;
+      width: auto;
+      display: block;
+    }
+
+    .homeFv_vi::after {
+      content: "";
+      position: absolute;
+      left: 0; bottom: 0;
+      width: 100%; height: 50px;
+      background: linear-gradient(to top, #fff, rgba(255,255,255,0));
+      pointer-events: none;
+    }
+
+    /* ================= 貼紙互動層（groovy stickers 風格） ================= */
+    .stickerLayer {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      pointer-events: none;   /* 只有貼紙本身能點，其餘穿透 */
+    }
+    .stickerLag {
+      position: absolute;
+      pointer-events: auto;
+      will-change: transform;
+    }
+    .sticker {
+      width: var(--w, clamp(84px, 9vw, 140px));
+      cursor: grab;
+      user-select: none;
+      touch-action: none;
+      rotate: var(--r, 0deg);   /* 每張貼紙的基礎歪斜角 */
+      filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.25));
+    }
+    .sticker:active { cursor: grabbing; }
+    .sticker img {
+      width: 100%;
+      height: auto;
+      display: block;
+      pointer-events: none;
+    }
+    /* 靜止時的漂浮動態 */
+    .stickerInner {
+      display: block;
+      animation: stickerFloat var(--d, 4s) ease-in-out var(--delay, 0s) infinite alternate;
+    }
+    @keyframes stickerFloat {
+      0%   { transform: translateY(-5px) rotate(-2.5deg); }
+      100% { transform: translateY(6px) rotate(3deg); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .stickerInner { animation: none; }
+    }
+
+    .homeFv_textEn,
+    .homeFv_textJp {
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 3;
+      text-align: center;
+      margin: 0;
+      width: max-content;
+    }
+
+    /* 落在 L 直劃與 Q 圓之間的留白 */
+    .homeFv_textEn {
+      left: 16.5%;
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.55;
+      letter-spacing: 0.01em;
+    }
+
+    /* 落在 V 與 E 之間的留白 */
+    .homeFv_textJp {
+      left: 73%;
+      font-family: var(--font-jp);
+    }
+
+    .homeFv_textJp .jp {
+      font-size: 19px;
+      font-weight: 600;
+      line-height: 1.7;
+      margin: 0 0 8px;
+    }
+
+    .homeFv_textJp .cr {
+      font-size: 10px;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* ================= 自訂游標 ================= */
+    @media (hover: hover) and (pointer: fine) {
+      html.has-cursor, html.has-cursor body, html.has-cursor a, html.has-cursor button { cursor: none; }
+
+      .cursor {
+        position: fixed;
+        left: 0; top: 0;
+        width: 12px; height: 12px;
+        margin: -6px 0 0 -6px;
+        border-radius: 50%;
+        background: var(--c-red);
+        z-index: 100;
+        pointer-events: none;
+        will-change: transform;
+      }
+    }
+
+    @media (max-width: 900px) {
+      :root { --pad: 16px; }
+
+      .homeFv_textEn {
+        left: 50%;
+        top: auto;
+        bottom: 12%;
+        transform: translateX(-50%);
+      }
+
+      .homeFv_textJp {
+        left: 50%;
+        top: 16%;
+        transform: translateX(-50%);
+      }
+
+      .homeFv_vi { height: 56%; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .stageText { display: none; }
+    }
+
+    /* ================= 像素橫向前進場景（hero 下方，滾動敘事） ================= */
+    /* 外框撐出捲動距離：場景黏住期間 = 外框高 - 100svh，三段文字均分 */
+    .pixel-scene-story {
+      position: relative;
+      height: 400vh;
+      /* 往上疊 2px：蓋住 hero 雲海圖在 cover 縮放下產生的底緣混色線 */
+      margin-top: -2px;
+    }
+
+    .pixel-scene {
+      /* —— 可調參數 —— */
+
+      /*
+       * 背景素材的「顯示寬度」。
+       * 無縫循環的關鍵：動畫位移距離必須等於此值。
+       * 素材原始尺寸：城市 1344x650 / 步道 1344x48（手機版另有 1/2 尺寸）。
+       *
+       * 城市依視窗高度放大，讓「黑色天空」剛好是原本（1:1 顯示）的一半：
+       * 橘色天際+城市在素材中高 456px（1:1），黑天空 = 100svh - 456*k，
+       * 解 k 使黑天空 = (100svh - 456px)/2 → tile = 1344*(100svh+456px)/912，
+       * 係數 = 1344/912 = 1.4737。
+       */
+      --scene-tile-width: calc((100svh + 456px) * 1.4737);
+
+      /* 地面（步道帶）顯示高度 = tile 寬度 × 48/1344 */
+      --scene-ground-height: calc(var(--scene-tile-width) * 0.0357);
+
+      /* 視差速度：城市慢、地面步道快（散步節奏） */
+      --scene-far-duration: 85s;
+      --scene-ground-duration: 18s;
+
+      /* 角色 Sprite：兩位主角的 4 格走路循環（character-a/b-walk.png，格高 170） */
+      --runner-h: 170px;
+      --runner-left: 26%;
+      --runner-step-duration: 1.05s;
+
+      /* 黏在視窗頂端；圖層錨定底部，上方自動以 #0b0604 補滿留給文字的天空 */
+      position: sticky;
+      top: 0;
+      width: 100%;
+      height: 100svh;
+      overflow: hidden;
+
+      /* 夜空底色：取自城市圖天空頂端的平均色，圖上緣可無痕銜接 */
+      background: #0b0604;
+
+      /* 像素圖不被瀏覽器模糊化（可繼承給所有子層） */
+      image-rendering: pixelated;
+
+      isolation: isolate;
+    }
+
+    /* 天上的星星（沿用 hero 的 starTwinkle 閃爍） */
+    .pixel-scene__stars {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .pixel-scene__stars img {
+      position: absolute;
+      width: var(--sw, 28px);
+      height: auto;
+      transform: translate(-50%, -50%);
+      animation: starTwinkle var(--twd, 3s) ease-in-out var(--twl, 0s) infinite;
+    }
+
+    /* 三層循環背景的共同設定 */
+    .pixel-scene__layer {
+      position: absolute;
+      left: 0; right: 0;
+      top: 0; bottom: 0;
+      background-repeat: repeat-x;
+      background-position: left bottom;
+      background-size: var(--scene-tile-width) auto;
+      pointer-events: none;
+      animation: pixel-scene-scroll linear infinite;
+    }
+
+    /* 遠景：整座像素城市（含星空與雲），慢速。
+       圖內建的步道會被上層地面層完全蓋住 */
+    .pixel-scene__far {
+      z-index: 1;
+      background-image: url("image/bg-city-loop.png");
+      animation-duration: var(--scene-far-duration);
+    }
+
+    /* 地面：城市圖底部裁出的步道帶，最快。steps() 帶出老式像素捲動；想更平滑可改回 linear */
+    .pixel-scene__ground {
+      z-index: 3;
+      background-image: url("image/ground-city-loop.png");
+      animation-duration: var(--scene-ground-duration);
+      animation-timing-function: steps(120);
+    }
+
+    /* 兩位主角固定在畫面左側 1/4 附近，靠背景移動製造前進錯覺 */
+    .pixel-scene__runner {
+      position: absolute;
+      bottom: calc(var(--scene-ground-height) * 0.7);
+      z-index: 10;
+
+      height: var(--runner-h);
+      width: var(--runner-w);
+
+      background-repeat: no-repeat;
+      background-position: 0 0;
+      background-size: var(--runner-sheet-width) var(--runner-h);
+
+      transform-origin: center bottom;
+
+      animation: pixel-runner-frames var(--runner-step-duration) steps(4) infinite;
+    }
+    /* A：白衣（4 格循環，格寬比例 110/170） */
+    .pixel-scene__runner--a {
+      left: var(--runner-left);
+      --runner-w: calc(var(--runner-h) * 0.6471);
+      --runner-sheet-width: calc(var(--runner-w) * 4);
+      background-image: url("image/character-a-walk.png");
+    }
+    /* B：黑衣（4 格循環，格寬比例 98/170），走在 A 前方一點，步伐錯開 */
+    .pixel-scene__runner--b {
+      left: calc(var(--runner-left) + var(--runner-h) * 0.85);
+      --runner-w: calc(var(--runner-h) * 0.5765);
+      --runner-sheet-width: calc(var(--runner-w) * 4);
+      background-image: url("image/character-b-walk.png");
+      animation-delay: -0.5s;
+    }
+
+    /* 從 hero 延伸下來的格線：壓在城市圖層上、文字與主角之下 */
+    .pixel-scene .fvGrid {
+      z-index: 4;
+    }
+
+    /* —— 滾動出現的文字（位於變窄後的黑色天空帶，中心約在場景高度 33% 處） —— */
+    .pixel-scene__copy {
+      position: absolute;
+      left: 0; right: 0;
+      top: 6%; bottom: 40%;
+      z-index: 6;
+      pointer-events: none;
+    }
+    .pixel-scene__slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 0 var(--pad);
+      color: #fff;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.6s ease, visibility 0s linear 0.6s;
+    }
+    .pixel-scene__slide.is-active {
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.6s ease;
+    }
+    /* 內容收縮置中 */
+    .pixel-scene__slide-inner {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    /* 子元素依序往上浮入 */
+    .pixel-scene__slide-inner > * { transform: translateY(26px); transition: transform 0.6s ease; }
+    .pixel-scene__slide.is-active .pixel-scene__slide-inner > * { transform: translateY(0); }
+    .pixel-scene__slide.is-active .pixel-scene__slide-inner > *:nth-child(2) { transition-delay: 0.08s; }
+    .pixel-scene__slide.is-active .pixel-scene__slide-inner > *:nth-child(3) { transition-delay: 0.16s; }
+
+    /* 三種文字統一：24px、粗體、置中（小螢幕等比縮到 17px） */
+    .pixel-scene__label,
+    .pixel-scene__headline,
+    .pixel-scene__sub {
+      font-size: clamp(17px, 1.9vw, 24px);
+      font-weight: 700;
+      line-height: 1.7;
+      margin: 0;
+      text-shadow: 0 3px 14px rgba(0, 0, 0, 0.55);
+    }
+    .pixel-scene__label {
+      letter-spacing: 0.1em;
+      margin-bottom: 24px;
+    }
+    .pixel-scene__headline {
+      margin-bottom: 28px;
+    }
+
+    /* 背景向左移動「一張素材的顯示寬度」→ 循環點完全接合 */
+    @keyframes pixel-scene-scroll {
+      from { background-position-x: 0; }
+      to   { background-position-x: calc(var(--scene-tile-width) * -1); }
+    }
+
+    /* 6 格跑步 Sprite Sheet：整張圖寬度配合 steps(6) 逐格切換 */
+    @keyframes pixel-runner-frames {
+      from { background-position-x: 0; }
+      to   { background-position-x: calc(var(--runner-sheet-width) * -1); }
+    }
+
+    /* 區塊離開可視範圍時暫停（JS 掛上 is-paused） */
+    .pixel-scene.is-paused .pixel-scene__layer,
+    .pixel-scene.is-paused .pixel-scene__runner,
+    .pixel-scene.is-paused .pixel-scene__stars img {
+      animation-play-state: paused;
+    }
+
+    /* 手機版：改用 1/2 尺寸素材（672 寬），同樣依視窗高度放大讓黑天空減半
+       （sm 素材的橘色天際+城市高 228px → tile = 672*(100svh+228px)/456） */
+    @media (max-width: 767px) {
+      .pixel-scene {
+        --scene-tile-width: calc((100svh + 228px) * 1.4737);
+        --runner-h: 128px;
+        --runner-left: 16%;
+      }
+      .pixel-scene__far    { background-image: url("image/bg-city-loop-sm.png"); }
+      .pixel-scene__ground { background-image: url("image/ground-city-loop-sm.png"); }
+    }
+
+    /* 尊重減少動態效果設定：停在靜態畫面、文字直接切換 */
+    @media (prefers-reduced-motion: reduce) {
+      .pixel-scene__layer,
+      .pixel-scene__runner,
+      .pixel-scene__stars img {
+        animation: none;
+      }
+      .pixel-scene__slide,
+      .pixel-scene__slide > * {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="topLine"></div>
+
+  <!-- ========== 固定 HEADER ========== -->
+  <header class="siteHeader">
+    <a class="headerLogo" href="#" aria-label="SLBROS">SLBROS</a>
+    <nav class="headerNav" id="headerNav">
+      <a href="#">晴天兄弟</a>
+      <a href="#">web3代言平台</a>
+      <a href="#">poker代言平台</a>
+    </nav>
+    <button class="navToggle" id="navToggle" type="button" aria-label="開啟選單" aria-expanded="false" aria-controls="headerNav">
+      <i></i><i></i><i></i>
+    </button>
+  </header>
+
+  <main>
+    <!-- ========== HERO ========== -->
+    <section class="homeFv" aria-label="Hero">
+      <!-- 三層像素雲海：01 橘天空（底）→ 02 深橘雲海（第二階段浮上）→ 03 黑色雲海（第三階段浮上） -->
+      <div class="fvBg" aria-hidden="true">
+        <div class="fvBg_layer fvBg_sky"></div>
+        <div class="fvBg_layer fvBg_mid"></div>
+        <div class="fvBg_layer fvBg_dark"></div>
+      </div>
+
+      <!-- 格線：在背景上、大標與貼紙之下（不對稱配置＋交接處大十字） -->
+      <div class="fvGrid" aria-hidden="true">
+        <!-- 直線：5 欄，中間欄最寬 -->
+        <i class="v" style="left:15%;"></i>
+        <i class="v" style="left:35%;"></i>
+        <i class="v" style="left:65%;"></i>
+        <i class="v" style="left:85%;"></i>
+        <!-- 橫線：5 列，第 1、5 列最窄，中間三列均分 -->
+        <i class="h" style="top:8%;"></i>
+        <i class="h" style="top:36%;"></i>
+        <i class="h" style="top:64%;"></i>
+        <i class="h" style="top:92%;"></i>
+        <!-- 隨機幾個交接處放十字（大小不一） -->
+        <span class="cross" style="left:35%; top:36%; --cs:21px;"><i></i></span>
+        <span class="cross" style="left:85%; top:36%; --cs:14px;"><i></i></span>
+        <span class="cross" style="left:65%; top:8%;  --cs:25px;"><i></i></span>
+        <span class="cross" style="left:85%; top:64%; --cs:18px;"><i></i></span>
+        <span class="cross" style="left:15%; top:92%; --cs:17px;"><i></i></span>
+      </div>
+
+      <!-- 第一階段：Hi, We are / SunLuckBros（逐字升起） -->
+      <div class="stageText stage1" aria-hidden="true">
+        <p class="splashLabel">Hi, We are</p>
+        <h1 class="splashWord">SunLuckBros</h1>
+      </div>
+
+      <!-- 第二階段：深橘雲海到位後出現的大標題 -->
+      <div class="stageText stage2" aria-hidden="true">
+        <p class="stageHeadline">Welcome to the SunLuckVerse.</p>
+      </div>
+
+      <p class="homeFv_textEn">
+        WE ARE MOST RADICAL<br>
+        CREATIVE COMPANY<br>
+        BASED IN TOKYO
+      </p>
+
+      <div class="homeFv_title">
+        <h2 class="heroWord">SLBROS</h2>
+      </div>
+
+      <!-- 大標周圍隨機四顆星星，一閃一閃 -->
+      <div class="heroStars" aria-hidden="true">
+        <img src="image/star-01.webp" alt="" style="left:8%;  top:27%; --sw:45px; --twd:2.6s;">
+        <img src="image/star-02.webp" alt="" style="left:56%; top:20%; --sw:33px; --twd:3.4s; --twl:.8s;">
+        <img src="image/star-03.webp" alt="" style="left:93%; top:33%; --sw:51px; --twd:2.9s; --twl:.4s;">
+        <img src="image/star-02.webp" alt="" style="left:27%; top:54%; --sw:29px; --twd:3.7s; --twl:1.4s;">
+      </div>
+
+      <div class="homeFv_textJp">
+        <p class="jp">問いから<br>愛を生み出そう。</p>
+        <p class="cr">Corporate Illustration:<br>&copy; Your Artist &amp; You</p>
+      </div>
+
+      <!-- 這裡換成你的主視覺插圖（黑白線稿最貼近原站）：<img src="vi.png" alt=""> -->
+      <div class="homeFv_vi" aria-hidden="true">
+        <svg viewBox="0 0 420 560" xmlns="http://www.w3.org/2000/svg">
+          <g fill="#fff" stroke="#000" stroke-width="7" stroke-linejoin="round">
+            <path d="M210,180
+                     C210,120 130,90 85,135
+                     C40,180 55,250 115,308
+                     L210,400
+                     L305,308
+                     C365,250 380,180 335,135
+                     C290,90 210,120 210,180 Z"/>
+          </g>
+          <text x="210" y="290" text-anchor="middle"
+                font-family="'Shippori Mincho', serif" font-size="130" font-weight="600" fill="#000">?</text>
+          <g stroke="#000" stroke-width="6" stroke-linecap="round">
+            <line x1="210" y1="430" x2="210" y2="470"/>
+            <line x1="150" y1="415" x2="128" y2="450"/>
+            <line x1="270" y1="415" x2="292" y2="450"/>
+          </g>
+        </svg>
+      </div>
+
+      <!-- 貼紙互動層：可拖曳 + 滾動慣性 + 待機漂浮（image/ 內的 sticker 素材） -->
+      <div class="stickerLayer" aria-hidden="true">
+        <div class="stickerLag" data-lag="1.3"  style="left:7%;  top:72%;">
+          <div class="sticker" style="--r:-8deg; --d:3.4s; --w:clamp(110px, 11vw, 220px);"><span class="stickerInner"><img src="image/sticker-logo.webp" alt=""></span></div>
+        </div>
+        <div class="stickerLag" data-lag="1.0"  style="left:16%; top:57%;">
+          <div class="sticker" style="--r:5deg;  --d:4.4s; --delay:.75s; --w:clamp(110px, calc(13vw + 97px), 377px);"><span class="stickerInner"><img src="image/sticker-Slot%20machine.webp" alt=""></span></div>
+        </div>
+        <div class="stickerLag" data-lag="1.5"  style="left:34%; top:70%;">
+          <div class="sticker" style="--r:4deg;  --d:3.9s; --delay:.3s; --w:clamp(95px, 10vw, 200px);"><span class="stickerInner"><img src="image/sticker-joystick.webp" alt=""></span></div>
+        </div>
+        <div class="stickerLag" data-lag="1.1"  style="left:43%; top:56%;">
+          <div class="sticker" style="--r:-5deg; --d:4.8s; --delay:.2s; --w:clamp(140px, 15vw, 300px);"><span class="stickerInner"><img src="image/sticker-poker.webp" alt=""></span></div>
+        </div>
+        <div class="stickerLag" data-lag="1.6"  style="left:57%; top:73%;">
+          <div class="sticker" style="--r:-4deg; --d:4.1s; --delay:.55s; --w:clamp(115px, 12vw, 240px);"><span class="stickerInner"><img src="image/sticker-web3.webp" alt=""></span></div>
+        </div>
+        <div class="stickerLag" data-lag="0.9"  style="left:65%; top:58%;">
+          <div class="sticker" style="--r:6deg;  --d:4.2s; --delay:.9s; --w:clamp(60px, 6.5vw, 130px);"><span class="stickerInner"><img src="image/sticker-coin.webp" alt=""></span></div>
+        </div>
+        <div class="stickerLag" data-lag="1.2"  style="left:69%; top:54%;">
+          <div class="sticker" style="--r:8deg;  --d:3.6s; --delay:.45s; --w:clamp(120px, calc(16vw + 97px), 437px);"><span class="stickerInner"><img src="image/sticker-gameboy.webp" alt=""></span></div>
+        </div>
+        <div class="stickerLag" data-lag="1.4"  style="right:1%; top:74%;">
+          <div class="sticker" style="--r:-6deg; --d:4.6s; --delay:.6s; --w:clamp(85px, 8.5vw, 175px);"><span class="stickerInner"><img src="image/sticker-world.webp" alt=""></span></div>
+        </div>
+      </div>
+
+      <!-- 跑馬燈列：貼在 hero 底部 -->
+      <div class="footerUI footerMusic">
+        <span class="navBtn">(Prev.)</span>
+        <div class="marquee"><span>Powered by Sun. Driven by Luck.&nbsp;&nbsp;Powered by Sun. Driven by Luck.&nbsp;&nbsp;</span></div>
+        <span class="navBtn">(Next)</span>
+      </div>
+    </section>
+
+    <!-- ========== 像素橫向前進場景：太陽小子無限奔跑 + 滾動敘事文字 ========== -->
+    <div class="pixel-scene-story">
+    <section class="pixel-scene" aria-label="關於晴天兄弟">
+      <!-- 夕陽天空的星星 -->
+      <div class="pixel-scene__stars" aria-hidden="true">
+        <img src="image/star-01.webp" alt="" style="left:14%; top:16%; --sw:30px; --twd:2.8s;">
+        <img src="image/star-03.webp" alt="" style="left:47%; top:9%;  --sw:38px; --twd:3.5s; --twl:.6s;">
+        <img src="image/star-02.webp" alt="" style="left:83%; top:20%; --sw:26px; --twd:3.1s; --twl:1.1s;">
+      </div>
+
+      <!-- 視差背景：城市（慢）→ 步道地面（快） -->
+      <div class="pixel-scene__layer pixel-scene__far" aria-hidden="true"></div>
+      <div class="pixel-scene__layer pixel-scene__ground" aria-hidden="true"></div>
+
+      <!-- 從 hero 延伸下來的格線（只留兩側直線，避開中間文字；橫線放在文字下方） -->
+      <div class="fvGrid" aria-hidden="true">
+        <i class="v" style="left:15%;"></i>
+        <i class="v" style="left:85%;"></i>
+        <!-- hero 中間兩條直線的延伸段：往下接到 80px 的收邊橫線 -->
+        <i class="v" style="left:35%; bottom:auto; height:80px;"></i>
+        <i class="v" style="left:65%; bottom:auto; height:80px;"></i>
+        <!-- 交接處的收邊橫線：把 hero 斷掉的直線接起來 -->
+        <i class="h" style="top:80px;"></i>
+        <i class="h" style="top:64%;"></i>
+        <i class="h" style="top:88%;"></i>
+        <span class="cross" style="left:15%; top:64%; --cs:22px;"><i></i></span>
+        <span class="cross" style="left:85%; top:88%; --cs:15px;"><i></i></span>
+      </div>
+
+      <!-- 固定位置的兩位主角（Sprite Sheet 逐格走路動畫） -->
+      <div class="pixel-scene__runner pixel-scene__runner--a" aria-hidden="true"></div>
+      <div class="pixel-scene__runner pixel-scene__runner--b" aria-hidden="true"></div>
+
+      <!-- 滾動時依序浮現的三段文字 -->
+      <div class="pixel-scene__copy">
+        <div class="pixel-scene__slide">
+          <div class="pixel-scene__slide-inner">
+            <p class="pixel-scene__label">/ 關於晴天兄弟</p>
+            <p class="pixel-scene__headline">我們是「晴天兄弟 Sunluckbros」<br>兩個熱愛冒險與挑戰的創作者</p>
+            <p class="pixel-scene__sub">旅行、拍攝、任務挑戰，是我們的日常<br>而娛樂與遊戲則是我們與世界互動的方式</p>
+          </div>
+        </div>
+        <div class="pixel-scene__slide">
+          <div class="pixel-scene__slide-inner">
+            <p class="pixel-scene__headline">在 Web3 與數位娛樂的世界裡</p>
+            <p class="pixel-scene__sub">我們透過 Stake 等加密娛樂平台<br>體驗各種遊戲與挑戰<br>從輪盤、21 點到 slots、德州撲克與電競對戰</p>
+          </div>
+        </div>
+        <div class="pixel-scene__slide">
+          <div class="pixel-scene__slide-inner">
+            <p class="pixel-scene__headline">我們相信，冒險精神是品牌的核心<br>每一次挑戰，都是對自我的超越</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    </div>
+
+  </main>
+
+  <div class="cursor" id="cursor" hidden></div>
+
+  <script>
+    /* 像素場景：離開瀏覽器可視範圍時暫停動畫，重新進入時繼續 */
+    (function () {
+      var scenes = document.querySelectorAll(".pixel-scene");
+      if (!scenes.length || !("IntersectionObserver" in window)) return;
+
+      var sceneObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          // 用 ratio 判斷：區塊與視窗僅「邊緣相切」時 isIntersecting 也會是 true
+          var visible = entry.isIntersecting && entry.intersectionRatio > 0;
+          entry.target.classList.toggle("is-paused", !visible);
+        });
+      }, { threshold: [0, 0.02] });
+
+      scenes.forEach(function (scene) { sceneObserver.observe(scene); });
+    })();
+
+    /* 滾動敘事：場景黏住期間，依捲動進度依序切換三段文字 */
+    (function () {
+      var story = document.querySelector(".pixel-scene-story");
+      if (!story) return;
+      var slides = story.querySelectorAll(".pixel-scene__slide");
+      if (!slides.length) return;
+
+      var ticking = false;
+      function updateStory() {
+        ticking = false;
+        var total = story.offsetHeight - window.innerHeight;
+        if (total <= 0) { slides[0].classList.add("is-active"); return; }
+        var p = -story.getBoundingClientRect().top / total;
+        p = Math.max(0, Math.min(0.999, p));
+        var idx = Math.floor(p * slides.length);
+        slides.forEach(function (s, i) { s.classList.toggle("is-active", i === idx); });
+      }
+      window.addEventListener("scroll", function () {
+        if (!ticking) { ticking = true; requestAnimationFrame(updateStory); }
+      }, { passive: true });
+      window.addEventListener("resize", updateStory);
+      updateStory();
+    })();
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/Draggable.min.js"></script>
+  <script>
+    (function () {
+      var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      /* ---- 手機版漢堡選單 ---- */
+      var navToggle = document.getElementById("navToggle");
+      var headerNav = document.getElementById("headerNav");
+      function closeNav() {
+        headerNav.classList.remove("is-open");
+        navToggle.classList.remove("is-open");
+        navToggle.setAttribute("aria-expanded", "false");
+      }
+      navToggle.addEventListener("click", function (e) {
+        e.stopPropagation();
+        var open = headerNav.classList.toggle("is-open");
+        navToggle.classList.toggle("is-open", open);
+        navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+      headerNav.addEventListener("click", function (e) {
+        if (e.target.closest("a")) closeNav();   // 點選項後收合
+      });
+      document.addEventListener("click", function (e) {
+        if (!e.target.closest(".siteHeader")) closeNav();   // 點選單外收合
+      });
+
+      /* ---- 貼紙：拖曳 + 滾動慣性跟隨 ---- */
+      if (window.gsap && window.Draggable) {
+        gsap.registerPlugin(Draggable);
+        document.querySelectorAll(".sticker").forEach(function (el) {
+          Draggable.create(el, {
+            type: "x,y",
+            bounds: document.querySelector(".homeFv"),
+            zIndexBoost: true,
+            onPress:   function () { gsap.to(el, { scale: 1.12, duration: 0.2, ease: "power2.out" }); },
+            onRelease: function () { gsap.to(el, { scale: 1,    duration: 0.4, ease: "back.out(2.5)" }); }
+          });
+        });
+      }
+      if (!reduced) {
+        // 滾動時貼紙依 data-lag 慣性下沉，停止後彈回原位
+        var lagItems = [];
+        document.querySelectorAll(".stickerLag").forEach(function (el) {
+          lagItems.push({ el: el, f: parseFloat(el.dataset.lag) || 1, y: 0 });
+        });
+        if (lagItems.length) {
+          var lastY = window.scrollY, vel = 0;
+          (function stickerRaf() {
+            var s = window.scrollY;
+            vel += ((s - lastY) - vel) * 0.15;   // 平滑後的滾動速度
+            lastY = s;
+            lagItems.forEach(function (o) {
+              var target = Math.max(-140, Math.min(140, vel * o.f * 3));
+              o.y += (target - o.y) * 0.1;
+              o.el.style.transform = "translateY(" + o.y.toFixed(2) + "px)";
+            });
+            requestAnimationFrame(stickerRaf);
+          })();
+        }
+      }
+
+      /* ---- 第三階段大字：依容器寬度把 SLBROS 撐到滿版 ---- */
+      var heroWord = document.querySelector(".heroWord");
+      var heroTitle = document.querySelector(".homeFv_title");
+      function fitHero() {
+        if (!heroWord || !heroTitle) return;
+        var cs = getComputedStyle(heroTitle);
+        var avail = heroTitle.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+        heroWord.style.fontSize = "100px";
+        var w = heroWord.getBoundingClientRect().width;
+        if (w > 0) heroWord.style.fontSize = (100 * avail * 0.76 / w) + "px";  // 佔容器 76% 寬，比照 mockup
+      }
+      document.fonts.ready.then(fitHero);
+      window.addEventListener("resize", fitHero);
+
+      // 無動畫環境：不跑時間軸，直接呈現三層疊滿的完成畫面
+      if (reduced || !window.gsap) return;
+
+      /* ---- 自訂游標 ---- */
+      var cursor = document.getElementById("cursor");
+      if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+        document.documentElement.classList.add("has-cursor");
+        cursor.hidden = false;
+        var xTo = gsap.quickTo(cursor, "x", { duration: 0.18, ease: "power3.out" });
+        var yTo = gsap.quickTo(cursor, "y", { duration: 0.18, ease: "power3.out" });
+        window.addEventListener("mousemove", function (e) { xTo(e.clientX); yTo(e.clientY); });
+      }
+
+      /* ---- 三階段時間軸（雲海逐層浮上來） ---- */
+      // 開場前先歸位：中、後兩層雲海藏到畫面下方，SLBROS / 貼紙 / 固定 UI 先隱藏
+      gsap.set(".fvBg_mid, .fvBg_dark", { yPercent: 100 });
+      gsap.set(".stage1", { opacity: 1 });
+      gsap.set(".stage2", { opacity: 1 });
+      gsap.set(".stage2 .stageHeadline", { opacity: 0, y: 26 });
+      gsap.set(".homeFv_title", { opacity: 0, y: 30 });
+      gsap.set(".sticker", { opacity: 0, scale: 0.6 });
+      gsap.set(".siteHeader, .footerUI, .topLine", { opacity: 0 });
+
+      // 等字體載入後再啟動，避免升字時字寬跳動
+      document.fonts.ready.then(function () {
+      // 第一階段：把 SunLuckBros 拆成單一字母 span，供逐字上升動畫
+      var wordEl = document.querySelector(".splashWord");
+      wordEl.textContent.split("").forEach(function (ch, i) {
+        var sp = document.createElement("span");
+        sp.textContent = ch;
+        if (i === 0) wordEl.textContent = "";  // 清掉原字串後再逐一 append
+        wordEl.appendChild(sp);
+      });
+
+      var tl = gsap.timeline();
+
+      // 01 小標與 SunLuckBros 逐字由下往上升起
+      tl.from(".stage1 .splashLabel", { y: 18, opacity: 0, duration: 0.5, ease: "power3.out" })
+        .from(wordEl.children, { yPercent: 130, duration: 0.6, ease: "power4.out", stagger: 0.05 }, "-=0.15")
+        .to({}, { duration: 0.55 })
+        // 02 深橘雲海（lg-bg-02）由下往上浮起，第一階段文字往上淡出
+        .to(".fvBg_mid", { yPercent: 0, duration: 1.05, ease: "power3.inOut" })
+        .to(".stage1", { opacity: 0, y: -50, duration: 0.55, ease: "power2.in" }, "<+=0.15")
+        // 雲海到位後，第二階段大標題出現
+        .to(".stage2 .stageHeadline", { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" })
+        .to({}, { duration: 0.65 })
+        // 03 黑色雲海（lg-bg-03）再浮上來，第二階段文字往上淡出
+        .to(".fvBg_dark", { yPercent: 0, duration: 1.05, ease: "power3.inOut" })
+        .to(".stage2", { opacity: 0, y: -50, duration: 0.55, ease: "power2.in" }, "<+=0.15")
+        // 最終：SLBROS、貼紙與固定 UI 進場
+        .to(".homeFv_title", { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, "-=0.25")
+        .to(".sticker", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.7)", stagger: 0.06 }, "-=0.45")
+        .to(".siteHeader, .footerUI, .topLine", { opacity: 1, duration: 0.6 }, "<");
+      });
+    })();
+  </script>
+</body>
+</html>

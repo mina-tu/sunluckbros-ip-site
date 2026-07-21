@@ -1,0 +1,525 @@
+/* =====================================================
+   HERO：三層像素雲海 + 三階段開場動畫
+   對應 js/hero.js；素材：image/lg-bg-*.webp、star-0*.webp、sticker-*.webp
+   ===================================================== */
+
+.homeFv {
+  --pad: 28px;
+  --font-hero-sans: "Suisse Intl", "Helvetica Neue", Helvetica, Arial, "Noto Sans TC", sans-serif;
+
+  position: relative;
+  height: 100svh;
+  min-height: 560px;
+  padding-top: 56px;
+  background: #fca63a;
+  overflow: hidden;
+}
+
+/* ---- 三層像素雲海背景（依序浮上來） ---- */
+.fvBg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.fvBg_layer {
+  position: absolute;
+  inset: 0;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+  will-change: transform;
+}
+
+.fvBg_sky  { background-image: url("../image/lg-bg-01.webp"); background-color: #fca63a; }
+.fvBg_mid  { background-image: url("../image/lg-bg-02.webp"); }
+.fvBg_dark { background-image: url("../image/lg-bg-03.webp"); }
+
+/* ---- 格線層：壓在雲海背景上、大標 / 貼紙之下 ---- */
+.fvGrid {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  --line-c: rgba(255, 240, 217, 0.22);
+  --line-w: calc(1px + 0.5pt);
+}
+
+.fvGrid .v {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: var(--line-w);
+  background: var(--line-c);
+}
+
+.fvGrid .h {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: var(--line-w);
+  background: var(--line-c);
+}
+
+/* 線條交接處的大十字（粗十字 + 中央階梯狀加寬） */
+.fvGrid .cross {
+  position: absolute;
+  width: var(--cs, 42px);
+  height: var(--cs, 42px);
+  transform: translate(-50%, -50%);
+  color: rgba(255, 250, 240, 0.92);
+}
+
+.fvGrid .cross::before,
+.fvGrid .cross::after {
+  content: "";
+  position: absolute;
+  background: currentColor;
+}
+
+.fvGrid .cross::before { left: 50%; top: 0; bottom: 0; width: calc(var(--cs, 42px) * 0.2); transform: translateX(-50%); }
+.fvGrid .cross::after  { top: 50%; left: 0; right: 0; height: calc(var(--cs, 42px) * 0.2); transform: translateY(-50%); }
+
+.fvGrid .cross i {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(var(--cs, 42px) * 0.36);
+  height: calc(var(--cs, 42px) * 0.46);
+  background: currentColor;
+  transform: translate(-50%, -50%);
+}
+
+/* ---- 大標周圍的星星（一閃一閃） ---- */
+.heroStars {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.heroStars img {
+  position: absolute;
+  width: var(--sw, 32px);
+  height: auto;
+  transform: translate(-50%, -50%);
+  animation: starTwinkle var(--twd, 3s) ease-in-out var(--twl, 0s) infinite;
+}
+
+@keyframes starTwinkle {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.1; }
+}
+
+/* ---- 第一 / 第二階段的置中文字層 ---- */
+.stageText {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  pointer-events: none;
+  opacity: 0;   /* 由 JS 時間軸控制；無 JS 時直接呈現完成畫面 */
+}
+
+/* 第一階段小標：Hi, We are */
+.splashLabel {
+  font-family: var(--font-hero-sans);
+  font-size: clamp(20px, 2.4vw, 30px);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  margin: 0 0 14px;
+  color: #fff;
+}
+
+/* 第一階段大字：SunLuckBros（逐字由下往上升起） */
+.splashWord {
+  font-family: "Pixelify Sans", var(--font-hero-sans);
+  font-size: clamp(40px, 9vw, 96px);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.1;
+  margin: 0;
+  color: #fff;
+  text-shadow: 0 4px 0 rgba(163, 74, 0, 0.35);
+  overflow: hidden;
+  text-align: center;
+}
+
+.splashWord span {
+  display: inline-block;
+  white-space: pre;
+  will-change: transform;
+}
+
+/* 第二階段大標題：Welcome to the SunLuckVerse. */
+.stageHeadline {
+  font-family: var(--font-hero-sans);
+  font-size: clamp(22px, 4.2vw, 48px);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.05;
+  text-align: center;
+  margin: 0;
+  padding: 0 var(--pad);
+}
+
+.stage2 .stageHeadline {
+  color: #fff;
+  text-shadow: 0 5px 0 rgba(60, 12, 0, 0.4);
+}
+
+/* ---- 第三階段大字 logotype：SLBROS（字級由 JS 撐滿容器寬度） ---- */
+.homeFv_title {
+  position: absolute;
+  left: 0;
+  top: 40%;
+  transform: translateY(-50%);
+  width: 100%;
+  padding: 0 var(--pad);
+  z-index: 1;
+  text-align: center;
+}
+
+.heroWord {
+  display: inline-block;
+  font-family: "Silkscreen", var(--font-hero-sans);
+  font-size: 200px;            /* 後備值；JS 會覆寫成滿版寬度 */
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 0.9;
+  white-space: nowrap;
+  margin: 0;
+  /* 外框線：奶油白字身 + 藍紫描邊，paint-order 讓描邊畫在字的外側 */
+  color: #fff0d9;
+  -webkit-text-stroke: calc(0.035em + min(10pt, 1.8vw)) #516bf0;
+  paint-order: stroke fill;
+  text-shadow: 0 0.045em 0 rgba(43, 58, 143, 0.35);
+}
+
+/* ---- 貼紙互動層（可拖曳 + 滾動慣性 + 待機漂浮） ---- */
+.stickerLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;   /* 只有貼紙本身能點，其餘穿透 */
+}
+
+.stickerLag {
+  position: absolute;
+  pointer-events: auto;
+  will-change: transform;
+}
+
+.sticker {
+  width: var(--w, clamp(84px, 9vw, 140px));
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+  rotate: var(--r, 0deg);   /* 每張貼紙的基礎歪斜角 */
+  filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.25));
+}
+
+.sticker:active { cursor: grabbing; }
+
+.sticker img {
+  width: 100%;
+  height: auto;
+  display: block;
+  pointer-events: none;
+}
+
+/* 靜止時的漂浮動態 */
+.stickerInner {
+  display: block;
+  animation: stickerFloat var(--d, 4s) ease-in-out var(--delay, 0s) infinite alternate;
+}
+
+@keyframes stickerFloat {
+  0%   { transform: translateY(-5px) rotate(-2.5deg); }
+  100% { transform: translateY(6px) rotate(3deg); }
+}
+
+/* ---- Hero 底部滾動標語 ---- */
+.fvMusic {
+  position: absolute;
+  left: 50%;
+  bottom: 12px;
+  transform: translateX(-50%);
+  z-index: 4;
+  font-family: var(--font-hero-sans);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  color: #fff;
+}
+
+.fvMusic_marquee {
+  width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.fvMusic_marquee span {
+  display: inline-block;
+  padding-right: 24px;
+  animation: fvMarquee 9s linear infinite;
+}
+
+@keyframes fvMarquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ---- RWD ---- */
+@media (max-width: 900px) {
+  .homeFv { --pad: 16px; }
+}
+
+/* ---- 減少動態 ---- */
+@media (prefers-reduced-motion: reduce) {
+  .heroStars img { animation: none; }
+  .stickerInner { animation: none; }
+  .fvMusic_marquee span { animation: none; }
+  .stageText { display: none; }
+}
+
+/* =====================================================
+   像素橫向前進場景（hero 下方，滾動敘事「關於晴天兄弟」）
+   對應 js/pixel-scene.js；素材：image/bg-city-loop*.png、
+   image/ground-city-loop*.png、image/character-a/b-walk.png、star-0*.webp
+   （沿用 hero 的 .fvGrid 與 starTwinkle）
+   ===================================================== */
+
+/* 外框撐出捲動距離：場景黏住期間 = 外框高 - 100svh，三段文字均分 */
+.pixel-scene-story {
+  position: relative;
+  height: 400vh;
+  /* 往上疊 2px：蓋住 hero 雲海圖在 cover 縮放下產生的底緣混色線 */
+  margin-top: -2px;
+}
+
+.pixel-scene {
+  /* --pad 於外層僅定義在 .homeFv，這裡自帶一份供文字左右留白使用 */
+  --pad: 28px;
+
+  /*
+   * 背景素材的「顯示寬度」。無縫循環的關鍵：動畫位移距離必須等於此值。
+   * 素材原始尺寸：城市 1344x650 / 步道 1344x48（手機版另有 1/2 尺寸）。
+   * 城市依視窗高度放大，讓黑色天空剛好是原本（1:1 顯示）的一半：
+   * tile = 1344*(100svh+456px)/912，係數 = 1344/912 = 1.4737。
+   */
+  --scene-tile-width: calc((100svh + 456px) * 1.4737);
+
+  /* 地面（步道帶）顯示高度 = tile 寬度 × 48/1344 */
+  --scene-ground-height: calc(var(--scene-tile-width) * 0.0357);
+
+  /* 視差速度：城市慢、地面步道快（散步節奏） */
+  --scene-far-duration: 85s;
+  --scene-ground-duration: 18s;
+
+  /* 角色 Sprite：兩位主角的 4 格走路循環（character-a/b-walk.png，格高 170） */
+  --runner-h: 170px;
+  --runner-left: 26%;
+  --runner-step-duration: 1.05s;
+
+  /* 黏在視窗頂端；圖層錨定底部，上方自動以 #0b0604 補滿留給文字的天空 */
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100svh;
+  overflow: hidden;
+
+  /* 夜空底色：取自城市圖天空頂端的平均色，圖上緣可無痕銜接 */
+  background: #0b0604;
+
+  /* 像素圖不被瀏覽器模糊化（可繼承給所有子層） */
+  image-rendering: pixelated;
+
+  isolation: isolate;
+}
+
+/* 天上的星星（沿用 hero 的 starTwinkle 閃爍） */
+.pixel-scene__stars {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+.pixel-scene__stars img {
+  position: absolute;
+  width: var(--sw, 28px);
+  height: auto;
+  transform: translate(-50%, -50%);
+  animation: starTwinkle var(--twd, 3s) ease-in-out var(--twl, 0s) infinite;
+}
+
+/* 三層循環背景的共同設定 */
+.pixel-scene__layer {
+  position: absolute;
+  left: 0; right: 0;
+  top: 0; bottom: 0;
+  background-repeat: repeat-x;
+  background-position: left bottom;
+  background-size: var(--scene-tile-width) auto;
+  pointer-events: none;
+  animation: pixel-scene-scroll linear infinite;
+}
+
+/* 遠景：整座像素城市（含星空與雲），慢速。內建步道會被上層地面層完全蓋住 */
+.pixel-scene__far {
+  z-index: 1;
+  background-image: url("../image/bg-city-loop.png");
+  animation-duration: var(--scene-far-duration);
+}
+
+/* 地面：城市圖底部裁出的步道帶，最快。steps() 帶出老式像素捲動 */
+.pixel-scene__ground {
+  z-index: 3;
+  background-image: url("../image/ground-city-loop.png");
+  animation-duration: var(--scene-ground-duration);
+  animation-timing-function: steps(120);
+}
+
+/* 兩位主角固定在畫面左側 1/4 附近，靠背景移動製造前進錯覺 */
+.pixel-scene__runner {
+  position: absolute;
+  bottom: calc(var(--scene-ground-height) * 0.7);
+  z-index: 10;
+
+  height: var(--runner-h);
+  width: var(--runner-w);
+
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  background-size: var(--runner-sheet-width) var(--runner-h);
+
+  transform-origin: center bottom;
+
+  animation: pixel-runner-frames var(--runner-step-duration) steps(4) infinite;
+}
+/* A：白衣（4 格循環，格寬比例 110/170） */
+.pixel-scene__runner--a {
+  left: var(--runner-left);
+  --runner-w: calc(var(--runner-h) * 0.6471);
+  --runner-sheet-width: calc(var(--runner-w) * 4);
+  background-image: url("../image/character-a-walk.png");
+}
+/* B：黑衣（4 格循環，格寬比例 98/170），走在 A 前方一點，步伐錯開 */
+.pixel-scene__runner--b {
+  left: calc(var(--runner-left) + var(--runner-h) * 0.85);
+  --runner-w: calc(var(--runner-h) * 0.5765);
+  --runner-sheet-width: calc(var(--runner-w) * 4);
+  background-image: url("../image/character-b-walk.png");
+  animation-delay: -0.5s;
+}
+
+/* 從 hero 延伸下來的格線：壓在城市圖層上、文字與主角之下 */
+.pixel-scene .fvGrid {
+  z-index: 4;
+}
+
+/* —— 滾動出現的文字（位於變窄後的黑色天空帶，中心約在場景高度 33% 處） —— */
+.pixel-scene__copy {
+  position: absolute;
+  left: 0; right: 0;
+  top: 6%; bottom: 40%;
+  z-index: 6;
+  pointer-events: none;
+}
+.pixel-scene__slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 var(--pad);
+  color: #fff;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.6s ease, visibility 0s linear 0.6s;
+}
+.pixel-scene__slide.is-active {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.6s ease;
+}
+/* 內容收縮置中 */
+.pixel-scene__slide-inner {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+}
+/* 子元素依序往上浮入 */
+.pixel-scene__slide-inner > * { transform: translateY(26px); transition: transform 0.6s ease; }
+.pixel-scene__slide.is-active .pixel-scene__slide-inner > * { transform: translateY(0); }
+.pixel-scene__slide.is-active .pixel-scene__slide-inner > *:nth-child(2) { transition-delay: 0.08s; }
+.pixel-scene__slide.is-active .pixel-scene__slide-inner > *:nth-child(3) { transition-delay: 0.16s; }
+
+/* 三種文字統一：24px、粗體、置中（小螢幕等比縮到 17px） */
+.pixel-scene__label,
+.pixel-scene__headline,
+.pixel-scene__sub {
+  font-size: clamp(17px, 1.9vw, 24px);
+  font-weight: 700;
+  line-height: 1.7;
+  margin: 0;
+  text-shadow: 0 3px 14px rgba(0, 0, 0, 0.55);
+}
+.pixel-scene__label {
+  letter-spacing: 0.1em;
+  margin-bottom: 24px;
+}
+.pixel-scene__headline {
+  margin-bottom: 28px;
+}
+
+/* 背景向左移動「一張素材的顯示寬度」→ 循環點完全接合 */
+@keyframes pixel-scene-scroll {
+  from { background-position-x: 0; }
+  to   { background-position-x: calc(var(--scene-tile-width) * -1); }
+}
+
+/* 4 格走路 Sprite Sheet：整張圖寬度配合 steps(4) 逐格切換 */
+@keyframes pixel-runner-frames {
+  from { background-position-x: 0; }
+  to   { background-position-x: calc(var(--runner-sheet-width) * -1); }
+}
+
+/* 區塊離開可視範圍時暫停（JS 掛上 is-paused） */
+.pixel-scene.is-paused .pixel-scene__layer,
+.pixel-scene.is-paused .pixel-scene__runner,
+.pixel-scene.is-paused .pixel-scene__stars img {
+  animation-play-state: paused;
+}
+
+/* 手機版：改用 1/2 尺寸素材（672 寬），同樣依視窗高度放大讓黑天空減半
+   （sm 素材的橘色天際+城市高 228px → tile = 672*(100svh+228px)/456） */
+@media (max-width: 767px) {
+  .pixel-scene {
+    --pad: 16px;
+    --scene-tile-width: calc((100svh + 228px) * 1.4737);
+    --runner-h: 128px;
+    --runner-left: 16%;
+  }
+  .pixel-scene__far    { background-image: url("../image/bg-city-loop-sm.png"); }
+  .pixel-scene__ground { background-image: url("../image/ground-city-loop-sm.png"); }
+}
+
+/* 尊重減少動態效果設定：停在靜態畫面、文字直接切換 */
+@media (prefers-reduced-motion: reduce) {
+  .pixel-scene__layer,
+  .pixel-scene__runner,
+  .pixel-scene__stars img {
+    animation: none;
+  }
+  .pixel-scene__slide,
+  .pixel-scene__slide > * {
+    transition: none;
+  }
+}
