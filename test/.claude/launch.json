@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "static",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["-y", "http-server", "-p", "8734", "-c-1"],
+      "port": 8734
+    },
+    {
+      "name": "static-node",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["C:\\Users\\未命名\\AppData\\Local\\Temp\\claude\\C--Users-----Desktop-sunluckbros-ip-site-main-test\\e650f97a-22c0-40ee-a792-7f4445a3397b\\scratchpad\\serve.js"],
+      "port": 8642
+    }
+  ]
+}
