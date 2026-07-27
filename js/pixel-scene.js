@@ -24,6 +24,30 @@
 (function () {
   var story = document.querySelector(".pixel-scene-story");
   if (!story) return;
+  var scene = story.querySelector(".pixel-scene");
+  if (scene) {
+    var stickySupport = (window.CSS && typeof window.CSS.supports === "function" && window.CSS.supports("position", "sticky"));
+    var sceneStyle = window.getComputedStyle(scene);
+    var stickyEnabled = sceneStyle.position === "sticky";
+
+    function hasStickyBlockingAncestor(el) {
+      var node = el.parentElement;
+      while (node && node !== document.body && node !== document.documentElement) {
+        var cs = window.getComputedStyle(node);
+        var hasOverflowBlocker = [cs.overflow, cs.overflowX, cs.overflowY].some(function (v) {
+          return v === "hidden" || v === "auto" || v === "scroll" || v === "overlay";
+        });
+        if (hasOverflowBlocker) return true;
+        node = node.parentElement;
+      }
+      return false;
+    }
+
+    if (!stickySupport || !stickyEnabled || hasStickyBlockingAncestor(scene)) {
+      story.classList.add("pixel-scene-story--no-sticky");
+    }
+  }
+
   var slides = story.querySelectorAll(".pixel-scene__slide");
   if (!slides.length) return;
 

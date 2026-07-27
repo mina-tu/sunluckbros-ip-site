@@ -303,6 +303,15 @@
   margin-top: -2px;
 }
 
+/* 當外部環境破壞 sticky（常見於外層 overflow 設定）時，避免出現 400vh 黑色空區 */
+.pixel-scene-story--no-sticky {
+  height: 100svh;
+}
+
+.pixel-scene-story--no-sticky .pixel-scene {
+  position: relative;
+}
+
 .pixel-scene {
   /* --pad 於外層僅定義在 .homeFv，這裡自帶一份供文字左右留白使用 */
   --pad: 28px;
