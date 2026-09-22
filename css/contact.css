@@ -19,7 +19,7 @@
   aspect-ratio: 1672 / 941;
   min-height: 560px;
   overflow: hidden;
-  background: #2a150b url("../image/contact-travel-desk-v2.png") center / 100% 100% no-repeat;
+  background: #2a150b url("../image/contact-travel-desk-v3.png") center / 100% 100% no-repeat;
 }
 
 .contact__scene::before,
@@ -276,7 +276,7 @@
     padding: 0;
     overflow: hidden;
     background-color: #211108;
-    background-image: url("../image/contact-travel-desk-mobile.png");
+    background-image: url("../image/contact-travel-desk-mobile-v2.png");
     background-size: 100% 100%;
     background-position: center top;
     background-repeat: no-repeat;
