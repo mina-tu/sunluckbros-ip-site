@@ -154,7 +154,6 @@
 .splashWord span {
   display: inline-block;
   white-space: pre;
-  will-change: transform;
 }
 
 /* 第二階段大標題：Welcome to the SunLuckVerse. */
@@ -227,6 +226,13 @@
 
 .sticker:active { cursor: grabbing; }
 
+/* 可點擊的貼紙（導向區塊或外部連結） */
+.sticker[data-target],
+.sticker[data-href] { cursor: pointer; }
+
+.sticker[data-target]:active,
+.sticker[data-href]:active { cursor: grabbing; }
+
 .sticker img {
   width: 100%;
   height: auto;
@@ -290,8 +296,8 @@
 
 /* =====================================================
    像素橫向前進場景（hero 下方，滾動敘事「關於晴天兄弟」）
-   對應 js/pixel-scene.js；素材：image/bg-city-loop*.png、
-   image/ground-city-loop*.png、image/character-a/b-walk.png、star-0*.webp
+   對應 js/pixel-scene.js；素材：image/bg-city-loop*.webp、
+   image/ground-city-loop*.webp、image/character-a/b-walk.webp、star-0*.webp
    （沿用 hero 的 .fvGrid 與 starTwinkle）
    ===================================================== */
 
@@ -367,29 +373,52 @@
   animation: starTwinkle var(--twd, 3s) ease-in-out var(--twl, 0s) infinite;
 }
 
+/*
+ * 承接 hero 底部的近黑色：不論目前使用早晨、中午或夕陽素材，
+ * 場景上緣都先保持相同的黑褐色，再平滑淡入各時段的天空。
+ */
+.pixel-scene::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    #0b0604 0%,
+    rgba(11, 6, 4, 0.98) 14%,
+    rgba(11, 6, 4, 0.76) 27%,
+    rgba(11, 6, 4, 0.34) 42%,
+    rgba(11, 6, 4, 0) 58%
+  );
+}
+
 /* 三層循環背景的共同設定 */
 .pixel-scene__layer {
   position: absolute;
-  left: 0; right: 0;
+  left: 0;
+  right: auto;
   top: 0; bottom: 0;
+  width: calc(100% + var(--scene-tile-width));
   background-repeat: repeat-x;
   background-position: left bottom;
   background-size: var(--scene-tile-width) auto;
   pointer-events: none;
   animation: pixel-scene-scroll linear infinite;
+  will-change: transform;
 }
 
 /* 遠景：整座像素城市（含星空與雲），慢速。內建步道會被上層地面層完全蓋住 */
 .pixel-scene__far {
   z-index: 1;
-  background-image: url("../image/bg-city-loop.png");
+  background-image: url("../image/bg-city-loop.webp");
   animation-duration: var(--scene-far-duration);
 }
 
 /* 地面：城市圖底部裁出的步道帶，最快。steps() 帶出老式像素捲動 */
 .pixel-scene__ground {
   z-index: 3;
-  background-image: url("../image/ground-city-loop.png");
+  background-image: url("../image/ground-city-loop.webp");
   animation-duration: var(--scene-ground-duration);
   animation-timing-function: steps(120);
 }
@@ -416,14 +445,14 @@
   left: var(--runner-left);
   --runner-w: calc(var(--runner-h) * 0.6471);
   --runner-sheet-width: calc(var(--runner-w) * 4);
-  background-image: url("../image/character-a-walk.png");
+  background-image: url("../image/character-a-walk.webp");
 }
 /* B：黑衣（4 格循環，格寬比例 98/170），走在 A 前方一點，步伐錯開 */
 .pixel-scene__runner--b {
   left: calc(var(--runner-left) + var(--runner-h) * 0.85);
   --runner-w: calc(var(--runner-h) * 0.5765);
   --runner-sheet-width: calc(var(--runner-w) * 4);
-  background-image: url("../image/character-b-walk.png");
+  background-image: url("../image/character-b-walk.webp");
   animation-delay: -0.5s;
 }
 
@@ -490,8 +519,8 @@
 
 /* 背景向左移動「一張素材的顯示寬度」→ 循環點完全接合 */
 @keyframes pixel-scene-scroll {
-  from { background-position-x: 0; }
-  to   { background-position-x: calc(var(--scene-tile-width) * -1); }
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(calc(var(--scene-tile-width) * -1), 0, 0); }
 }
 
 /* 4 格走路 Sprite Sheet：整張圖寬度配合 steps(4) 逐格切換 */
@@ -516,8 +545,8 @@
     --runner-h: 128px;
     --runner-left: 16%;
   }
-  .pixel-scene__far    { background-image: url("../image/bg-city-loop-sm.png"); }
-  .pixel-scene__ground { background-image: url("../image/ground-city-loop-sm.png"); }
+  .pixel-scene__far    { background-image: url("../image/bg-city-loop-sm.webp"); }
+  .pixel-scene__ground { background-image: url("../image/ground-city-loop-sm.webp"); }
 }
 
 /* 尊重減少動態效果設定：停在靜態畫面、文字直接切換 */

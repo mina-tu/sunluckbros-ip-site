@@ -1,0 +1,347 @@
+/* =====================================================
+   聯絡我們：旅行筆記本場景
+   背景圖提供桌面與書本，表單與社群連結保留為可操作的 HTML。
+   ===================================================== */
+
+.contact {
+  padding-top: 0;
+  background: #000;
+  color: #392317;
+}
+
+.header {
+  background: transparent;
+}
+
+.contact__scene {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1672 / 941;
+  min-height: 560px;
+  overflow: hidden;
+  background: #2a150b url("../image/contact-travel-desk-v2.png") center / 100% 100% no-repeat;
+}
+
+.contact__scene::before,
+.contact__scene::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  left: 0;
+  z-index: 4;
+  height: clamp(72px, 9vw, 150px);
+  pointer-events: none;
+}
+
+.contact__scene::before {
+  top: 0;
+  background: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, .6) 38%, transparent 100%);
+}
+
+.contact__scene::after {
+  bottom: 0;
+  background: linear-gradient(to top, #050302 0%, rgba(5, 3, 2, .72) 38%, transparent 100%);
+}
+
+.contact__book {
+  position: absolute;
+  top: 14.5%;
+  left: 20.8%;
+  width: 60.6%;
+  height: 70.5%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 5%;
+  padding: 3.5% 3.3% 4.1%;
+}
+
+.contact__hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  text-align: center;
+}
+
+.contact__eyebrow {
+  margin: 0 0 clamp(8px, 1vw, 18px);
+  color: #9b6538;
+  font: 700 clamp(9px, .75vw, 13px)/1.5 "Silkscreen", monospace;
+  letter-spacing: .12em;
+}
+
+.contact__title {
+  margin: 0;
+  color: #4a2b18;
+  font-family: "Silkscreen", "Arial Black", sans-serif;
+  font-size: clamp(32px, 4.2vw, 72px);
+  font-weight: 700;
+  line-height: .9;
+  letter-spacing: -.06em;
+  text-shadow: .045em .055em 0 #e79a43;
+}
+
+.contact__intro {
+  margin: clamp(14px, 1.6vw, 26px) 0 0;
+  font-size: clamp(13px, 1vw, 17px);
+  font-weight: 700;
+  letter-spacing: .08em;
+}
+
+.contact__hint {
+  margin: clamp(10px, 1vw, 18px) 0 0;
+  color: #77553a;
+  font-size: clamp(11px, .82vw, 14px);
+  line-height: 1.8;
+}
+
+.contact__inner {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.contact__form {
+  display: flex;
+  flex-direction: column;
+  width: 88%;
+  margin-inline: auto;
+  gap: clamp(8px, .8vw, 14px);
+}
+
+.contact__field { width: 100%; }
+
+.contact__label {
+  display: block;
+  margin-bottom: clamp(4px, .35vw, 7px);
+  color: #4d301d;
+  font-size: clamp(11px, .78vw, 14px);
+  font-weight: 700;
+  letter-spacing: .12em;
+}
+
+.contact__input {
+  display: block;
+  width: 100%;
+  height: clamp(36px, 3vw, 48px);
+  padding: 8px 12px;
+  border: 1px solid rgba(108, 69, 36, .65);
+  border-radius: 3px;
+  background: rgba(255, 247, 215, .5);
+  box-shadow: inset 0 -2px 0 rgba(108, 69, 36, .16);
+  color: #362116;
+  font-family: inherit;
+  font-size: clamp(12px, .9vw, 15px);
+  transition: border-color .2s ease, background .2s ease, box-shadow .2s ease;
+}
+
+.contact__input::placeholder {
+  color: #9b8269;
+  opacity: 1;
+}
+
+.contact__input--area {
+  height: clamp(76px, 7.3vw, 122px);
+  line-height: 1.6;
+  resize: vertical;
+}
+
+.contact__input:focus {
+  outline: none;
+  border-color: #516bf0;
+  background: rgba(255, 251, 231, .82);
+  box-shadow: 0 0 0 3px rgba(81, 107, 240, .16);
+}
+
+.contact__input:-webkit-autofill,
+.contact__input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #362116;
+  transition: background-color 9999s ease-out;
+}
+
+.contact__notice {
+  margin: 0;
+  color: #5f472f;
+  font-size: clamp(10px, .75vw, 13px);
+  line-height: 1.5;
+}
+
+.contact__notice:empty { display: none; }
+.contact__notice.is-error { color: #a83e24; }
+
+.contact__actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.contact__submit {
+  min-width: clamp(125px, 10vw, 170px);
+  min-height: clamp(38px, 3.2vw, 50px);
+  padding: 8px 18px;
+  border: 2px solid #3349b4;
+  border-radius: 4px;
+  background: #516bf0;
+  box-shadow: 0 4px 0 #2b3a8f;
+  color: #fff8df;
+  font-family: Arial, "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: .05em;
+  cursor: pointer;
+  transition: transform .18s ease, background .18s ease, box-shadow .18s ease;
+}
+
+.contact__submit:hover {
+  transform: translateY(-2px);
+  background: #657bf5;
+}
+
+.contact__submit:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #2b3a8f;
+}
+
+.contact__submit:focus-visible {
+  outline: 3px solid #e58a32;
+  outline-offset: 4px;
+}
+
+.contact__submit:disabled { opacity: .6; cursor: wait; }
+
+.contact__social-tabs {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.contact__social-tab {
+  display: grid;
+  position: absolute;
+  left: 79.55%;
+  width: 3.45%;
+  aspect-ratio: 1 / 1;
+  place-items: center;
+  border: 2px solid rgba(255, 239, 196, .42);
+  border-left: 0;
+  border-radius: 0 7px 7px 0;
+  box-shadow:
+    inset 0 0 0 2px rgba(52, 25, 13, .16),
+    4px 4px 0 rgba(42, 20, 10, .55);
+  pointer-events: auto;
+  transform-origin: left center;
+  transition: transform .24s cubic-bezier(.2, .8, .2, 1), filter .2s ease, box-shadow .2s ease;
+}
+
+.contact__social-tab--instagram { top: 27.2%; }
+.contact__social-tab--facebook { top: 40.6%; }
+.contact__social-tab--line { top: 53.7%; }
+
+.contact__social-tab img {
+  display: block;
+  width: 54%;
+  height: 54%;
+  object-fit: contain;
+  filter: none;
+}
+
+.contact__social-tab:hover {
+  transform: translateX(24%) scale(1.04);
+  filter: brightness(1.14);
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 247, 221, .2),
+    7px 6px 0 rgba(42, 20, 10, .5);
+}
+
+.contact__social-tab:focus-visible {
+  outline: 3px solid #fff5cc;
+  outline-offset: 3px;
+}
+
+.contact__social-tab--instagram { background-color: #d95b32; }
+.contact__social-tab--facebook { background-color: #e3952f; }
+.contact__social-tab--line { background-color: #765034; }
+
+.contact + .site-footer { margin-top: 0; }
+
+.cursor-ready .contact__input,
+.cursor-ready .contact__submit,
+.cursor-ready .contact__social-tab { cursor: none !important; }
+
+@media (max-width: 900px) {
+  .contact__scene {
+    aspect-ratio: auto;
+    min-height: 1180px;
+    padding: 0;
+    overflow: hidden;
+    background-color: #211108;
+    background-image: url("../image/contact-travel-desk-mobile.png");
+    background-size: 100% 100%;
+    background-position: center top;
+    background-repeat: no-repeat;
+  }
+
+  .contact__scene::before { height: 105px; }
+  .contact__scene::after { height: 150px; }
+
+  .contact__book {
+    position: absolute;
+    top: 17.2%;
+    left: 16.5%;
+    width: 66%;
+    height: 64.5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    padding: 4% 8.5% 3%;
+    background: transparent;
+  }
+
+  .contact__hero { flex: 0 0 auto; }
+  .contact__eyebrow { margin-bottom: 7px; font-size: 8px; }
+  .contact__title { font-size: clamp(30px, 9.5vw, 42px); line-height: .88; }
+  .contact__intro { margin-top: 12px; font-size: 12px; letter-spacing: .03em; }
+  .contact__hint { display: none; }
+  .contact__inner { flex: 0 0 auto; align-items: flex-start; }
+  .contact__form { gap: 11px; }
+  .contact__label { margin-bottom: 4px; font-size: 11px; }
+  .contact__input {
+    height: 42px;
+    padding: 7px 10px;
+    border-color: #865b36;
+    font-size: 13px;
+  }
+  .contact__input--area { height: 112px; }
+  .contact__notice { font-size: 11px; }
+  .contact__actions { justify-content: center; }
+  .contact__submit { min-width: 150px; min-height: 42px; font-size: 16px; }
+
+  .contact__social-tabs {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: auto;
+    margin: 0;
+  }
+
+  .contact__social-tab {
+    position: absolute;
+    left: 80.8%;
+    width: 12.5%;
+    min-width: 46px;
+    max-width: 58px;
+    border-radius: 0 7px 7px 0;
+  }
+
+  .contact__social-tab--instagram { top: 31%; background: #d95b32; }
+  .contact__social-tab--facebook { top: 40.5%; background: #e3952f; }
+  .contact__social-tab--line { top: 50%; background: #765034; }
+}
+
+@media (max-width: 480px) {
+  .contact__scene { min-height: 1120px; }
+  .contact__book { top: 17%; height: 64%; }
+  .contact__title { font-size: 34px; }
+}

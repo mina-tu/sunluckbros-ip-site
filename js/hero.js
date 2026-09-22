@@ -7,7 +7,23 @@
   var hero = document.querySelector(".homeFv");
   if (!hero) return;
 
-  /* ---- 貼紙：拖曳 ---- */
+  /* ---- 貼紙：點擊導向（data-target 捲到區塊 / data-href 另開連結） ---- */
+  function activateSticker(el) {
+    var target = el.getAttribute("data-target");
+    var href = el.getAttribute("data-href");
+    if (target) {
+      var sec = document.querySelector(target);
+      if (sec) sec.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
+      return true;
+    }
+    if (href) {
+      window.open(href, "_blank", "noopener");
+      return true;
+    }
+    return false;
+  }
+
+  /* ---- 貼紙：拖曳（拖曳後不觸發點擊，由 Draggable 的 onClick 判定） ---- */
   if (window.gsap && window.Draggable) {
     gsap.registerPlugin(Draggable);
     document.querySelectorAll(".sticker").forEach(function (el) {
@@ -16,8 +32,14 @@
         bounds: hero,
         zIndexBoost: true,
         onPress:   function () { gsap.to(el, { scale: 1.12, duration: 0.2, ease: "power2.out" }); },
-        onRelease: function () { gsap.to(el, { scale: 1,    duration: 0.4, ease: "back.out(2.5)" }); }
+        onRelease: function () { gsap.to(el, { scale: 1,    duration: 0.4, ease: "back.out(2.5)" }); },
+        onClick:   function () { activateSticker(el); }
       });
+    });
+  } else {
+    // 沒有 Draggable 時（例如 CDN 失效）仍保留點擊功能
+    document.querySelectorAll(".sticker[data-target], .sticker[data-href]").forEach(function (el) {
+      el.addEventListener("click", function () { activateSticker(el); });
     });
   }
 
@@ -29,17 +51,50 @@
     });
     if (lagItems.length) {
       var lastY = window.scrollY, vel = 0;
-      (function stickerRaf() {
+      var stickerRafId = 0;
+      var heroVisible = true;
+
+      function stickerRaf() {
+        stickerRafId = 0;
+        if (!heroVisible) return;
+
         var s = window.scrollY;
         vel += ((s - lastY) - vel) * 0.15;   // 平滑後的滾動速度
         lastY = s;
+        var isMoving = Math.abs(vel) > 0.05;
+
         lagItems.forEach(function (o) {
           var target = Math.max(-140, Math.min(140, vel * o.f * 3));
           o.y += (target - o.y) * 0.1;
           o.el.style.transform = "translateY(" + o.y.toFixed(2) + "px)";
+          if (Math.abs(target - o.y) > 0.05 || Math.abs(o.y) > 0.05) isMoving = true;
         });
-        requestAnimationFrame(stickerRaf);
-      })();
+
+        if (isMoving) stickerRafId = requestAnimationFrame(stickerRaf);
+      }
+
+      function wakeStickerRaf() {
+        if (!heroVisible || stickerRafId) return;
+        stickerRafId = requestAnimationFrame(stickerRaf);
+      }
+
+      window.addEventListener("scroll", wakeStickerRaf, { passive: true });
+
+      if ("IntersectionObserver" in window) {
+        var heroObserver = new IntersectionObserver(function (entries) {
+          heroVisible = entries[0].isIntersecting;
+          lastY = window.scrollY;
+          if (!heroVisible && stickerRafId) {
+            cancelAnimationFrame(stickerRafId);
+            stickerRafId = 0;
+          } else if (heroVisible) {
+            wakeStickerRaf();
+          }
+        }, { threshold: 0 });
+        heroObserver.observe(hero);
+      }
+
+      wakeStickerRaf();
     }
   }
 
@@ -55,7 +110,11 @@
     if (w > 0) heroWord.style.fontSize = (100 * avail * 0.76 / w) + "px";  // 佔容器 76% 寬
   }
   document.fonts.ready.then(fitHero);
-  window.addEventListener("resize", fitHero);
+  var fitHeroTimer;
+  window.addEventListener("resize", function () {
+    clearTimeout(fitHeroTimer);
+    fitHeroTimer = setTimeout(fitHero, 150);
+  }, { passive: true });
 
   // 無動畫環境：不跑時間軸，直接呈現三層疊滿的完成畫面
   if (reduced || !window.gsap) return;

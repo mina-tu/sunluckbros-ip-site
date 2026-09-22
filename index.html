@@ -7,18 +7,16 @@
   <title>晴天兄弟｜Web3與撲克領域內容IP</title>
   <link rel="icon" type="image/jpeg" href="image/favicon-2.jpg" />
   <meta name="description" content="晴天兄弟為專注於Web3與撲克領域的內容IP，由兩位創作者組成，分享市場觀察、產業解析與國際娛樂趨勢，連結亞洲與全球機會。" />
+  <link rel="preload" as="image" href="image/lg-bg-01.webp" fetchpriority="high" />
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
-
-  <!-- AOS Library -->
-  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
 
   <!-- Hero 字體：Pixelify Sans（splash）+ Silkscreen（SLBROS logotype） -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Jersey+25&family=Pixelify+Sans:wght@400..700&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/hero.css" />
@@ -34,6 +32,7 @@
         <li><a href="#">晴天兄弟</a></li>
         <li><a href="#stake">web3代言平台</a></li>
         <li><a href="#poker">poker代言平台</a></li>
+        <li><a href="contact.html">聯絡我們</a></li>
       </ul>
 
       <div class="menu-btn" id="menuBtn" aria-label="Open menu">
@@ -87,37 +86,37 @@
 
     <!-- 大標周圍隨機四顆星星，一閃一閃 -->
     <div class="heroStars" aria-hidden="true">
-      <img src="image/star-01.webp" alt="" style="left:8%;  top:27%; --sw:45px; --twd:2.6s;" />
-      <img src="image/star-02.webp" alt="" style="left:56%; top:20%; --sw:33px; --twd:3.4s; --twl:.8s;" />
-      <img src="image/star-03.webp" alt="" style="left:93%; top:33%; --sw:51px; --twd:2.9s; --twl:.4s;" />
-      <img src="image/star-02.webp" alt="" style="left:27%; top:54%; --sw:29px; --twd:3.7s; --twl:1.4s;" />
+      <img src="image/star-01.webp" alt="" width="100" height="100" style="left:8%;  top:27%; --sw:45px; --twd:2.6s;" />
+      <img src="image/star-02.webp" alt="" width="100" height="100" style="left:56%; top:20%; --sw:33px; --twd:3.4s; --twl:.8s;" />
+      <img src="image/star-03.webp" alt="" width="100" height="100" style="left:93%; top:33%; --sw:51px; --twd:2.9s; --twl:.4s;" />
+      <img src="image/star-02.webp" alt="" width="100" height="100" style="left:27%; top:54%; --sw:29px; --twd:3.7s; --twl:1.4s;" />
     </div>
 
     <!-- 貼紙互動層：可拖曳 + 滾動慣性 + 待機漂浮 -->
     <div class="stickerLayer" aria-hidden="true">
       <div class="stickerLag" data-lag="1.3" style="left:7%;  top:72%;">
-        <div class="sticker" style="--r:-8deg; --d:3.4s; --w:clamp(110px, 11vw, 220px);"><span class="stickerInner"><img src="image/sticker-logo.webp" alt="" /></span></div>
+        <div class="sticker" style="--r:-8deg; --d:3.4s; --w:clamp(110px, 11vw, 220px);" data-href="https://www.instagram.com/sunluckbros/" role="button" aria-label="晴天兄弟 Instagram"><span class="stickerInner"><img src="image/sticker-logo.webp" alt="" width="252" height="252" /></span></div>
       </div>
       <div class="stickerLag" data-lag="1.0" style="left:16%; top:57%;">
-        <div class="sticker" style="--r:5deg;  --d:4.4s; --delay:.75s; --w:clamp(110px, calc(13vw + 97px), 377px);"><span class="stickerInner"><img src="image/sticker-slot-machine.webp" alt="" /></span></div>
+        <div class="sticker" style="--r:5deg;  --d:4.4s; --delay:.75s; --w:clamp(110px, calc(13vw + 97px), 377px);" data-target="#adventure" role="button" aria-label="前往晴天宇宙區塊"><span class="stickerInner"><img src="image/sticker-slot-machine.webp" alt="" width="361" height="361" /></span></div>
       </div>
       <div class="stickerLag" data-lag="1.5" style="left:34%; top:70%;">
-        <div class="sticker" style="--r:4deg;  --d:3.9s; --delay:.3s; --w:clamp(95px, 10vw, 200px);"><span class="stickerInner"><img src="image/sticker-joystick.webp" alt="" /></span></div>
+        <div class="sticker" style="--r:4deg;  --d:3.9s; --delay:.3s; --w:clamp(95px, 10vw, 200px);"><span class="stickerInner"><img src="image/sticker-joystick.webp" alt="" width="272" height="272" /></span></div>
       </div>
       <div class="stickerLag" data-lag="1.1" style="left:43%; top:56%;">
-        <div class="sticker" style="--r:-5deg; --d:4.8s; --delay:.2s; --w:clamp(140px, 15vw, 300px);"><span class="stickerInner"><img src="image/sticker-poker.webp" alt="" /></span></div>
+        <div class="sticker" style="--r:-5deg; --d:4.8s; --delay:.2s; --w:clamp(140px, 15vw, 300px);" data-target="#poker" role="button" aria-label="前往 POKER 區塊"><span class="stickerInner"><img src="image/sticker-poker.webp" alt="" width="355" height="355" /></span></div>
       </div>
       <div class="stickerLag" data-lag="1.6" style="left:57%; top:73%;">
-        <div class="sticker" style="--r:-4deg; --d:4.1s; --delay:.55s; --w:clamp(115px, 12vw, 240px);"><span class="stickerInner"><img src="image/sticker-web3.webp" alt="" /></span></div>
+        <div class="sticker" style="--r:-4deg; --d:4.1s; --delay:.55s; --w:clamp(115px, 12vw, 240px);" data-target="#stake" role="button" aria-label="前往 WEB3 專區"><span class="stickerInner"><img src="image/sticker-web3.webp" alt="" width="287" height="287" /></span></div>
       </div>
       <div class="stickerLag" data-lag="0.9" style="left:65%; top:58%;">
-        <div class="sticker" style="--r:6deg;  --d:4.2s; --delay:.9s; --w:clamp(60px, 6.5vw, 130px);"><span class="stickerInner"><img src="image/sticker-coin.webp" alt="" /></span></div>
+        <div class="sticker" style="--r:6deg;  --d:4.2s; --delay:.9s; --w:clamp(60px, 6.5vw, 130px);"><span class="stickerInner"><img src="image/sticker-coin.webp" alt="" width="200" height="200" /></span></div>
       </div>
       <div class="stickerLag" data-lag="1.2" style="left:69%; top:54%;">
-        <div class="sticker" style="--r:8deg;  --d:3.6s; --delay:.45s; --w:clamp(120px, calc(16vw + 97px), 437px);"><span class="stickerInner"><img src="image/sticker-gameboy.webp" alt="" /></span></div>
+        <div class="sticker" style="--r:8deg;  --d:3.6s; --delay:.45s; --w:clamp(120px, calc(16vw + 97px), 437px);" data-href="https://slbrox.com.tw/" role="button" aria-label="前往 SLBROX"><span class="stickerInner"><img src="image/sticker-gameboy.webp" alt="" width="498" height="498" /></span></div>
       </div>
       <div class="stickerLag" data-lag="1.4" style="right:1%; top:74%;">
-        <div class="sticker" style="--r:-6deg; --d:4.6s; --delay:.6s; --w:clamp(85px, 8.5vw, 175px);"><span class="stickerInner"><img src="image/sticker-world.webp" alt="" /></span></div>
+        <div class="sticker" style="--r:-6deg; --d:4.6s; --delay:.6s; --w:clamp(85px, 8.5vw, 175px);"><span class="stickerInner"><img src="image/sticker-world.webp" alt="" width="219" height="219" /></span></div>
       </div>
     </div>
 
@@ -132,6 +131,7 @@
       <li><a href="#">晴天兄弟</a></li>
       <li><a href="#stake">web3代言平台</a></li>
       <li><a href="#poker">poker代言平台</a></li>
+      <li><a href="contact.html">聯絡我們</a></li>
     </ul>
   </nav>
 
@@ -140,13 +140,21 @@
     <section class="pixel-scene" aria-label="關於晴天兄弟">
       <!-- 夕陽天空的星星 -->
       <div class="pixel-scene__stars" aria-hidden="true">
-        <img src="image/star-01.webp" alt="" style="left:14%; top:16%; --sw:30px; --twd:2.8s;" />
-        <img src="image/star-03.webp" alt="" style="left:47%; top:9%;  --sw:38px; --twd:3.5s; --twl:.6s;" />
-        <img src="image/star-02.webp" alt="" style="left:83%; top:20%; --sw:26px; --twd:3.1s; --twl:1.1s;" />
+        <img src="image/star-01.webp" alt="" width="100" height="100" style="left:14%; top:16%; --sw:30px; --twd:2.8s;" />
+        <img src="image/star-03.webp" alt="" width="100" height="100" style="left:47%; top:9%;  --sw:38px; --twd:3.5s; --twl:.6s;" />
+        <img src="image/star-02.webp" alt="" width="100" height="100" style="left:83%; top:20%; --sw:26px; --twd:3.1s; --twl:1.1s;" />
       </div>
 
-      <!-- 視差背景：城市（慢）→ 步道地面（快） -->
-      <div class="pixel-scene__layer pixel-scene__far" aria-hidden="true"></div>
+      <!--
+        視差背景：依訪客電腦時間，在早晨／中午／下午／黃金時刻／落日間交叉淡化。
+        保留兩層即可，避免五張大圖同時載入。
+      -->
+      <div class="pixel-scene__layer pixel-scene__far js-time-scene-a"
+        style="background-image:url('image/bg-city-world-sunset.webp'); opacity:1;"
+        aria-hidden="true"></div>
+      <div class="pixel-scene__layer pixel-scene__far js-time-scene-b"
+        style="background-image:url('image/bg-city-world-sunset.webp'); opacity:0;"
+        aria-hidden="true"></div>
       <div class="pixel-scene__layer pixel-scene__ground" aria-hidden="true"></div>
 
       <!-- 從 hero 延伸下來的格線（只留兩側直線，避開中間文字；橫線放在文字下方） -->
@@ -189,23 +197,67 @@
       </div>
     </section>
   </div>
-  <!-- brand -->
-  <section class="brand slide-section">
-    <div class="section-inner">
-      <div class="brand__inner">
-        <div class="brand__content">
-          <h2 class="brand__title">
-            Brand<br />
-            Partnerships
-          </h2>
+  <!-- Stories in Motion：晴天精神（四欄錯落卡片，影片進入畫面才播放） -->
+  <section class="motion" id="motion">
+    <!-- 延續「關於晴天兄弟」的格線（直線位置需與 .pixel-scene 的 fvGrid 一致）＋橫線與十字 -->
+    <div class="fvGrid" aria-hidden="true">
+      <i class="v" style="left:15%;"></i>
+      <i class="v" style="left:85%;"></i>
+      <!-- 橫線比照 hero banner 的等距配置，壓在卡片後方 -->
+      <i class="h" style="top:64%;"></i>
+      <i class="h" style="top:85%;"></i>
+      <span class="cross" style="left:15%; top:64%; --cs:18px;"><i></i></span>
+      <span class="cross" style="left:85%; top:85%; --cs:17px;"><i></i></span>
+    </div>
 
-          <div class="brand__card">
-            <div class="brand__card-title">slbros</div>
-            <p class="brand__card-text">
-                  Find your play.Create your adventure.<br />
-                  Every moment is a chance to explore something new.
-            </p>
-          </div>
+    <div class="motion__inner">
+      <header class="motion__head">
+        <h2 class="motion__title">晴天精神，與你一起探索世界</h2>
+        <p class="motion__desc">看懂世界、做好決策、尊重風險、保持樂觀。跟著晴天兄弟 Sunluck Bros，探索金錢、機會與生活中的選擇</p>
+      </header>
+    </div>
+
+    <!-- 標題下方的橫線：放在 section 層級才能滿版，十字與直線交會 -->
+    <div class="fvGrid motion__rule" aria-hidden="true">
+      <span class="cross" style="left:15%; --cs:22px;"><i></i></span>
+    </div>
+
+    <div class="motion__inner">
+      <div class="motion__grid">
+        <div class="motion__col motion__col--1">
+          <figure class="motion__card motion__card--tall">
+            <video class="motion__video" src="./image/motion/motion-1.mp4" poster="./image/motion/motion-1-poster.webp" muted loop playsinline preload="none" aria-hidden="true"></video>
+          </figure>
+          <a class="motion__card motion__card--square motion__card--link" href="https://www.youtube.com/@allenpoker" target="_blank" rel="noopener noreferrer" aria-label="前往 YouTube">
+            <img src="./image/motion/motion-yt.webp" alt="YouTube" width="720" height="720" loading="lazy" decoding="async" />
+          </a>
+        </div>
+
+        <div class="motion__col motion__col--2">
+          <figure class="motion__card motion__card--tall">
+            <video class="motion__video" src="./image/motion/motion-2.mp4" poster="./image/motion/motion-2-poster.webp" muted loop playsinline preload="none" aria-hidden="true"></video>
+          </figure>
+          <a class="motion__card motion__card--square motion__card--link" href="https://t.me/sunluck_cs_bot" target="_blank" rel="noopener noreferrer" aria-label="加入 Telegram">
+            <img src="./image/motion/motion-tg.webp" alt="Telegram" width="720" height="720" loading="lazy" decoding="async" />
+          </a>
+        </div>
+
+        <div class="motion__col motion__col--3">
+          <figure class="motion__card motion__card--square">
+            <video class="motion__video" src="./image/motion/motion-logo.mp4" poster="./image/motion/motion-logo-poster.webp" muted loop playsinline preload="none" aria-hidden="true"></video>
+          </figure>
+          <figure class="motion__card motion__card--tall">
+            <video class="motion__video" src="./image/motion/motion-3.mp4" poster="./image/motion/motion-3-poster.webp" muted loop playsinline preload="none" aria-hidden="true"></video>
+          </figure>
+        </div>
+
+        <div class="motion__col motion__col--4">
+          <a class="motion__card motion__card--square motion__card--link" href="https://www.instagram.com/sunluckbros/" target="_blank" rel="noopener noreferrer" aria-label="追蹤 Instagram">
+            <img src="./image/motion/motion-ig.webp" alt="Instagram" width="720" height="720" loading="lazy" decoding="async" />
+          </a>
+          <figure class="motion__card motion__card--tall">
+            <video class="motion__video" src="./image/motion/motion-4.mp4" poster="./image/motion/motion-4-poster.webp" muted loop playsinline preload="none" aria-hidden="true"></video>
+          </figure>
         </div>
       </div>
     </div>
@@ -213,55 +265,45 @@
 
   <section class="stake-section slide-section" id="stake">
     <div class="section-inner">
-      <div class="stake-bg-wrap">
-        <img src="./image/STAKE-BG1.webp" alt="" class="stake-bg" loading="lazy" decoding="async" />
-      </div>
-
       <div class="stake-container">
         <div class="stake-head">
           <div class="stake-head-left">
-            <h2 class="stake-title">STAKE</h2>
+            <h2 class="stake-title">WEB3</h2>
             <p class="stake-desc">
-              全球主流 Web3 Casino 平台之一，結合加密貨幣與線上娛樂，提供安全、流暢且多元的遊戲體驗
+              精選全球 Web3 娛樂平台，結合加密資產、Casino 與 Sportsbook，帶來多元且流暢的線上娛樂體驗
             </p>
           </div>
 
-          <a href="https://stake.com/zh?offer=slbros&tab=register&modal=auth&c=slbros" class="stake-go-btn">
-            <span>GO</span>
+          <a href="https://slbrox.com.tw/online-casino-ranking/" class="stake-go-btn" target="_blank" rel="noopener noreferrer">
+            <span>查看平台評測</span>
             <span class="arrow">→</span>
           </a>
         </div>
 
-        <div class="stake-cards">
-          <article class="stake-card">
-            <div class="stake-card-inner">
-              <div class="stake-card-number">01</div>
-              <h3 class="stake-card-title">自有遊戲系統</h3>
-              <p class="stake-card-text">
-                Stake 擁有自家開發的娛樂遊戲系統，包含 Crash、Dice、Limbo 等經典玩法，並持續更新新遊戲與機制，帶來穩定且創新的娛樂體驗
-              </p>
+        <!-- 平台場景：點右側按鈕切換場景圖與下方文字卡，手機版改用直式場景圖 -->
+        <!-- 平台場景：目前只放 STAKE，右上角切換按鈕與 RAINBET／SHUFFLE 先移除
+             （切換用的 CSS/JS 與另外兩組場景圖都還留著，要加回來時把 tabs 與 panel 補上即可） -->
+        <div class="web3-showcase" data-web3-showcase>
+          <div class="web3-showcase__frame">
+            <div class="web3-showcase__scenes" aria-hidden="true">
+              <picture class="web3-showcase__scene is-active" data-web3-scene="stake">
+                <source media="(max-width: 600px)" srcset="./image/web3-stake-phone.webp" width="1080" height="1920" />
+                <img src="./image/web3-stake.webp" alt="" width="2001" height="786" loading="lazy" decoding="async" />
+              </picture>
             </div>
-          </article>
 
-          <article class="stake-card stake-card--active">
-            <div class="stake-card-inner">
-              <div class="stake-card-number">02</div>
-              <h3 class="stake-card-title">安全與加密交易</h3>
-              <p class="stake-card-text">
-                透過主流加密貨幣與區塊鏈技術，提供安全透明的資金管理方式。支援多種加密資產，出入款流程快速且便利，打造高效率的娛樂環境
-              </p>
+            <div class="web3-showcase__panel is-active" data-web3-panel="stake">
+              <p class="web3-showcase__tag">stake</p>
+              <div class="web3-showcase__card">
+                <h3 class="web3-showcase__title">原創遊戲與多元 Casino，一站探索</h3>
+                <p class="web3-showcase__text">Stake 加密貨幣娛樂平台以 Stake Originals 原創遊戲為特色，包含 Crash、Dice、Limbo 等玩法，並提供老虎機與真人娛樂，讓你從不同遊戲類型認識平台內容</p>
+                <a href="https://stake.com/zh?offer=slbroseo&amp;tab=register&amp;modal=auth&amp;c=slbroseo" class="web3-showcase__cta" target="_blank" rel="noopener noreferrer sponsored">
+                  <span>立即體驗</span>
+                  <span class="arrow" aria-hidden="true">→</span>
+                </a>
+              </div>
             </div>
-          </article>
-
-          <article class="stake-card">
-            <div class="stake-card-inner">
-              <div class="stake-card-number">03</div>
-              <h3 class="stake-card-title">全球娛樂平台</h3>
-              <p class="stake-card-text">
-                Stake 作為全球使用者廣泛的 Web3 娛樂平台，提供多樣化的 Casino 與體育娛樂內容，並持續拓展不同地區與玩家社群
-              </p>
-            </div>
-          </article>
+          </div>
         </div>
       </div>
     </div>
@@ -275,7 +317,7 @@
   <section class="poker" id="poker">
     <div class="poker__inner">
       <div class="poker__head">
-        <h2 class="poker__title" data-aos="fade-up" data-aos-duration="1000" data-aos-easing="ease-out">POKER</h2>
+        <h2 class="poker__title">POKER</h2>
 
         <button class="poker__toggle" id="pokerToggle" type="button" aria-label="toggle poker list">
           <img src="./image/marquee-icon-2.png" alt="toggle icon" loading="lazy" decoding="async" />
@@ -286,7 +328,7 @@
         <article class="poker__item">
           <div class="poker__item-inner">
             <div class="poker__thumb">
-              <img src="./image/poker-3.webp" alt="POKER3" loading="lazy" decoding="async" />
+              <img src="./image/poker-1.webp" alt="QQPK" loading="lazy" decoding="async" />
             </div>
 
             <div class="poker__body">
@@ -308,7 +350,48 @@
         <article class="poker__item">
           <div class="poker__item-inner">
             <div class="poker__thumb">
-              <img src="./image/poker-1.webp" alt="POKER1" loading="lazy" decoding="async" />
+              <img src="./image/poker-2.webp" alt="CoinPoker" loading="lazy" decoding="async" />
+            </div>
+
+            <div class="poker__body">
+              <h3 class="poker__name">CoinPoker</h3>
+              <p class="poker__desc">
+                CoinPoker 是以區塊鏈與加密貨幣為核心的國際線上撲克平台，匯集來自不同地區的玩家，並提供德州撲克、PLO 及多種奧馬哈玩法。
+
+                平台結合現金桌、日常錦標賽與不同級別的桌局，同時支援加密資產交易，適合希望體驗多元玩法並與國際玩家競技的玩家
+              </p>
+              <a href="https://play.coinpoker.com/register?refer_by=c2xicm9z" class="stake-go-btn poker__go-btn">
+                <span>GO</span>
+                <span class="arrow">→</span>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <article class="poker__item">
+          <div class="poker__item-inner">
+            <div class="poker__thumb">
+              <img src="./image/poker-3.webp" alt="Natural8" loading="lazy" decoding="async" />
+            </div>
+
+            <div class="poker__body">
+              <h3 class="poker__name">Natural8</h3>
+              <p class="poker__desc">
+                Natural8 為 GGNetwork（GG撲克體系）旗下亞洲合作品牌，與 GGPoker 共享全球玩家池與賽事系統。
+                在台灣即可直接參與國際撲克賽事，無需跨區操作，提供穩定流暢的遊戲體驗，是連接全球撲克舞台的重要入口
+              </p>
+              <a href="https://www.natural8.com/sign-up?ref=teamallen" class="stake-go-btn poker__go-btn">
+                <span>GO</span>
+                <span class="arrow">→</span>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <article class="poker__item">
+          <div class="poker__item-inner">
+            <div class="poker__thumb">
+              <img src="./image/poker-4.webp" alt="GG撲克 GGPoker" loading="lazy" decoding="async" />
             </div>
 
             <div class="poker__body">
@@ -325,25 +408,6 @@
           </div>
         </article>
 
-        <article class="poker__item">
-          <div class="poker__item-inner">
-            <div class="poker__thumb">
-              <img src="./image/poker-2.webp" alt="POKER2" loading="lazy" decoding="async" />
-            </div>
-
-            <div class="poker__body">
-              <h3 class="poker__name">Natural8</h3>
-              <p class="poker__desc">
-                Natural8 為 GGNetwork（GG撲克體系）旗下亞洲合作品牌，與 GGPoker 共享全球玩家池與賽事系統。
-                在台灣即可直接參與國際撲克賽事，無需跨區操作，提供穩定流暢的遊戲體驗，是連接全球撲克舞台的重要入口
-              </p>
-              <a href="https://www.natural8.com/sign-up?ref=teamallen" class="stake-go-btn poker__go-btn">
-                <span>GO</span>
-                <span class="arrow">→</span>
-              </a>
-            </div>
-          </div>
-        </article>
       </div>
     </div>
   </section>
@@ -411,18 +475,16 @@
       <div class="cta-actions">
         <a href="#" class="cta-btn">商務合作</a>
         <a href="#" class="cta-btn">加入我們</a>
-        <a href="#" class="cta-btn">聯絡我們</a>
+        <a href="contact.html" class="cta-btn">聯絡我們</a>
       </div>
     </div>
   </section>
 
-  <footer class="site-footer" data-aos="footer-gradient" data-aos-duration="900" data-aos-easing="ease-out">
+  <footer class="site-footer">
     <div class="footer-inner">
-      <div class="footer-top-line" data-aos="fade-right" data-aos-duration="500" data-aos-delay="1220"
-        data-aos-easing="ease-out"></div>
+      <div class="footer-top-line"></div>
 
-      <div class="footer-content" data-aos="fade-up" data-aos-duration="900" data-aos-delay="1280"
-        data-aos-easing="ease-out">
+      <div class="footer-content">
         <div class="footer-brand">
           <h2 class="footer-logo">SLBROS</h2>
           <p class="footer-desc">
@@ -434,32 +496,30 @@
         <div class="footer-links-wrap">
           <ul class="footer-links">
             <li><a href="#">首頁</a></li>
-            <li><a href="#">關於我們</a></li>
             <li><a href="https://stake.com/zh?offer=slbros&tab=register&modal=auth&c=slbros">STAKE</a></li>
           </ul>
 
           <ul class="footer-links">
             <li><a href="#">隱私權政策</a></li>
             <li><a href="#">免責聲明</a></li>
-            <li><a href="#">聯絡我們</a></li>
+            <li><a href="contact.html">聯絡我們</a></li>
           </ul>
 
           <div class="footer-social">
-            <a href="#" aria-label="Facebook">
-              <img src="image/footer-fb.png" alt="Facebook" loading="lazy" decoding="async" />
-            </a>
-            <a href="#" aria-label="Instagram">
+            <a href="https://www.instagram.com/sunluckbros/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
               <img src="image/footer-ig.png" alt="Instagram" loading="lazy" decoding="async" />
             </a>
-            <a href="#" aria-label="LINE">
+            <a href="https://www.facebook.com/p/Sunluck-Bros-61581519426631/?locale=zh_TW" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+              <img src="image/footer-fb.png" alt="Facebook" loading="lazy" decoding="async" />
+            </a>
+            <a href="https://line.me/R/ti/p/@slbro" target="_blank" rel="noopener noreferrer" aria-label="LINE">
               <img src="image/footer-line.png" alt="LINE" loading="lazy" decoding="async" />
             </a>
           </div>
         </div>
       </div>
 
-      <div class="footer-bg-text" data-aos="footer-bg-text" data-aos-duration="1300" data-aos-delay="860"
-        data-aos-easing="ease-out">SLBROS</div>
+      <div class="footer-bg-text">SLBROS</div>
 
       <div class="footer-copyright">
         © 2026 晴天兄弟 SLbros. All Rights Reserved.<br class="mobile-br">
@@ -469,25 +529,116 @@
   </footer>
 
   <button class="scroll-top-btn" id="scrollTopBtn" type="button" aria-label="回到頁面頂端">
-    <img src="image/UP-icon.png" alt="" loading="lazy" decoding="async" />
+    <img src="image/UP-icon.png" alt="" width="48" height="48" loading="lazy" decoding="async" />
   </button>
 
   <div class="custom-cursor" aria-hidden="true">
-    <img src="image/custom-cursor.png" alt="" />
+    <img class="custom-cursor__arrow" src="image/custom-cursor.png" alt="" width="48" height="48" />
+    <img class="custom-cursor__pointer" src="image/custom-pointer.webp" alt="" width="96" height="96" />
   </div>
 
-  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script defer src="js/script.js"></script>
+  <script defer src="js/hero.js"></script>
+
+  <!-- 關於晴天兄弟：依訪客當地時間切換城市天空 -->
   <script>
-    AOS.init({
-      duration: 1000,
-      easing: 'ease-in-out',
-      once: false,
-      offset: 100
-    });
+    (function () {
+      var layerA = document.querySelector(".js-time-scene-a");
+      var layerB = document.querySelector(".js-time-scene-b");
+      if (!layerA || !layerB) return;
+
+      var imagePath = "image/";
+      var scenes = {
+        morning: "bg-city-world-morning.webp",
+        noon: "bg-city-world-noon.webp",
+        afternoon: "bg-city-world-afternoon.webp",
+        golden: "bg-city-world-golden-hour.webp",
+        sunset: "bg-city-world-sunset.webp"
+      };
+
+      /*
+       * 同一圖片重複出現表示「維持該時段」；兩個不同圖片之間則平滑混合。
+       * 時間單位為訪客電腦當地時間的分鐘數。
+       */
+      var timeline = [
+        { minute: 0,    scene: "sunset" },
+        { minute: 330,  scene: "sunset" },   // 00:00–05:30 落日版
+        { minute: 390,  scene: "morning" },  // 05:30–06:30 轉為早晨
+        { minute: 570,  scene: "morning" },  // 06:30–09:30 早晨
+        { minute: 660,  scene: "noon" },     // 09:30–11:00 轉為中午
+        { minute: 810,  scene: "noon" },     // 11:00–13:30 中午
+        { minute: 900,  scene: "afternoon" },// 13:30–15:00 轉為下午
+        { minute: 990,  scene: "afternoon" },// 15:00–16:30 下午
+        { minute: 1050, scene: "golden" },   // 16:30–17:30 轉為黃金時刻
+        { minute: 1110, scene: "golden" },   // 17:30–18:30 黃金時刻
+        { minute: 1170, scene: "sunset" },   // 18:30–19:30 轉為落日
+        { minute: 1440, scene: "sunset" }    // 19:30–24:00 落日版
+      ];
+
+      var renderToken = 0;
+
+      function preload(file) {
+        return new Promise(function (resolve, reject) {
+          var img = new Image();
+          img.onload = resolve;
+          img.onerror = reject;
+          img.src = imagePath + file;
+        });
+      }
+
+      function updateTimeScene() {
+        var now = new Date();
+        var currentMinute = now.getHours() * 60 + now.getMinutes() + now.getSeconds() / 60;
+        var start = timeline[0];
+        var end = timeline[1];
+
+        for (var i = 0; i < timeline.length - 1; i += 1) {
+          if (currentMinute >= timeline[i].minute && currentMinute < timeline[i + 1].minute) {
+            start = timeline[i];
+            end = timeline[i + 1];
+            break;
+          }
+        }
+
+        var startFile = scenes[start.scene];
+        var endFile = scenes[end.scene];
+        var duration = end.minute - start.minute;
+        var progress = duration > 0 ? (currentMinute - start.minute) / duration : 0;
+        progress = Math.max(0, Math.min(1, progress));
+
+        /* smoothstep：時段交界不會突然加速或減速。 */
+        var blend = progress * progress * (3 - 2 * progress);
+        var token = ++renderToken;
+        var filesToLoad = startFile === endFile ? [startFile] : [startFile, endFile];
+
+        Promise.all(filesToLoad.map(preload)).then(function () {
+          if (token !== renderToken) return;
+
+          layerA.style.backgroundImage = "url('" + imagePath + startFile + "')";
+          layerA.style.opacity = startFile === endFile ? "1" : String(1 - blend);
+
+          if (startFile === endFile) {
+            layerB.style.opacity = "0";
+          } else {
+            layerB.style.backgroundImage = "url('" + imagePath + endFile + "')";
+            layerB.style.opacity = String(blend);
+          }
+
+          layerA.dataset.sceneTime = start.scene;
+          layerB.dataset.sceneTime = end.scene;
+        }).catch(function () {
+          /* 圖片載入失敗時保留目前畫面，不讓背景閃成空白。 */
+        });
+      }
+
+      updateTimeScene();
+      window.setInterval(updateTimeScene, 60 * 1000);
+      document.addEventListener("visibilitychange", function () {
+        if (!document.hidden) updateTimeScene();
+      });
+    })();
   </script>
-  <script src="js/script.js"></script>
-  <script src="js/hero.js"></script>
-  <script src="js/pixel-scene.js"></script>
+  <script defer src="js/pixel-scene.js"></script>
 </body>
 
 </html>

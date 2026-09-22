@@ -19,10 +19,6 @@ document.addEventListener("dragstart", (e) => e.preventDefault());
 document.addEventListener("selectstart", (e) => e.preventDefault());
 // ────────────────────────────────────────────────────────
 
-window.addEventListener("load", () => {
-  toggleNavbarGlass();
-});
-
 const menuBtn = document.getElementById("menuBtn");
 const menu = document.getElementById("menu");
 const header = document.getElementById("header");
@@ -43,46 +39,61 @@ menuLinks.forEach((link) => {
   });
 });
 
-function toggleNavbarGlass() {
-  if (!header || !hero) return;
+let heroBottom = 0;
+let scrollUiTicking = false;
+let scrollUiNeedsMeasure = true;
+let isDesktopViewport = window.innerWidth >= 769;
 
-  const heroBottom = hero.offsetTop + hero.offsetHeight;
-  const triggerPoint = heroBottom;
-  const isPastHero = window.scrollY >= triggerPoint;
-  const isDesktop = window.matchMedia("(min-width: 769px)").matches;
-  const isAnyScroll = window.scrollY > 0;
+function measureScrollUi() {
+  isDesktopViewport = window.innerWidth >= 769;
+  heroBottom = hero ? hero.offsetTop + hero.offsetHeight : 0;
+}
 
-  if (isPastHero) {
-    header.classList.add("scrolled");
-  } else {
-    header.classList.remove("scrolled");
+function updateScrollUi() {
+  // 量測集中在 rAF 內，一幀最多一次，避免 resize 連發時反覆強制重排。
+  if (scrollUiNeedsMeasure) {
+    scrollUiNeedsMeasure = false;
+    measureScrollUi();
+  }
+
+  const scrollY = window.scrollY;
+  const isPastHero = heroBottom > 0 && scrollY >= heroBottom;
+  const isAnyScroll = scrollY > 0;
+
+  // 沒有 hero 的頁面（例如 contact.html）不套用 header 捲動狀態，
+  // 否則桌面導覽列會被 .compact 收成漢堡。
+  if (header && hero) {
+    header.classList.toggle("scrolled", isPastHero);
 
     // Keep desktop hero state clean: hide overlay menu when hamburger is hidden.
-    if (isDesktop) {
+    if (!isPastHero && isDesktopViewport) {
       menuBtn?.classList.remove("active");
       menu?.classList.remove("active");
     }
+
+    // Desktop nav mode: switch to compact hamburger as soon as user scrolls.
+    header.classList.toggle("compact", isDesktopViewport && isAnyScroll);
   }
 
-  // Desktop nav mode: switch to compact hamburger as soon as user scrolls.
-  if (isDesktop && isAnyScroll) {
-    header.classList.add("compact");
-  } else {
-    header.classList.remove("compact");
+  if (scrollTopBtn) {
+    const threshold = heroBottom > 0 ? heroBottom * 0.6 : 240;
+    const shouldShow = !isDesktopViewport && scrollY > threshold;
+    scrollTopBtn.classList.toggle("is-visible", shouldShow);
   }
 }
 
-window.addEventListener("scroll", toggleNavbarGlass);
-window.addEventListener("resize", toggleNavbarGlass);
-
-function toggleScrollTopButton() {
-  if (!scrollTopBtn) return;
-
-  const isMobile = window.matchMedia("(max-width: 768px)").matches;
-  const threshold = hero ? hero.offsetHeight * 0.6 : 240;
-  const shouldShow = isMobile && window.scrollY > threshold;
-
-  scrollTopBtn.classList.toggle("is-visible", shouldShow);
+function requestScrollUiUpdate() {
+  if (scrollUiTicking) return;
+  scrollUiTicking = true;
+  window.requestAnimationFrame(() => {
+    // finally：即使 updateScrollUi 拋錯也要放掉旗標，
+    // 否則之後所有捲動更新都會被永久擋住。
+    try {
+      updateScrollUi();
+    } finally {
+      scrollUiTicking = false;
+    }
+  });
 }
 
 scrollTopBtn?.addEventListener("click", () => {
@@ -92,9 +103,16 @@ scrollTopBtn?.addEventListener("click", () => {
   });
 });
 
-window.addEventListener("load", toggleScrollTopButton);
-window.addEventListener("scroll", toggleScrollTopButton);
-window.addEventListener("resize", toggleScrollTopButton);
+window.addEventListener("load", () => {
+  scrollUiNeedsMeasure = true;
+  updateScrollUi();
+});
+window.addEventListener("scroll", requestScrollUiUpdate, { passive: true });
+
+// 首次進站若瀏覽器還原了捲動位置，先把狀態算對一次。
+// 這裡必須同步執行：在背景分頁開啟時 rAF 會被凍結，
+// 用 requestScrollUiUpdate() 會讓旗標卡住、之後完全不更新。
+updateScrollUi();
 
 function initMarqueeComponents() {
   const marqueeRoots = document.querySelectorAll(".js-marquee-component");
@@ -150,75 +168,88 @@ initMarqueeComponents();
 
 gsap.registerPlugin(ScrollTrigger);
 
-console.log("GSAP:", typeof gsap, "ScrollTrigger:", typeof ScrollTrigger);
+/* =========================
+   Stories in Motion：卡片進場、桌機欄位視差、影片進入畫面才播放
+========================= */
+function initMotionSection() {
+  const section = document.querySelector(".motion");
+  if (!section) return;
 
-function initBrandPinScroll() {
-  const brandSection = document.querySelector(".brand");
-  const brandContent = brandSection?.querySelector(".brand__content");
-  const brandCard = brandSection?.querySelector(".brand__card");
-  const stakeSection = document.querySelector(".stake-section");
+  const cols = Array.from(section.querySelectorAll(".motion__col"));
+  const cards = Array.from(section.querySelectorAll(".motion__card"));
+  const videos = Array.from(section.querySelectorAll(".motion__video"));
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  if (!brandSection || !brandContent || !brandCard || !stakeSection) return;
+  if (!reduceMotion) {
+    gsap.from(section.querySelectorAll(".motion__title, .motion__desc"), {
+      opacity: 0,
+      y: 30,
+      duration: 0.8,
+      stagger: 0.12,
+      ease: "power3.out",
+      scrollTrigger: { trigger: section, start: "top 80%", once: true }
+    });
 
-  const bottomGap = 10;
-  const minTop = 24;
-  const stakeGap = 40;
+    gsap.from(cards, {
+      opacity: 0,
+      y: 60,
+      duration: 0.9,
+      stagger: 0.08,
+      ease: "power3.out",
+      scrollTrigger: { trigger: section.querySelector(".motion__grid"), start: "top 85%", once: true }
+    });
 
-  const getDynamicCardY = () => {
-    const contentHeight = brandContent.offsetHeight;
-    const cardHeight = brandCard.offsetHeight;
-    const currentTop = contentHeight - bottomGap - cardHeight;
+    // 桌機才做視差：每欄捲動速度不同，讓錯落感更明顯
+    ScrollTrigger.matchMedia({
+      "(min-width: 769px)": () => {
+        const speeds = [40, -30, 60, -20];
+        cols.forEach((col, i) => {
+          gsap.fromTo(col, { y: speeds[i] }, {
+            y: -speeds[i],
+            ease: "none",
+            scrollTrigger: { trigger: section, start: "top bottom", end: "bottom top", scrub: true }
+          });
+        });
+      }
+    });
+  }
 
-    const stakeTop = stakeSection.getBoundingClientRect().top;
-    const contentTop = brandContent.getBoundingClientRect().top;
+  // 影片 preload="none"，進入畫面附近才載入播放，離開就暫停省資源
+  if (!videos.length) return;
 
-    // Keep a stable spacing from stake top until card reaches minTop.
-    const desiredTop = Math.max(minTop, stakeTop - stakeGap - cardHeight);
-    return desiredTop - (contentTop + currentTop);
-  };
+  if (reduceMotion || !("IntersectionObserver" in window)) {
+    if (!reduceMotion) videos.forEach((v) => v.play().catch(() => {}));
+    return;
+  }
 
-  const tl = gsap.timeline({
-    scrollTrigger: {
-      trigger: brandSection,
-      start: "top top",
-      end: () => "+=" + window.innerHeight * 1.3,
-      scrub: true,
-      pin: true,
-      pinSpacing: false,
-      anticipatePin: 1,
-      invalidateOnRefresh: true
-    }
-  });
+  const inView = new Set();
 
-  tl.to({}, {
-    duration: 0.7,
-    ease: "none",
-    onUpdate: () => {
-      gsap.set(brandCard, { y: getDynamicCardY() });
-    }
-  });
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(({ target, isIntersecting }) => {
+      if (isIntersecting) {
+        inView.add(target);
+        target.play().catch(() => {});
+      } else {
+        inView.delete(target);
+        target.pause();
+      }
+    });
+  }, { rootMargin: "200px 0px" });
 
-  tl.to(brandSection, {
-    scale: 0.86,
-    opacity: 0.45,
-    ease: "none",
-    duration: 0.22
-  });
+  videos.forEach((v) => observer.observe(v));
 
-  tl.to(brandSection, {
-    opacity: 0,
-    ease: "none",
-    duration: 0.08
+  // 切到別的分頁時瀏覽器會暫停影片，切回來把畫面內的補播
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) inView.forEach((v) => v.play().catch(() => {}));
   });
 }
 
-initBrandPinScroll();
+initMotionSection();
 
 function initStakeOverscrollPin() {
   const stakePanel = document.querySelector(".stake-section");
   if (!stakePanel) return;
 
-  // Remove synthetic spacing so stake follows brand transition immediately.
   stakePanel.style.marginBottom = "0px";
 }
 
@@ -229,11 +260,9 @@ const stakeSection = document.querySelector(".stake-section");
 if (stakeSection) {
   const stakeInner = stakeSection.querySelector(".section-inner") || stakeSection;
   const stakeHead = stakeSection.querySelector(".stake-head");
-  const stakeCardsWrap = stakeSection.querySelector(".stake-cards");
   const stakeTitle = stakeSection.querySelector(".stake-title");
   const stakeDesc = stakeSection.querySelector(".stake-desc");
   const stakeGoBtn = stakeSection.querySelector(".stake-go-btn");
-  const stakeCards = gsap.utils.toArray(".stake-card", stakeSection);
 
   gsap.set([stakeTitle, stakeDesc, stakeGoBtn], { opacity: 0, y: 34 });
 
@@ -269,62 +298,151 @@ if (stakeSection) {
     duration: 0.6
   }, 0.2);
 
-  const stakeCardsTimeline = gsap.timeline({
-    scrollTrigger: {
-      trigger: stakeCardsWrap || stakeInner,
-      start: "top 86%",
-      end: "+=260",
-      scrub: true,
-      invalidateOnRefresh: true
-    }
-  });
-
-  if (window.matchMedia("(min-width: 1101px)").matches && stakeCards.length === 3) {
-    const getCardsLayout = () => {
-      const cardWidth = stakeCards[0].offsetWidth;
-      const gap = 34;
-      const leftStart = stakeCardsWrap
-        ? Math.max(0, Math.min(16, stakeCardsWrap.clientWidth * 0.02))
-        : 0;
-
-      return { cardWidth, gap, leftStart };
-    };
-
-    gsap.set(stakeCards, {
-      x: () => getCardsLayout().leftStart,
-      y: (i) => i * 3,
-      scale: (i) => 1 - i * 0.02,
-      zIndex: (i) => 20 - i
-    });
-
-    stakeCardsTimeline.to(stakeCards, {
-      x: (i) => {
-        const { cardWidth, gap, leftStart } = getCardsLayout();
-        return leftStart + i * (cardWidth + gap);
-      },
-      y: 0,
-      scale: 1,
-      ease: "none",
-      duration: 1,
-      stagger: 0.08
-    });
-  } else {
-    gsap.set(stakeCards, { opacity: 0, y: 36 });
-
-    stakeCardsTimeline.to(stakeCards, {
-      opacity: 1,
-      y: 0,
-      ease: "none",
-      duration: 0.55,
-      stagger: 0.12
-    });
-  }
 }
 
-/* resize 時刷新 */
+/* =========================
+   Web3 平台場景：點右側按鈕切換場景圖與文字卡
+========================= */
+function initWeb3Showcase() {
+  const root = document.querySelector("[data-web3-showcase]");
+  if (!root) return;
+
+  const tabs = Array.from(root.querySelectorAll("[data-web3-tab]"));
+  const scenes = Array.from(root.querySelectorAll("[data-web3-scene]"));
+  const panels = Array.from(root.querySelectorAll("[data-web3-panel]"));
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // 進場：場景框從下方浮上來
+  if (!reduceMotion && window.gsap && window.ScrollTrigger) {
+    gsap.from(root, {
+      opacity: 0,
+      y: 60,
+      duration: 0.9,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: root,
+        start: "top 85%",
+        once: true
+      }
+    });
+  }
+
+  // 只剩一個平台時就沒有切換行為了，後面的切換邏輯直接跳過
+  if (!tabs.length) return;
+
+  let activeKey = tabs[0].dataset.web3Tab;
+  let panelTimeline = null;
+
+  // 場景圖是 lazy 載入，捲到區塊附近時先把其他張也載好，切換時才不會閃黑。
+  const preload = () => {
+    scenes.forEach((scene) => {
+      const img = scene.querySelector("img");
+      if (img) img.loading = "eager";
+    });
+  };
+
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver((entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) return;
+      preload();
+      observer.disconnect();
+    }, { rootMargin: "600px 0px" });
+    observer.observe(root);
+  } else {
+    preload();
+  }
+
+  const goTo = (key, focusTab) => {
+    if (key === activeKey) return;
+    activeKey = key;
+
+    tabs.forEach((tab) => {
+      const selected = tab.dataset.web3Tab === key;
+      tab.classList.toggle("is-active", selected);
+      tab.setAttribute("aria-selected", String(selected));
+      tab.tabIndex = selected ? 0 : -1;
+      if (selected && focusTab) tab.focus();
+    });
+
+    scenes.forEach((scene) => {
+      scene.classList.toggle("is-active", scene.dataset.web3Scene === key);
+    });
+
+    const prevPanel = panels.find((panel) => !panel.hidden);
+    const nextPanel = panels.find((panel) => panel.dataset.web3Panel === key);
+
+    const showPanel = () => {
+      panels.forEach((panel) => {
+        const selected = panel === nextPanel;
+        panel.hidden = !selected;
+        panel.classList.toggle("is-active", selected);
+        if (!selected && window.gsap) gsap.set(panel, { clearProps: "transform" });
+      });
+    };
+
+    // 連續快速點擊時，先停掉上一段動畫並把卡片位置歸零
+    if (panelTimeline) panelTimeline.kill();
+    if (window.gsap) {
+      gsap.set(panels, { clearProps: "transform,opacity" });
+    }
+
+    if (reduceMotion || !window.gsap || !prevPanel || !nextPanel || prevPanel === nextPanel) {
+      showPanel();
+      return;
+    }
+
+    // 遊戲機選單感：舊卡片往左滑出，新卡片從場景框右側滑進來、停下時微微回彈
+    // 名稱標籤跟介紹卡片是同一個 panel，整塊一起移動，看起來是一體的卡片
+    // 位移用整個場景框的寬度，框有 overflow: hidden，卡片會從框外滑進來
+    const distance = () => root.offsetWidth;
+
+    panelTimeline = gsap.timeline()
+      .to(prevPanel, {
+        x: () => -distance(),
+        duration: 0.45,
+        ease: "power2.in"
+      })
+      .add(showPanel)
+      .fromTo(nextPanel, { x: distance }, {
+        x: 0,
+        duration: 0.9,
+        ease: "back.out(1.2)"
+      });
+  };
+
+  tabs.forEach((tab, index) => {
+    tab.addEventListener("click", () => goTo(tab.dataset.web3Tab));
+
+    // tablist 鍵盤操作：上下左右切換
+    tab.addEventListener("keydown", (event) => {
+      const offset = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[event.key];
+      if (!offset) return;
+      event.preventDefault();
+      const next = tabs[(index + offset + tabs.length) % tabs.length];
+      goTo(next.dataset.web3Tab, true);
+    });
+  });
+
+}
+
+initWeb3Showcase();
+
+/* 只在 viewport 寬度改變時刷新，避免手機網址列伸縮造成跳動。 */
+let lastViewportWidth = window.innerWidth;
+let resizeRefreshTimer;
+
 window.addEventListener("resize", () => {
-  ScrollTrigger.refresh();
-});
+  const nextWidth = window.innerWidth;
+  scrollUiNeedsMeasure = true;
+  requestScrollUiUpdate();
+
+  if (nextWidth === lastViewportWidth) return;
+  lastViewportWidth = nextWidth;
+  window.clearTimeout(resizeRefreshTimer);
+  resizeRefreshTimer = window.setTimeout(() => {
+    ScrollTrigger.refresh();
+  }, 250);
+}, { passive: true });
 
 /*stake section 滑鼠跟隨發光效果*/
 document.querySelectorAll(".stake-card").forEach((card) => {
@@ -438,31 +556,13 @@ function initAdventureStoryboard() {
 
   if (!lines.length) return;
 
-  const lineChars = lines.map((line) => {
-    const rawText = line.textContent || "";
-    const chars = Array.from(rawText);
-
-    line.innerHTML = chars
-      .map((char) => `<span class="adventure__char">${char === " " ? "&nbsp;" : char}</span>`)
-      .join("");
-
-    return gsap.utils.toArray(".adventure__char", line);
-  });
-
-  const allChars = lineChars.flat();
-
   const isDesktop = window.matchMedia("(min-width: 769px)").matches;
 
+  // 整句淡入＋往上浮，跟「關於晴天兄弟」一樣一句一句出現
   gsap.set(lines, {
     opacity: 0,
-    y: 40,
-    scale: 0.98,
-    filter: "blur(8px)"
-  });
-
-  gsap.set(allChars, {
-    opacity: 0,
-    y: 18
+    y: 26,
+    force3D: true
   });
 
   if (isDesktop) {
@@ -648,25 +748,13 @@ function initAdventureStoryboard() {
     });
 
     lines.forEach((line, i) => {
-      const chars = lineChars[i] || [];
-
-      // 文字：進場
+      // 文字：整句進場
       tl.to(line, {
         opacity: 1,
         y: 0,
-        scale: 1,
-        filter: "blur(0px)",
-        duration: 0.2,
+        duration: 0.45,
         ease: "none"
       });
-
-      tl.to(chars, {
-        opacity: 1,
-        y: 0,
-        duration: 0.4,
-        stagger: 0.028,
-        ease: "none"
-      }, "<");
 
       // icon 換位（逐個 icon 設定，避免 vars 傳入陣列）
       leftIcons.forEach((icon, idx) => {
@@ -704,24 +792,11 @@ function initAdventureStoryboard() {
       // 停留
       tl.to({}, { duration: 0.35 });
 
-      // 退場（最後一句不退）
+      // 退場（整句淡出往上；最後一句留到收尾）
       if (i !== lines.length - 1) {
-        tl.to(chars, {
-          opacity: 0,
-          y: -12,
-          duration: 0.2,
-          stagger: {
-            each: 0.016,
-            from: "end"
-          },
-          ease: "none"
-        });
-
         tl.to(line, {
           opacity: 0,
-          y: -30,
-          scale: 1.02,
-          filter: "blur(8px)",
+          y: -26,
           duration: 0.35,
           ease: "none"
         });
@@ -729,22 +804,9 @@ function initAdventureStoryboard() {
     });
 
     // 收尾時把最後一句也退場，避免區塊結束後殘留一行字。
-    tl.to(lineChars[lines.length - 1], {
-      opacity: 0,
-      y: -12,
-      duration: 0.2,
-      stagger: {
-        each: 0.016,
-        from: "end"
-      },
-      ease: "none"
-    });
-
     tl.to(lines[lines.length - 1], {
       opacity: 0,
-      y: -30,
-      scale: 1.02,
-      filter: "blur(8px)",
+      y: -26,
       duration: 0.35,
       ease: "none"
     });
@@ -764,44 +826,19 @@ function initAdventureStoryboard() {
     });
 
     lines.forEach((line, i) => {
-      const chars = lineChars[i] || [];
-
       tl.to(line, {
         opacity: 1,
         y: 0,
-        scale: 1,
-        filter: "blur(0px)",
-        duration: 0.2,
+        duration: 0.45,
         ease: "none"
       });
-
-      tl.to(chars, {
-        opacity: 1,
-        y: 0,
-        duration: 0.38,
-        stagger: 0.03,
-        ease: "none"
-      }, "<");
 
       tl.to({}, { duration: 0.35 });
 
       if (i !== lines.length - 1) {
-        tl.to(chars, {
-          opacity: 0,
-          y: -10,
-          duration: 0.18,
-          stagger: {
-            each: 0.016,
-            from: "end"
-          },
-          ease: "none"
-        });
-
         tl.to(line, {
           opacity: 0,
-          y: -24,
-          scale: 1.02,
-          filter: "blur(8px)",
+          y: -26,
           duration: 0.35,
           ease: "none"
         });
@@ -809,22 +846,9 @@ function initAdventureStoryboard() {
     });
 
     // Mobile 收尾同樣退掉最後一句，避免離開區塊時重複顯示。
-    tl.to(lineChars[lines.length - 1], {
-      opacity: 0,
-      y: -10,
-      duration: 0.18,
-      stagger: {
-        each: 0.016,
-        from: "end"
-      },
-      ease: "none"
-    });
-
     tl.to(lines[lines.length - 1], {
       opacity: 0,
-      y: -24,
-      scale: 1.02,
-      filter: "blur(8px)",
+      y: -26,
       duration: 0.35,
       ease: "none"
     });
@@ -873,6 +897,35 @@ if (ctaSection) {
 }
 
 // ── Footer BG Text Split on Scroll ──────────────────────────────
+const siteFooter = document.querySelector('.site-footer');
+const footerTopLine = siteFooter?.querySelector('.footer-top-line');
+const footerContent = siteFooter?.querySelector('.footer-content');
+
+if (siteFooter) {
+  gsap.set(footerTopLine, { scaleX: 0, transformOrigin: 'left center' });
+  gsap.set(footerContent, { opacity: 0, y: 32 });
+
+  gsap.timeline({
+    scrollTrigger: {
+      trigger: siteFooter,
+      start: 'top 82%',
+      toggleActions: 'play none none none',
+      onEnter: () => siteFooter.classList.add('is-visible')
+    }
+  })
+    .to(footerTopLine, {
+      scaleX: 1,
+      duration: 0.5,
+      ease: 'power2.out'
+    })
+    .to(footerContent, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      ease: 'power3.out'
+    }, '-=0.2');
+}
+
 const footerBgEl = document.querySelector('.footer-bg-text');
 if (footerBgEl) {
   const chars = footerBgEl.textContent.trim().split('');
@@ -894,7 +947,7 @@ if (footerBgEl) {
     scrollTrigger: {
       trigger: '.site-footer',
       start: 'top 82%',
-      toggleActions: 'play none none reverse'
+      toggleActions: 'play none none none'
     }
   });
 }
@@ -904,9 +957,9 @@ const customCursor = document.querySelector(".custom-cursor");
 const rootEl = document.documentElement;
 
 if (window.matchMedia("(min-width: 769px)").matches && customCursor) {
-  const customCursorImg = customCursor.querySelector("img");
+  const customCursorImgs = customCursor.querySelectorAll("img");
 
-  if (customCursorImg) {
+  if (customCursorImgs.length) {
     rootEl.classList.add("cursor-ready");
 
     const clickableSelector = [
@@ -922,6 +975,21 @@ if (window.matchMedia("(min-width: 769px)").matches && customCursor) {
 
     let isHover = false;
     let isDown = false;
+    let isCursorVisible = true;
+
+    const setCursorX = gsap.quickSetter(customCursor, "x", "px");
+    const setCursorY = gsap.quickSetter(customCursor, "y", "px");
+
+    function showCursor() {
+      if (isCursorVisible) return;
+      isCursorVisible = true;
+      gsap.to(customCursor, {
+        opacity: 1,
+        duration: 0.2,
+        ease: "power2.out",
+        overwrite: true
+      });
+    }
 
     gsap.set(customCursor, {
       x: window.innerWidth / 2,
@@ -932,17 +1000,10 @@ if (window.matchMedia("(min-width: 769px)").matches && customCursor) {
     });
 
     window.addEventListener("mousemove", (e) => {
-      gsap.set(customCursor, {
-        x: e.clientX,
-        y: e.clientY
-      });
-
-      gsap.to(customCursor, {
-        opacity: 1,
-        duration: 0.2,
-        ease: "power2.out"
-      });
-    });
+      setCursorX(e.clientX);
+      setCursorY(e.clientY);
+      showCursor();
+    }, { passive: true });
 
     window.addEventListener("mousedown", () => {
       isDown = true;
@@ -955,19 +1016,17 @@ if (window.matchMedia("(min-width: 769px)").matches && customCursor) {
     });
 
     document.addEventListener("mouseleave", () => {
+      isCursorVisible = false;
       gsap.to(customCursor, {
         opacity: 0,
         duration: 0.2,
-        ease: "power2.out"
+        ease: "power2.out",
+        overwrite: true
       });
     });
 
     document.addEventListener("mouseenter", () => {
-      gsap.to(customCursor, {
-        opacity: 1,
-        duration: 0.2,
-        ease: "power2.out"
-      });
+      showCursor();
     });
 
     function updateCursorState(animated = false) {
@@ -983,7 +1042,7 @@ if (window.matchMedia("(min-width: 769px)").matches && customCursor) {
 
       customCursor.classList.toggle("is-hover", isHover);
 
-      gsap.to(customCursorImg, {
+      gsap.to(customCursorImgs, {
         scale: targetScale,
         rotation: targetRotate,
         duration: animated ? 0.16 : 0,
