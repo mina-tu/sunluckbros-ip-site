@@ -2,13 +2,12 @@
    聯絡我們表單
    ─────────────────────────────────────────────────────
    透過 FormSubmit（免後端的表單寄信服務）把內容寄到官方信箱。
-   第一次送出時 FormSubmit 會寄一封「啟用確認信」到 slbros@slbros.com，
-   點信中的連結啟用後，之後的表單才會真的寄到信箱。
-   啟用後 FormSubmit 會提供一組隨機代碼，可把網址中的信箱換成代碼，
-   避免信箱直接出現在原始碼中被爬蟲抓去發垃圾信。
+   表單已於 FormSubmit 完成啟用，收件信箱為 slbros@slbros.com。
+   網址中的是 FormSubmit 給的隨機代碼（等同該信箱），
+   用代碼而不寫出信箱，可避免信箱被爬蟲抓去發垃圾信。
    ===================================================== */
 (function () {
-  var CONTACT_ENDPOINT = "https://formsubmit.co/ajax/slbros@slbros.com";
+  var CONTACT_ENDPOINT = "https://formsubmit.co/ajax/20badc5fd1d7fa6a5632f6696bffd09c";
 
   var form = document.getElementById("contactForm");
   var notice = document.getElementById("contactNotice");
