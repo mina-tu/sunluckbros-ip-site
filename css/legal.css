@@ -1,0 +1,396 @@
+/* =====================================================
+   法律頁（隱私權政策／免責聲明）：晴天宇宙的像素任務日誌
+   沿用首頁配色：黑底、橘 #ff5a00、藍 #516bf0、footer 夕陽漸層。
+   ===================================================== */
+
+.legal {
+  --legal-orange: #ff5a00;
+  --legal-orange-soft: #f2ae58;
+  --legal-blue: #516bf0;
+  --legal-ink: rgba(255, 255, 255, .86);
+  --legal-dim: rgba(255, 255, 255, .56);
+  --legal-line: rgba(255, 255, 255, .12);
+
+  position: relative;
+  overflow: clip;
+  background: #000;
+  color: var(--legal-ink);
+}
+
+/* 像素格線背景＋頂部夕陽光暈 */
+.legal::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 42% at 78% 0%, rgba(198, 61, 0, .42), transparent 70%),
+    radial-gradient(ellipse 40% 30% at 8% 18%, rgba(81, 107, 240, .18), transparent 70%),
+    linear-gradient(rgba(255, 255, 255, .045) 1px, transparent 1px) 0 0 / 32px 32px,
+    linear-gradient(90deg, rgba(255, 255, 255, .045) 1px, transparent 1px) 0 0 / 32px 32px;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 100%);
+          mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 100%);
+  pointer-events: none;
+}
+
+/* ---------- Hero ---------- */
+.legal__hero {
+  position: relative;
+  width: min(100% - 48px, 1180px);
+  margin: 0 auto;
+  padding: clamp(140px, 16vw, 210px) 0 clamp(56px, 7vw, 96px);
+  border-bottom: 2px dashed var(--legal-line);
+}
+
+.legal__eyebrow {
+  margin: 0 0 18px;
+  color: var(--legal-orange);
+  font: 700 clamp(11px, .9vw, 14px)/1.4 "Silkscreen", monospace;
+  letter-spacing: .16em;
+}
+
+.legal__display {
+  margin: 0;
+  color: #fff;
+  font-family: "Silkscreen", "Arial Black", sans-serif;
+  font-size: clamp(46px, 9vw, 142px);
+  font-weight: 700;
+  line-height: .86;
+  letter-spacing: -.06em;
+  text-shadow: .045em .055em 0 var(--legal-orange);
+}
+
+.legal__display span {
+  display: block;
+  color: transparent;
+  -webkit-text-stroke: 2px #fff;
+  text-shadow: none;
+}
+
+.legal__title {
+  margin: clamp(26px, 3vw, 40px) 0 0;
+  color: #fff;
+  font-size: clamp(26px, 2.6vw, 40px);
+  font-weight: 900;
+  letter-spacing: .06em;
+}
+
+.legal__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  margin-top: 22px;
+}
+
+.legal__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  border: 2px solid var(--legal-line);
+  background: rgba(255, 255, 255, .03);
+  color: var(--legal-dim);
+  font-size: 14px;
+  letter-spacing: .04em;
+}
+
+.legal__chip::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background: var(--legal-orange);
+  box-shadow: 0 0 10px rgba(255, 90, 0, .7);
+}
+
+.legal__chip--blue::before {
+  background: var(--legal-blue);
+  box-shadow: 0 0 10px rgba(81, 107, 240, .7);
+}
+
+/* 尚待填寫的占位文字 */
+.legal mark {
+  padding: 0 .3em;
+  background: rgba(255, 90, 0, .18);
+  color: var(--legal-orange-soft);
+  border-bottom: 1px dashed var(--legal-orange);
+}
+
+/* ---------- 主體：左側目錄＋右側內容 ---------- */
+.legal__layout {
+  position: relative;
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: clamp(40px, 6vw, 96px);
+  width: min(100% - 48px, 1180px);
+  margin: 0 auto;
+  padding: clamp(56px, 7vw, 96px) 0 clamp(80px, 9vw, 140px);
+}
+
+.legal__toc {
+  position: sticky;
+  top: 100px;
+  align-self: start;
+}
+
+.legal__toc-label {
+  margin: 0 0 16px;
+  color: var(--legal-dim);
+  font: 700 12px/1 "Silkscreen", monospace;
+  letter-spacing: .18em;
+}
+
+.legal__toc ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-left: 2px solid var(--legal-line);
+}
+
+.legal__toc a {
+  display: flex;
+  gap: 12px;
+  margin-left: -2px;
+  padding: 8px 0 8px 16px;
+  border-left: 2px solid transparent;
+  color: var(--legal-dim);
+  font-size: 15px;
+  line-height: 1.5;
+  text-decoration: none;
+  transition: color .2s ease, border-color .2s ease, padding-left .2s ease;
+}
+
+.legal__toc a span {
+  flex: none;
+  color: rgba(255, 255, 255, .3);
+  font: 700 12px/1.9 "Silkscreen", monospace;
+  transition: color .2s ease;
+}
+
+.legal__toc a:hover,
+.legal__toc a.is-active {
+  border-left-color: var(--legal-orange);
+  padding-left: 22px;
+  color: #fff;
+}
+
+.legal__toc a:hover span,
+.legal__toc a.is-active span { color: var(--legal-orange); }
+
+.legal__toc a:focus-visible {
+  outline: 2px solid var(--legal-orange);
+  outline-offset: 2px;
+}
+
+/* ---------- 內容 ---------- */
+.legal__body { min-width: 0; }
+
+.legal__lead {
+  margin: 0 0 clamp(40px, 5vw, 64px);
+  padding: clamp(22px, 2.4vw, 32px);
+  border: 2px solid var(--legal-orange);
+  background: linear-gradient(135deg, rgba(255, 90, 0, .14), rgba(255, 90, 0, .02));
+  box-shadow: 8px 8px 0 rgba(255, 90, 0, .28);
+  color: #fff;
+  font-size: clamp(16px, 1.15vw, 18px);
+  line-height: 1.95;
+}
+
+.legal__section {
+  position: relative;
+  padding: clamp(32px, 3.6vw, 48px) 0;
+  border-top: 1px solid var(--legal-line);
+  scroll-margin-top: 96px;
+}
+
+.legal__section:first-of-type { border-top: 0; padding-top: 0; }
+
+.legal__section h2 {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin: 0 0 22px;
+  color: #fff;
+  font-size: clamp(21px, 1.8vw, 27px);
+  font-weight: 900;
+  letter-spacing: .05em;
+  line-height: 1.35;
+}
+
+.legal__num {
+  flex: none;
+  color: var(--legal-orange);
+  font: 700 clamp(14px, 1.1vw, 17px)/1 "Silkscreen", monospace;
+  letter-spacing: .04em;
+}
+
+.legal__section h3 {
+  margin: 28px 0 10px;
+  color: var(--legal-orange-soft);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: .06em;
+}
+
+.legal__section p,
+.legal__section li {
+  font-size: clamp(15px, 1.05vw, 17px);
+  line-height: 1.95;
+  letter-spacing: .02em;
+}
+
+.legal__section p { margin: 0 0 14px; }
+.legal__section p:last-child { margin-bottom: 0; }
+
+.legal__section ul {
+  list-style: none;
+  margin: 6px 0 18px;
+  padding: 0;
+}
+
+.legal__section li {
+  position: relative;
+  padding-left: 24px;
+}
+
+.legal__section li + li { margin-top: 6px; }
+
+/* 像素方塊項目符號 */
+.legal__section li::before {
+  content: "";
+  position: absolute;
+  top: .78em;
+  left: 4px;
+  width: 7px;
+  height: 7px;
+  background: var(--legal-orange);
+}
+
+.legal__section a {
+  color: #8c9dff;
+  text-decoration: underline;
+  text-decoration-color: rgba(140, 157, 255, .45);
+  text-underline-offset: 4px;
+  transition: color .2s ease, text-decoration-color .2s ease;
+}
+
+.legal__section a:hover {
+  color: #fff;
+  text-decoration-color: var(--legal-orange);
+}
+
+.legal__section strong { color: #fff; }
+
+/* 提醒框 */
+.legal__note {
+  margin: 18px 0;
+  padding: 16px 18px 16px 20px;
+  border-left: 4px solid var(--legal-blue);
+  background: rgba(81, 107, 240, .1);
+}
+
+.legal__note p { color: #fff; }
+
+.legal + .site-footer { margin-top: 0; }
+
+/* ---------- 進場動畫 ---------- */
+@keyframes legal-rise {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: none; }
+}
+
+.legal__hero > * { animation: legal-rise .7s cubic-bezier(.2, .8, .2, 1) both; }
+.legal__hero > :nth-child(2) { animation-delay: .08s; }
+.legal__hero > :nth-child(3) { animation-delay: .18s; }
+.legal__hero > :nth-child(4) { animation-delay: .26s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .legal__hero > * { animation: none; }
+  .legal__toc a { transition: none; }
+}
+
+/* ---------- RWD ---------- */
+@media (max-width: 900px) {
+  .legal__layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+  }
+
+  .legal__toc {
+    position: static;
+    padding: 20px;
+    border: 2px solid var(--legal-line);
+    background: rgba(255, 255, 255, .02);
+  }
+
+  .legal__toc ol {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 16px;
+    border-left: 0;
+  }
+
+  .legal__toc a {
+    margin-left: 0;
+    padding: 7px 0;
+    border-left: 0;
+    font-size: 14px;
+  }
+
+  .legal__toc a:hover,
+  .legal__toc a.is-active { padding-left: 0; }
+}
+
+@media (max-width: 600px) {
+  .legal__hero,
+  .legal__layout { width: calc(100% - 32px); }
+
+  .legal__display span { -webkit-text-stroke-width: 1.5px; }
+  .legal__toc ol { grid-template-columns: minmax(0, 1fr); }
+  .legal__lead { box-shadow: 5px 5px 0 rgba(255, 90, 0, .28); }
+  .legal__section h2 { gap: 12px; }
+}
+
+/* Full-width privacy banner with the page title over the pixel artwork. */
+.legal__hero--privacy {
+  isolation: isolate;
+  width: 100%;
+  padding-inline: max(24px, calc((100% - 1180px) / 2));
+  border-bottom: 0;
+  background: #21112f;
+}
+
+.legal__hero--privacy::before,
+.legal__hero--privacy::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.legal__hero--privacy::before {
+  background: url("../image/privacy-banner-travel-pixel.png") center / cover no-repeat;
+  image-rendering: pixelated;
+}
+
+.legal__hero--privacy::after {
+  background:
+    linear-gradient(to top, #000 0%, transparent 28%),
+    linear-gradient(90deg, rgba(10, 4, 18, .88) 0%, rgba(10, 4, 18, .65) 45%, rgba(10, 4, 18, .15) 100%);
+}
+
+.legal__hero--privacy .legal__chip {
+  background: rgba(10, 4, 18, .7);
+  color: rgba(255, 255, 255, .88);
+}
+
+@media (max-width: 600px) {
+  .legal__hero--privacy {
+    padding-inline: 16px;
+  }
+
+  .legal__hero--privacy::after {
+    background:
+      linear-gradient(to top, #000 0%, transparent 30%),
+      linear-gradient(90deg, rgba(10, 4, 18, .85), rgba(10, 4, 18, .4));
+  }
+}
