@@ -1,7 +1,7 @@
 /* =====================================================
    像素橫向前進場景（對應 css/hero.css 的 .pixel-scene）
    1) 離開可視範圍時暫停動畫，重新進入時繼續
-   2) 場景黏住期間，依捲動進度依序切換三段文字
+   2) 進入畫面後三段文字自動輪播
    ===================================================== */
 
 /* 離開瀏覽器可視範圍時暫停動畫，重新進入時繼續 */
@@ -20,50 +20,38 @@
   scenes.forEach(function (scene) { sceneObserver.observe(scene); });
 })();
 
-/* 滾動敘事：場景黏住期間，依捲動進度依序切換三段文字 */
+/* 自動輪播：場景進入畫面後，三段文字依序自動出現並循環；離開畫面時停止，下次進入從第一段開始 */
 (function () {
   var story = document.querySelector(".pixel-scene-story");
   if (!story) return;
-  var scene = story.querySelector(".pixel-scene");
-  if (scene) {
-    var stickySupport = (window.CSS && typeof window.CSS.supports === "function" && window.CSS.supports("position", "sticky"));
-    var sceneStyle = window.getComputedStyle(scene);
-    var stickyEnabled = sceneStyle.position === "sticky";
-
-    function hasStickyBlockingAncestor(el) {
-      var node = el.parentElement;
-      while (node && node !== document.body && node !== document.documentElement) {
-        var cs = window.getComputedStyle(node);
-        var hasOverflowBlocker = [cs.overflow, cs.overflowX, cs.overflowY].some(function (v) {
-          return v === "hidden" || v === "auto" || v === "scroll" || v === "overlay";
-        });
-        if (hasOverflowBlocker) return true;
-        node = node.parentElement;
-      }
-      return false;
-    }
-
-    if (!stickySupport || !stickyEnabled || hasStickyBlockingAncestor(scene)) {
-      story.classList.add("pixel-scene-story--no-sticky");
-    }
-  }
-
   var slides = story.querySelectorAll(".pixel-scene__slide");
   if (!slides.length) return;
 
-  var ticking = false;
-  function updateStory() {
-    ticking = false;
-    var total = story.offsetHeight - window.innerHeight;
-    if (total <= 0) { slides[0].classList.add("is-active"); return; }
-    var p = -story.getBoundingClientRect().top / total;
-    p = Math.max(0, Math.min(0.999, p));
-    var idx = Math.floor(p * slides.length);
-    slides.forEach(function (s, i) { s.classList.toggle("is-active", i === idx); });
+  var SLIDE_MS = 1500;
+  var idx = 0;
+  var timer = null;
+
+  function show(i) {
+    idx = i;
+    slides.forEach(function (s, n) { s.classList.toggle("is-active", n === i); });
   }
-  window.addEventListener("scroll", function () {
-    if (!ticking) { ticking = true; requestAnimationFrame(updateStory); }
-  }, { passive: true });
-  window.addEventListener("resize", updateStory);
-  updateStory();
+
+  function start() {
+    if (timer) return;
+    show(0);
+    timer = setInterval(function () { show((idx + 1) % slides.length); }, SLIDE_MS);
+  }
+
+  function stop() {
+    clearInterval(timer);
+    timer = null;
+  }
+
+  if (!("IntersectionObserver" in window)) { start(); return; }
+
+  new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) start(); else stop();
+    });
+  }, { threshold: 0.5 }).observe(story);
 })();

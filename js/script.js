@@ -558,7 +558,20 @@ function initAdventureStoryboard() {
 
   const isDesktop = window.matchMedia("(min-width: 769px)").matches;
 
-  // 整句淡入＋往上浮，跟「關於晴天兄弟」一樣一句一句出現
+  // 自動播放：每句完整顯示的秒數（進場 0.45 秒、退場 0.35 秒另計）
+  const ADVENTURE_HOLD = 0.7;
+
+  // 區塊進入畫面後自動播放並循環，不需捲動；離開畫面就暫停，下次進入從第一句開始
+  const autoplay = (tl) => {
+    ScrollTrigger.create({
+      trigger: section,
+      start: "top 60%",
+      end: "bottom 40%",
+      onToggle: (self) => (self.isActive ? tl.restart() : tl.pause())
+    });
+  };
+
+  // 整句淡入＋往上浮，跟「關於晴天兄弟」一樣自動一句一句出現
   gsap.set(lines, {
     opacity: 0,
     y: 26,
@@ -734,18 +747,7 @@ function initAdventureStoryboard() {
       });
     });
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: section,
-        start: "top top",
-        end: "+=4200",
-        pin: true,
-        pinSpacing: true,
-        scrub: true,
-        anticipatePin: 1,
-        invalidateOnRefresh: true
-      }
-    });
+    const tl = gsap.timeline({ paused: true, repeat: -1 });
 
     lines.forEach((line, i) => {
       // 文字：整句進場
@@ -789,8 +791,8 @@ function initAdventureStoryboard() {
         }, "<");
       });
 
-      // 停留
-      tl.to({}, { duration: 0.35 });
+      // 停留（秒）
+      tl.to({}, { duration: ADVENTURE_HOLD });
 
       // 退場（整句淡出往上；最後一句留到收尾）
       if (i !== lines.length - 1) {
@@ -803,27 +805,18 @@ function initAdventureStoryboard() {
       }
     });
 
-    // 收尾時把最後一句也退場，避免區塊結束後殘留一行字。
+    // 最後一句也退場，循環回到第一句。
     tl.to(lines[lines.length - 1], {
       opacity: 0,
       y: -26,
       duration: 0.35,
       ease: "none"
     });
+
+    autoplay(tl);
   } else {
     // mobile 簡化版：只做句子切換
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: section,
-        start: "top top",
-        end: "+=2600",
-        pin: true,
-        pinSpacing: true,
-        scrub: true,
-        anticipatePin: 1,
-        invalidateOnRefresh: true
-      }
-    });
+    const tl = gsap.timeline({ paused: true, repeat: -1 });
 
     lines.forEach((line, i) => {
       tl.to(line, {
@@ -833,7 +826,7 @@ function initAdventureStoryboard() {
         ease: "none"
       });
 
-      tl.to({}, { duration: 0.35 });
+      tl.to({}, { duration: ADVENTURE_HOLD });
 
       if (i !== lines.length - 1) {
         tl.to(line, {
@@ -845,13 +838,15 @@ function initAdventureStoryboard() {
       }
     });
 
-    // Mobile 收尾同樣退掉最後一句，避免離開區塊時重複顯示。
+    // Mobile 同樣退掉最後一句，循環回到第一句。
     tl.to(lines[lines.length - 1], {
       opacity: 0,
       y: -26,
       duration: 0.35,
       ease: "none"
     });
+
+    autoplay(tl);
   }
 }
 

@@ -350,7 +350,7 @@
 }
 
 /* Full-width privacy banner with the page title over the pixel artwork. */
-.legal__hero--privacy {
+:is(.legal__hero--privacy, .legal__hero--disclaimer) {
   isolation: isolate;
   width: 100%;
   padding-inline: max(24px, calc((100% - 1180px) / 2));
@@ -358,8 +358,8 @@
   background: #21112f;
 }
 
-.legal__hero--privacy::before,
-.legal__hero--privacy::after {
+:is(.legal__hero--privacy, .legal__hero--disclaimer)::before,
+:is(.legal__hero--privacy, .legal__hero--disclaimer)::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -367,30 +367,38 @@
   pointer-events: none;
 }
 
-.legal__hero--privacy::before {
-  background: url("../image/privacy-banner-travel-pixel.png") center / cover no-repeat;
+:is(.legal__hero--privacy, .legal__hero--disclaimer)::before {
+  background: var(--legal-hero-image) center / cover no-repeat;
   image-rendering: pixelated;
 }
 
-.legal__hero--privacy::after {
+:is(.legal__hero--privacy, .legal__hero--disclaimer)::after {
   background:
     linear-gradient(to top, #000 0%, transparent 28%),
     linear-gradient(90deg, rgba(10, 4, 18, .88) 0%, rgba(10, 4, 18, .65) 45%, rgba(10, 4, 18, .15) 100%);
 }
 
-.legal__hero--privacy .legal__chip {
+:is(.legal__hero--privacy, .legal__hero--disclaimer) .legal__chip {
   background: rgba(10, 4, 18, .7);
   color: rgba(255, 255, 255, .88);
 }
 
 @media (max-width: 600px) {
-  .legal__hero--privacy {
+  :is(.legal__hero--privacy, .legal__hero--disclaimer) {
     padding-inline: 16px;
   }
 
-  .legal__hero--privacy::after {
+  :is(.legal__hero--privacy, .legal__hero--disclaimer)::after {
     background:
       linear-gradient(to top, #000 0%, transparent 30%),
       linear-gradient(90deg, rgba(10, 4, 18, .85), rgba(10, 4, 18, .4));
   }
+}
+
+.legal__hero--privacy {
+  --legal-hero-image: url("../image/privacy-banner-travel-pixel.png");
+}
+
+.legal__hero--disclaimer {
+  --legal-hero-image: url("../image/disclaimer-banner-pixel.png");
 }
