@@ -406,6 +406,9 @@
 
 /* 遠景：整座像素城市（含星空與雲），慢速。內建步道會被上層地面層完全蓋住 */
 .pixel-scene__far {
+  /* New panoramas include a taller bottom strip: align their street with the foreground. */
+  background-position: left bottom calc(var(--scene-tile-width) * -0.028);
+  clip-path: inset(0 0 var(--scene-ground-height) 0);
   z-index: 1;
   background-image: url("../image/bg-city-loop.webp");
   animation-duration: var(--scene-far-duration);

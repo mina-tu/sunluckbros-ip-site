@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>晴天兄弟代理招募｜從玩家轉職成合作代理人・SLBROS</title>
+  <link rel="icon" type="image/jpeg" href="image/favicon-2.jpg" />
+  <meta name="description" content="晴天兄弟遊戲代理招募開跑！懂遊戲、有自己的玩家圈，或想挑戰不一樣的角色？公會長、領主、戰隊指揮官等 7 種方向任你選，私訊官方 LINE 就能申請成為合作代理人。" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="zh_TW" />
+  <meta property="og:site_name" content="晴天兄弟 SLBROS" />
+  <meta property="og:title" content="晴天兄弟代理招募｜玩了這麼久，是時候該升級身份了！" />
+  <meta property="og:description" content="從玩家轉職成合作夥伴，開啟你的第二職業。7 種代理角色任你挑，私訊官方 LINE 就能申請。" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "晴天兄弟合作代理人是什麼？",
+        "acceptedAnswer": { "@type": "Answer", "text": "合作代理人是晴天兄弟開放給玩家的合作身份。懂遊戲、有自己玩家圈的人，可以從玩家轉成合作夥伴，一起經營社群、帶領團隊，具體合作方式會在私訊時一對一說明。" }
+      },
+      {
+        "@type": "Question",
+        "name": "什麼樣的人可以申請晴天兄弟代理？",
+        "acceptedAnswer": { "@type": "Answer", "text": "對遊戲有一定了解、手上有自己的玩家圈，或單純想挑戰經營社群和帶團隊的人，都可以先私訊官方 LINE 聊聊。實際能不能合作，會再依雙方條件確認。" }
+      },
+      {
+        "@type": "Question",
+        "name": "怎麼申請成為合作代理人？",
+        "acceptedAnswer": { "@type": "Answer", "text": "加入晴天兄弟官方 LINE（@slbro），傳「我想申請代理」，再簡單介紹你的遊戲經驗、玩家圈規模和想走的方向，團隊會跟你聯繫後續細節。" }
+      },
+      {
+        "@type": "Question",
+        "name": "公會長、領主這些職業是正式代理等級嗎？",
+        "acceptedAnswer": { "@type": "Answer", "text": "不是。公會長、領主、戰隊指揮官等稱號是用來描述你想走的合作方向，方便你挑一個最像自己的角色，並不是正式職級或資格分級。" }
+      },
+      {
+        "@type": "Question",
+        "name": "合作內容和報酬怎麼談？",
+        "acceptedAnswer": { "@type": "Answer", "text": "這一頁只是招募入口。具體的合作內容、參與條件和報酬安排，都會在私訊時一對一說明，並以雙方最後確認的內容為準。" }
+      }
+    ]
+  }
+  </script>
+
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+  <link rel="stylesheet" href="css/style.css?v=20261012-agents-nav" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jersey+25&family=Silkscreen:wght@400;700&family=Noto+Sans+TC:wght@500;600;700;800&display=swap" />
+  <link rel="stylesheet" href="css/agents.css?v=20261013-lines-opacity50" />
+</head>
+
+<body>
+
+  <header class="header" id="header">
+    <nav class="navbar">
+      <div class="logo"><a href="index.html">SLBROS</a></div>
+
+      <ul class="desktop-nav" aria-label="Desktop navigation">
+        <li><a href="index.html">晴天兄弟</a></li>
+        <li><a href="index.html#stake">Web3合作夥伴</a></li>
+        <li><a href="index.html#poker">Poker合作平台</a></li>
+        <li><a href="agents.html" aria-current="page">成為代理</a></li>
+        <li><a href="contact.html">聯絡我們/商務合作</a></li>
+      </ul>
+
+      <div class="menu-btn" id="menuBtn" aria-label="Open menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </nav>
+  </header>
+
+  <nav class="menu" id="menu">
+    <ul>
+      <li><a href="index.html">晴天兄弟</a></li>
+      <li><a href="index.html#stake">Web3合作夥伴</a></li>
+      <li><a href="index.html#poker">Poker合作平台</a></li>
+      <li><a href="agents.html" aria-current="page">成為代理</a></li>
+      <li><a href="contact.html">聯絡我們/商務合作</a></li>
+    </ul>
+  </nav>
+
+  <main class="guild">
+
+    <!-- HERO：升級畫面 -->
+    <section class="guild-hero" aria-labelledby="guild-title">
+      <div class="guild-wrap guild-hero-inner">
+        <div class="guild-hero-copy">
+          <p class="hud-tag"><span class="hud-dot" aria-hidden="true"></span>RECRUITING・合作代理人開放申請中</p>
+          <h1 id="guild-title">晴天兄弟<em>代理招募</em></h1>
+          <p class="guild-subtitle">還在當普通玩家嗎？<br class="mb-br">是時候升級身份了</p>
+          <div class="guild-actions">
+            <a class="px-btn" href="https://line.me/R/ti/p/@slbro" target="_blank" rel="noopener noreferrer"><span>私訊申請代理</span><span class="px-btn-key" aria-hidden="true">▶</span></a>
+            <a class="ghost-link" href="#classes">先看看有哪些職業 ↓</a>
+          </div>
+        </div>
+
+        <!-- 角色狀態欄 -->
+        <aside class="status-card" aria-label="角色狀態">
+          <div class="status-head">
+            <span class="status-avatar" aria-hidden="true">🎮</span>
+            <div>
+              <p class="status-name">PLAYER_YOU</p>
+              <p class="status-class">目前職業：<b>普通玩家</b></p>
+            </div>
+            <span class="status-lv" aria-hidden="true">LV.<b data-lv>98</b></span>
+          </div>
+          <div class="status-bar" role="img" aria-label="經驗值即將滿格">
+            <span class="status-bar-fill" data-xp></span>
+          </div>
+          <p class="status-xp"><span>EXP</span><span data-xp-text>9,820 / 10,000</span></p>
+          <ul class="status-stats" aria-hidden="true">
+            <li><span>遊戲理解</span><i style="--v:88%"></i></li>
+            <li><span>玩家人脈</span><i style="--v:72%"></i></li>
+            <li><span>挑戰慾望</span><i style="--v:95%"></i></li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <!-- 跑馬燈 -->
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker-track">
+<span>STAY SUNNY. GO FURTHER. TOGETHER.</span><span>STAY SUNNY. GO FURTHER. TOGETHER.</span><span>STAY SUNNY. GO FURTHER. TOGETHER.</span><span>STAY SUNNY. GO FURTHER. TOGETHER.</span><span>STAY SUNNY. GO FURTHER. TOGETHER.</span><span>STAY SUNNY. GO FURTHER. TOGETHER.</span><span>STAY SUNNY. GO FURTHER. TOGETHER.</span><span>STAY SUNNY. GO FURTHER. TOGETHER.</span>
+      </div>
+    </div>
+
+    <!-- 01 轉職條件 -->
+    <section class="guild-wrap guild-section quest" id="quest" aria-labelledby="quest-title">
+      <div class="section-head">
+        <p class="kicker">QUEST 01 / 轉職條件</p>
+        <h2 id="quest-title">還在當普通玩家嗎？</h2>
+        <p class="lead">不用什麼漂亮履歷，只要下面任何一點說中你，這個招募就是在找你。</p>
+      </div>
+      <div class="quest-board">
+      <ol class="quest-list">
+        <li class="quest-card reveal">
+          <span class="quest-pin" aria-hidden="true"></span><div class="quest-top"><span class="quest-number">任務 01</span><span class="quest-reward">招募中</span></div>
+          <h3>對遊戲有一定了解</h3>
+          <p>玩法、規則、玩家在意什麼，你心裡都有數，朋友有問題也習慣先來問你。</p>
+        </li>
+        <li class="quest-card reveal">
+          <span class="quest-pin" aria-hidden="true"></span><div class="quest-top"><span class="quest-number">任務 02</span><span class="quest-reward">招募中</span></div>
+          <h3>有自己的玩家圈</h3>
+          <p>有固定一起玩的朋友、群組或社群，大家揪團、交流資訊，你常常是開口的那一個。</p>
+        </li>
+        <li class="quest-card reveal">
+          <span class="quest-pin" aria-hidden="true"></span><div class="quest-top"><span class="quest-number">任務 03</span><span class="quest-reward">招募中</span></div>
+          <h3>想挑戰不一樣的遊戲角色</h3>
+          <p>不想只當玩家，對帶團隊、經營社群、跟夥伴一起做點事情有興趣，想試試看自己能走多遠。</p>
+        </li>
+      </ol>
+      </div>
+    </section>
+
+    <!-- 02 解鎖新身份 -->
+    <section class="unlock" aria-labelledby="unlock-title">
+      <div class="guild-wrap unlock-inner reveal">
+        <p class="unlock-badge" aria-hidden="true">NEW CLASS UNLOCKED</p>
+        <h2 id="unlock-title"><span class="unlock-icon" aria-hidden="true">🏆</span>全新身份解鎖：<em>合作代理人</em></h2>
+        <p>從玩家轉職成合作夥伴，開啟你的第二職業！<br>以前是你跟著遊戲走，接下來換你帶著夥伴一起冒險。</p>
+      </div>
+    </section>
+
+    <!-- 03 職業選擇 -->
+    <section class="guild-wrap guild-section" id="classes" aria-labelledby="classes-title">
+      <div class="section-head">
+        <p class="kicker">QUEST 02 / 選擇你的職業</p>
+        <h2 id="classes-title">代理有哪些角色？</h2>
+        <p class="lead">每個人擅長的不一樣，有人愛揪團、有人愛經營，申請時跟我們說你想走哪條路就好。</p>
+      </div>
+
+      <div class="class-grid" role="radiogroup" aria-label="選擇代理職業">
+        <button class="class-card reveal" type="button" role="radio" aria-checked="false" data-class="公會長" style="--c:#5168F0">
+          <span class="class-card-top"><span class="class-number" aria-hidden="true">SL / 01</span><span class="class-rarity">RARE</span></span>
+          <span class="class-icon" aria-hidden="true"><img src="image/agents-role-guildmaster.webp" alt="" width="1254" height="1254" loading="lazy" decoding="async" /></span>
+          <span class="class-card-body"><span class="class-name">公會長</span>
+          <span class="class-desc">招募玩家、建立自己的團隊。把志同道合的人聚在一起，開一間屬於你的公會。</span>
+          </span><span class="class-card-bottom"><span class="class-select-label" aria-hidden="true"></span></span>
+        </button>
+        <button class="class-card reveal" type="button" role="radio" aria-checked="false" data-class="領主" style="--c:#FDB95F">
+          <span class="class-card-top"><span class="class-number" aria-hidden="true">SL / 02</span><span class="class-rarity">LEGENDARY</span></span>
+          <span class="class-icon" aria-hidden="true"><img src="image/agents-role-lord.webp" alt="" width="1254" height="1254" loading="lazy" decoding="async" /></span>
+          <span class="class-card-body"><span class="class-name">領主</span>
+          <span class="class-desc">擁有自己的勢力與版圖。不只帶一隊人，而是慢慢經營出一整片自己的地盤。</span>
+          </span><span class="class-card-bottom"><span class="class-select-label" aria-hidden="true"></span></span>
+        </button>
+        <button class="class-card reveal" type="button" role="radio" aria-checked="false" data-class="遊戲主理人" style="--c:#5168F0">
+          <span class="class-card-top"><span class="class-number" aria-hidden="true">SL / 03</span><span class="class-rarity">RARE</span></span>
+          <span class="class-icon" aria-hidden="true"><img src="image/agents-role-gamemaster.webp" alt="" width="1254" height="1254" loading="lazy" decoding="async" /></span>
+          <span class="class-card-body"><span class="class-name">遊戲主理人</span>
+          <span class="class-desc">從玩家升級成經營者。用你最懂玩家的角度，規劃內容、帶動社群氣氛。</span>
+          </span><span class="class-card-bottom"><span class="class-select-label" aria-hidden="true"></span></span>
+        </button>
+        <button class="class-card reveal" type="button" role="radio" aria-checked="false" data-class="菁英玩家" style="--c:#F04B07">
+          <span class="class-card-top"><span class="class-number" aria-hidden="true">SL / 04</span><span class="class-rarity">EPIC</span></span>
+          <span class="class-icon" aria-hidden="true"><img src="image/agents-role-elite.webp" alt="" width="1254" height="1254" loading="lazy" decoding="async" /></span>
+          <span class="class-card-body"><span class="class-name">菁英玩家</span>
+          <span class="class-desc">靠資歷說話的進階路線。玩得夠久、經驗夠深，就是你最大的本錢。</span>
+          </span><span class="class-card-bottom"><span class="class-select-label" aria-hidden="true"></span></span>
+        </button>
+        <button class="class-card reveal" type="button" role="radio" aria-checked="false" data-class="傳奇召集人" style="--c:#FDB95F">
+          <span class="class-card-top"><span class="class-number" aria-hidden="true">SL / 05</span><span class="class-rarity">LEGENDARY</span></span>
+          <span class="class-icon" aria-hidden="true"><img src="image/agents-role-summoner.webp" alt="" width="1254" height="1254" loading="lazy" decoding="async" /></span>
+          <span class="class-card-body"><span class="class-name">傳奇召集人</span>
+          <span class="class-desc">召集夥伴、組建隊伍。一句「來喔」就有人跟上，你天生就是開團的人。</span>
+          </span><span class="class-card-bottom"><span class="class-select-label" aria-hidden="true"></span></span>
+        </button>
+        <button class="class-card class-card--hidden reveal" type="button" role="radio" aria-checked="false" data-class="隱藏職業者" style="--c:#8E9CFF">
+          <span class="class-card-top"><span class="class-number" aria-hidden="true">SL / 06</span><span class="class-rarity">???</span></span>
+          <span class="class-icon" aria-hidden="true"><img src="image/agents-role-hidden.webp" alt="" width="1254" height="1254" loading="lazy" decoding="async" /></span>
+          <span class="class-card-body"><span class="class-name">隱藏職業者</span>
+          <span class="class-desc">神秘轉職、解鎖新身份。不在上面任何一格？那就私訊來，我們一起找出你的隱藏路線。</span>
+          </span><span class="class-card-bottom"><span class="class-select-label" aria-hidden="true"></span></span>
+        </button>
+        <button class="class-card reveal" type="button" role="radio" aria-checked="false" data-class="戰隊指揮官" style="--c:#F04B07">
+          <span class="class-card-top"><span class="class-number" aria-hidden="true">SL / 07</span><span class="class-rarity">EPIC</span></span>
+          <span class="class-icon" aria-hidden="true"><img src="image/agents-role-commander.webp" alt="" width="1254" height="1254" loading="lazy" decoding="async" /></span>
+          <span class="class-card-body"><span class="class-name">戰隊指揮官</span>
+          <span class="class-desc">管理團隊、拓展勢力。擅長分工、排戰術，讓整支隊伍越打越強。</span>
+          </span><span class="class-card-bottom"><span class="class-select-label" aria-hidden="true"></span></span>
+        </button>
+        <div class="class-pick reveal" aria-live="polite">
+          <p class="class-pick-label">已選職業</p>
+          <p class="class-pick-name" data-pick>尚未選擇</p>
+          <a class="px-btn px-btn--sm" data-pick-link href="https://line.me/R/ti/p/@slbro" target="_blank" rel="noopener noreferrer"><span>用這個職業申請</span><span class="px-btn-key" aria-hidden="true">▶</span></a>
+        </div>
+      </div>
+      <p class="fine">＊職業稱號是用來描述你想走的合作方向，不是正式職級，也不代表申請資格。</p>
+    </section>
+
+    <!-- 04 申請流程 -->
+    <section class="guild-section road-section" id="apply" aria-labelledby="apply-title">
+      <div class="guild-wrap section-head">
+        <p class="kicker">QUEST 03 / 申請流程</p>
+        <h2 id="apply-title">怎麼申請成為代理？</h2>
+      </div>
+      <div class="road" data-road>
+        <div class="road-viewport" data-road-viewport>
+          <div class="road-track">
+            <div class="road-tile road-tile--start" data-stop aria-hidden="true"><span>START</span></div>
+            <ol class="road-steps">
+              <li class="road-card" data-stop style="--band:#5168F0">
+                <span class="road-band"><span class="step-no">STAGE 1</span><span class="road-clear">CLEAR ✓</span></span>
+                <h3>加官方 LINE</h3>
+                <p>點下方按鈕，加入晴天兄弟官方 LINE <b>@slbro</b>。</p>
+              </li>
+              <li class="road-card" data-stop style="--band:#F04B07">
+                <span class="road-band"><span class="step-no">STAGE 2</span><span class="road-clear">CLEAR ✓</span></span>
+                <h3>傳一句「我想申請代理」</h3>
+                <p>順便說說怎麼稱呼你、平常玩什麼、身邊有多少玩家朋友，還有你想走哪個方向。</p>
+              </li>
+              <li class="road-card" data-stop style="--band:#FDB95F">
+                <span class="road-band"><span class="step-no">STAGE 3</span><span class="road-clear">CLEAR ✓</span></span>
+                <h3>等我們回你</h3>
+                <p>團隊看過後會跟你聯絡，合作內容、條件這些細節，會一對一講清楚。</p>
+              </li>
+            </ol>
+            <div class="road-tile road-tile--goal" data-stop aria-hidden="true"><span class="road-flag"></span><span>GOAL</span></div>
+            <span class="road-party" data-road-hero aria-hidden="true"><span class="road-hero road-hero--b"></span><span class="road-hero road-hero--a"></span></span>
+          </div>
+        </div>
+        <div class="road-hud" aria-hidden="true">
+          <span class="road-status" data-road-status>READY…</span>
+          <button class="road-replay" type="button" data-road-replay tabindex="-1">再走一次 ↻</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 FAQ -->
+    <section class="guild-wrap guild-section" id="faq" aria-labelledby="faq-title">
+      <div class="section-head">
+        <p class="kicker">QUEST 04 / 新手村問答</p>
+        <h2 id="faq-title">代理招募常見問題</h2>
+      </div>
+      <div class="faq">
+        <details class="reveal" open>
+          <summary><h3>晴天兄弟合作代理人是什麼？</h3></summary>
+          <p>合作代理人是晴天兄弟開放給玩家的合作身份。懂遊戲、有自己玩家圈的人，可以從玩家轉成合作夥伴，一起經營社群、帶領團隊，具體合作方式會在私訊時一對一說明。</p>
+        </details>
+        <details class="reveal">
+          <summary><h3>什麼樣的人可以申請晴天兄弟代理？</h3></summary>
+          <p>對遊戲有一定了解、手上有自己的玩家圈，或單純想挑戰經營社群和帶團隊的人，都可以先私訊官方 LINE 聊聊。實際能不能合作，會再依雙方條件確認。</p>
+        </details>
+        <details class="reveal">
+          <summary><h3>怎麼申請成為合作代理人？</h3></summary>
+          <p>加入晴天兄弟官方 LINE（@slbro），傳「我想申請代理」，再簡單介紹你的遊戲經驗、玩家圈規模和想走的方向，團隊會跟你聯繫後續細節。</p>
+        </details>
+        <details class="reveal">
+          <summary><h3>公會長、領主這些職業是正式代理等級嗎？</h3></summary>
+          <p>不是。公會長、領主、戰隊指揮官等稱號是用來描述你想走的合作方向，方便你挑一個最像自己的角色，並不是正式職級或資格分級。</p>
+        </details>
+        <details class="reveal">
+          <summary><h3>合作內容和報酬怎麼談？</h3></summary>
+          <p>這一頁只是招募入口。具體的合作內容、參與條件和報酬安排，都會在私訊時一對一說明，並以雙方最後確認的內容為準。</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- 最終 CTA -->
+    <section class="guild-wrap final" aria-labelledby="final-title">
+      <div class="final-box reveal">
+        <p class="final-label">PRESS START</p>
+        <h2 id="final-title">你的第二職業，<br class="mb-br">從一則訊息開始</h2>
+        <a class="px-btn" href="https://line.me/R/ti/p/@slbro" target="_blank" rel="noopener noreferrer"><span>LINE 私訊申請</span><span class="px-btn-key" aria-hidden="true">▶</span></a>
+        <p class="final-note">送出訊息不代表取得代理資格，合作條件以雙方確認為準。</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-top-line"></div>
+
+      <div class="footer-content">
+        <div class="footer-brand">
+          <h2 class="footer-logo">SLBROS</h2>
+          <p class="footer-desc">
+            我們重新定義「冒險」的樣貌，<br>
+            讓每個人都能找到屬於自己的生活風格
+          </p>
+        </div>
+
+        <div class="footer-links-wrap">
+          <ul class="footer-links">
+            <li><a href="index.html">首頁</a></li>
+            <li><a href="https://stake.com/zh?offer=slbros&tab=register&modal=auth&c=slbros">STAKE</a></li>
+          </ul>
+
+          <ul class="footer-links">
+            <li><a href="privacy.html">隱私權政策</a></li>
+            <li><a href="disclaimer.html">免責聲明</a></li>
+            <li><a href="contact.html">聯絡我們/商務合作</a></li>
+          </ul>
+
+          <div class="footer-social">
+            <a href="https://www.instagram.com/sunluckbros/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+              <img src="image/footer-ig.png" alt="Instagram" loading="lazy" decoding="async" />
+            </a>
+            <a href="https://www.facebook.com/p/Sunluck-Bros-61581519426631/?locale=zh_TW" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+              <img src="image/footer-fb.png" alt="Facebook" loading="lazy" decoding="async" />
+            </a>
+            <a href="https://line.me/R/ti/p/@slbro" target="_blank" rel="noopener noreferrer" aria-label="LINE">
+              <img src="image/footer-line.png" alt="LINE" loading="lazy" decoding="async" />
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bg-text">SLBROS</div>
+
+      <div class="footer-copyright">
+        © 2026 晴天兄弟 SLbros. All Rights Reserved.<br class="mobile-br">
+        本網站僅提供娛樂資訊與內容分享，不涉及金流或博彩服務
+      </div>
+    </div>
+  </footer>
+
+  <button class="scroll-top-btn" id="scrollTopBtn" type="button" aria-label="回到頁面頂端">
+    <img src="image/UP-icon.png" alt="" loading="lazy" decoding="async" />
+  </button>
+
+  <div class="custom-cursor" aria-hidden="true">
+    <img class="custom-cursor__arrow" src="image/custom-cursor.png" alt="" />
+    <img class="custom-cursor__pointer" src="image/custom-pointer.webp" alt="" />
+  </div>
+
+  <script defer src="js/script.js"></script>
+  <script defer src="js/agents.js?v=20261013-flag"></script>
+</body>
+
+</html>

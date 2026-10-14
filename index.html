@@ -18,8 +18,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Jersey+25&family=Pixelify+Sans:wght@400..700&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/hero.css" />
+  <link rel="stylesheet" href="css/style.css?v=20261012-agents-nav" />
+  <link rel="stylesheet" href="css/hero.css?v=20261012-road" />
 </head>
 
 <body>
@@ -32,6 +32,7 @@
         <li><a href="#">晴天兄弟</a></li>
         <li><a href="#stake">Web3合作夥伴</a></li>
         <li><a href="#poker">Poker合作平台</a></li>
+        <li><a href="agents.html">成為代理</a></li>
         <li><a href="contact.html">聯絡我們/商務合作</a></li>
       </ul>
 
@@ -131,7 +132,8 @@
       <li><a href="#">晴天兄弟</a></li>
       <li><a href="#stake">Web3合作夥伴</a></li>
       <li><a href="#poker">Poker合作平台</a></li>
-      <li><a href="contact.html">聯絡我們/商務合作</a></li>
+      <li><a href="agents.html">成為代理</a></li>
+        <li><a href="contact.html">聯絡我們/商務合作</a></li>
     </ul>
   </nav>
 
@@ -150,10 +152,10 @@
         保留兩層即可，避免五張大圖同時載入。
       -->
       <div class="pixel-scene__layer pixel-scene__far js-time-scene-a"
-        style="background-image:url('image/bg-city-world-sunset.webp'); opacity:1;"
+        style="background-image:url('image/bg-city-world-sunset.webp?v=20261012-landmarks'); opacity:1;"
         aria-hidden="true"></div>
       <div class="pixel-scene__layer pixel-scene__far js-time-scene-b"
-        style="background-image:url('image/bg-city-world-sunset.webp'); opacity:0;"
+        style="background-image:url('image/bg-city-world-sunset.webp?v=20261012-landmarks'); opacity:0;"
         aria-hidden="true"></div>
       <div class="pixel-scene__layer pixel-scene__ground" aria-hidden="true"></div>
 
@@ -288,7 +290,7 @@
             <div class="web3-showcase__scenes" aria-hidden="true">
               <picture class="web3-showcase__scene is-active" data-web3-scene="stake">
                 <source media="(max-width: 600px)" srcset="./image/web3-stake-phone.webp" width="1080" height="1920" />
-                <img src="./image/web3-stake.webp" srcset="./image/web3-stake-1x.webp 1x, ./image/web3-stake.webp 2x" alt="" width="2001" height="786" loading="lazy" decoding="async" />
+                <img src="./image/web3-stake.webp" srcset="./image/web3-stake-1x.webp 1000w, ./image/web3-stake.webp 2001w" sizes="100vw" alt="" width="2001" height="786" loading="lazy" decoding="async" />
               </picture>
             </div>
 
@@ -299,7 +301,6 @@
                 <p class="web3-showcase__text">Stake 加密貨幣娛樂平台以 Stake Originals 原創遊戲為特色，包含 Crash、Dice、Limbo 等玩法，並提供老虎機與真人娛樂，讓你從不同遊戲類型認識平台內容</p>
                 <a href="https://stake.com/zh?offer=slbroseo&amp;tab=register&amp;modal=auth&amp;c=slbroseo" class="web3-showcase__cta" target="_blank" rel="noopener noreferrer sponsored">
                   <span>立即體驗</span>
-                  <span class="arrow" aria-hidden="true">→</span>
                 </a>
               </div>
             </div>
@@ -547,11 +548,11 @@
 
       var imagePath = "image/";
       var scenes = {
-        morning: "bg-city-world-morning.webp",
-        noon: "bg-city-world-noon.webp",
-        afternoon: "bg-city-world-afternoon.webp",
-        golden: "bg-city-world-golden-hour.webp",
-        sunset: "bg-city-world-sunset.webp"
+        morning: "bg-city-world-morning.webp?v=20261012-landmarks",
+        noon: "bg-city-world-noon.webp?v=20261012-landmarks",
+        afternoon: "bg-city-world-afternoon.webp?v=20261012-landmarks",
+        golden: "bg-city-world-golden-hour.webp?v=20261012-landmarks",
+        sunset: "bg-city-world-sunset.webp?v=20261012-landmarks"
       };
 
       /*
