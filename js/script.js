@@ -60,13 +60,13 @@ function updateScrollUi() {
   const isPastHero = heroBottom > 0 && scrollY >= heroBottom;
   const isAnyScroll = scrollY > 0;
 
-  // 沒有 hero 的頁面（例如 contact.html）不套用 header 捲動狀態，
-  // 否則桌面導覽列會被 .compact 收成漢堡。
-  if (header && hero) {
-    header.classList.toggle("scrolled", isPastHero);
+  // 所有頁面共用同一套 header 捲動狀態；沒有 hero 的頁面一捲動就出現玻璃條。
+  if (header) {
+    const isScrolled = hero ? isPastHero : isAnyScroll;
+    header.classList.toggle("scrolled", isScrolled);
 
     // Keep desktop hero state clean: hide overlay menu when hamburger is hidden.
-    if (!isPastHero && isDesktopViewport) {
+    if (!isScrolled && isDesktopViewport) {
       menuBtn?.classList.remove("active");
       menu?.classList.remove("active");
     }
