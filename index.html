@@ -20,6 +20,7 @@
 
   <link rel="stylesheet" href="css/style.css?v=20261120-stake-neon2" />
   <link rel="stylesheet" href="css/hero.css?v=20261012-road" />
+  <link rel="stylesheet" href="css/home-music.css?v=20261120-audio4" />
 </head>
 
 <body>
@@ -36,10 +37,19 @@
         <li><a href="contact.html">聯絡我們/商務合作</a></li>
       </ul>
 
-      <div class="menu-btn" id="menuBtn" aria-label="Open menu">
-        <span></span>
-        <span></span>
-        <span></span>
+      <div class="nav-actions">
+        <button class="home-music" id="homeMusic" type="button" data-state="playing" aria-pressed="true" aria-label="關閉音樂" title="關閉音樂">
+          <svg viewBox="0 0 24 24" aria-hidden="true" shape-rendering="crispEdges" fill="currentColor">
+            <path d="M2 9h4V7h2V5h3v14H8v-2H6v-2H2z" />
+            <path class="speaker-waves" d="M14 8h2v2h2v4h-2v2h-2v-3h2v-2h-2zM18 4h2v3h2v10h-2v3h-2v-4h2V8h-2z" />
+            <path class="speaker-muted" d="M14 8h2v2h2V8h2v2h-2v4h2v2h-2v-2h-2v2h-2v-2h2v-4h-2z" />
+          </svg>
+        </button>
+        <div class="menu-btn" id="menuBtn" aria-label="Open menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
       </div>
     </nav>
   </header>
@@ -638,6 +648,7 @@
     })();
   </script>
   <script defer src="js/pixel-scene.js"></script>
+  <script defer src="js/home-music.js?v=20261120-audio4"></script>
 </body>
 
 </html>

@@ -1,0 +1,49 @@
+/* 背景音樂開關：放在頁首右上角、漢堡選單旁邊，全站固定同一位置 */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 18px;
+  justify-self: end;
+}
+.nav-actions .menu-btn { justify-self: auto; }
+
+.home-music {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+  border: 2px solid rgba(255, 255, 255, .55);
+  border-radius: 0;
+  background: rgba(0, 0, 0, .18);
+  color: #fff;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background .2s ease, border-color .2s ease, color .2s ease;
+}
+.home-music svg { width: 24px; height: 24px; pointer-events: none; }
+.home-music:hover { border-color: #ff6600; color: #ff6600; }
+.home-music:focus { outline: none; }
+.home-music:focus-visible { outline: 2px solid rgba(255, 102, 0, .85); outline-offset: 3px; }
+
+.home-music .speaker-muted { display: none; }
+.home-music:not([data-state="playing"]) .speaker-waves { display: none; }
+.home-music:not([data-state="playing"]) .speaker-muted { display: block; }
+.home-music[data-state="muted"] { color: rgba(255, 255, 255, .7); border-color: rgba(255, 255, 255, .35); }
+.home-music[data-state="error"] { border-color: #ed986d; color: #ed986d; }
+.home-music[hidden] { display: none; }
+
+/* 已開啟、等瀏覽器允許播放：音波輕輕閃，提示點一下任何地方就會有聲音 */
+.home-music.is-pending .speaker-waves { animation: homeMusicHint 1.2s steps(2, end) infinite; }
+@keyframes homeMusicHint { 50% { opacity: .35; } }
+@media (prefers-reduced-motion: reduce) { .home-music.is-pending .speaker-waves { animation: none; } }
+
+@media (max-width: 768px) {
+  .nav-actions { gap: 14px; }
+  .home-music { width: 40px; height: 40px; }
+  .home-music svg { width: 22px; height: 22px; }
+}
