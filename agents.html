@@ -33,7 +33,7 @@
       {
         "@type": "Question",
         "name": "怎麼申請成為合作代理人？",
-        "acceptedAnswer": { "@type": "Answer", "text": "加入晴天兄弟官方 LINE（@slbro），傳「我想申請代理」，再簡單介紹你的遊戲經驗、玩家圈規模和想走的方向，團隊會跟你聯繫後續細節。" }
+        "acceptedAnswer": { "@type": "Answer", "text": "在本頁的申請表依序填好基本資料、玩家圈和想走的方向，點 GOAL 送出即可；也可以加入晴天兄弟官方 LINE（@slbro）傳「我想申請代理」。團隊看過後會跟你聯繫後續細節。" }
       },
       {
         "@type": "Question",
@@ -52,11 +52,11 @@
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
-  <link rel="stylesheet" href="css/style.css?v=20261012-agents-nav" />
+  <link rel="stylesheet" href="css/style.css?v=20261120-stake-neon2" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jersey+25&family=Silkscreen:wght@400;700&family=Noto+Sans+TC:wght@500;600;700;800&display=swap" />
-  <link rel="stylesheet" href="css/agents.css?v=20261013-lines-opacity50" />
+  <link rel="stylesheet" href="css/agents.css?v=20261119-agent-form" />
 </head>
 
 <body>
@@ -101,7 +101,7 @@
           <h1 id="guild-title">晴天兄弟<em>代理招募</em></h1>
           <p class="guild-subtitle">還在當普通玩家嗎？<br class="mb-br">是時候升級身份了</p>
           <div class="guild-actions">
-            <a class="px-btn" href="https://line.me/R/ti/p/@slbro" target="_blank" rel="noopener noreferrer"><span>私訊申請代理</span><span class="px-btn-key" aria-hidden="true">▶</span></a>
+            <a class="px-btn" href="#apply"><span>成為代理</span><span class="px-btn-key" aria-hidden="true">▶</span></a>
             <a class="ghost-link" href="#classes">先看看有哪些職業 ↓</a>
           </div>
         </div>
@@ -136,10 +136,98 @@
       </div>
     </div>
 
+    <!-- 申請表單：沿用申請流程關卡，三個 STAGE 直接填寫，GOAL 送出（js/agents.js 透過 FormSubmit 寄到官方信箱） -->
+    <section class="guild-section road-section" id="apply" aria-labelledby="apply-title">
+      <div class="guild-wrap section-head">
+        <p class="kicker">QUEST 01 / 申請表單</p>
+        <h2 id="apply-title">怎麼申請成為代理？</h2>
+        <p class="lead">沿著關卡填完三個 STAGE，最後點 <b>GOAL</b> 送出，團隊看過後會主動跟你聯絡。</p>
+      </div>
+      <form class="road" id="agentForm" data-road novalidate>
+        <!-- FormSubmit 設定：信件主旨、表格版型、防機器人欄位（_honey 有值就不寄） -->
+        <input type="hidden" name="_subject" value="【官網代理申請】新的合作代理人申請" />
+        <input type="hidden" name="_template" value="table" />
+        <input type="text" name="_honey" class="sr-only" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <div class="road-viewport" data-road-viewport>
+          <div class="road-track">
+            <div class="road-tile road-tile--start" data-stop aria-hidden="true"><span>START</span></div>
+            <ol class="road-steps">
+              <li class="road-card" data-stop style="--band:#5168F0">
+                <span class="road-band"><span class="step-no">STAGE 1</span><span class="road-clear">CLEAR ✓</span></span>
+                <h3>基本資料</h3>
+                <div class="road-field">
+                  <label for="agentName">怎麼稱呼你 <i>*</i></label>
+                  <input id="agentName" name="稱呼" type="text" placeholder="暱稱或名字" autocomplete="name" required />
+                </div>
+                <div class="road-field">
+                  <label for="agentLine">LINE ID <i>*</i></label>
+                  <input id="agentLine" name="LINE ID" type="text" placeholder="方便我們加你聯絡" autocomplete="off" required />
+                </div>
+                <div class="road-field">
+                  <label for="agentEmail">電子信箱</label>
+                  <input id="agentEmail" name="email" type="email" placeholder="hello@example.com（選填）" autocomplete="email" />
+                </div>
+              </li>
+              <li class="road-card" data-stop style="--band:#F04B07">
+                <span class="road-band"><span class="step-no">STAGE 2</span><span class="road-clear">CLEAR ✓</span></span>
+                <h3>你的玩家圈</h3>
+                <div class="road-field">
+                  <label for="agentGames">平常玩什麼 <i>*</i></label>
+                  <input id="agentGames" name="平常玩的遊戲" type="text" placeholder="例如：德州撲克、老虎機" required />
+                </div>
+                <div class="road-field">
+                  <label for="agentCircle">身邊的玩家朋友 <i>*</i></label>
+                  <select id="agentCircle" name="玩家圈規模" required>
+                    <option value="" selected disabled>選一個大概的數字</option>
+                    <option>10 人以下</option>
+                    <option>10–50 人</option>
+                    <option>50–200 人</option>
+                    <option>200 人以上</option>
+                  </select>
+                </div>
+              </li>
+              <li class="road-card" data-stop style="--band:#FDB95F">
+                <span class="road-band"><span class="step-no">STAGE 3</span><span class="road-clear">CLEAR ✓</span></span>
+                <h3>想走的方向</h3>
+                <div class="road-field">
+                  <label for="agentClass">想走的職業 <i>*</i></label>
+                  <select id="agentClass" name="想走的職業" required data-class-select>
+                    <option value="" selected disabled>選一個最像你的</option>
+                    <option>公會長</option>
+                    <option>領主</option>
+                    <option>遊戲主理人</option>
+                    <option>菁英玩家</option>
+                    <option>傳奇召集人</option>
+                    <option>隱藏職業者</option>
+                    <option>戰隊指揮官</option>
+                    <option>還不確定</option>
+                  </select>
+                </div>
+                <div class="road-field">
+                  <label for="agentNote">想跟我們說的話</label>
+                  <textarea id="agentNote" name="想說的話" rows="3" placeholder="你的經驗、想法或問題（選填）"></textarea>
+                </div>
+              </li>
+            </ol>
+            <button class="road-tile road-tile--goal" type="submit" data-stop aria-label="送出代理申請">
+              <span class="road-flag" aria-hidden="true"></span>
+              <span class="road-goal-cta">送出 ▶</span>
+              <span>GOAL</span>
+            </button>
+            <span class="road-party" data-road-hero aria-hidden="true"><span class="road-hero road-hero--b"></span><span class="road-hero road-hero--a"></span></span>
+          </div>
+        </div>
+        <div class="road-hud">
+          <span class="road-status" data-road-status role="status" aria-live="polite">READY…</span>
+          <span class="road-hud-note">送出不代表取得代理資格，合作條件以雙方確認為準</span>
+        </div>
+      </form>
+    </section>
+
     <!-- 01 轉職條件 -->
     <section class="guild-wrap guild-section quest" id="quest" aria-labelledby="quest-title">
       <div class="section-head">
-        <p class="kicker">QUEST 01 / 轉職條件</p>
+        <p class="kicker">QUEST 02 / 轉職條件</p>
         <h2 id="quest-title">還在當普通玩家嗎？</h2>
         <p class="lead">不用什麼漂亮履歷，只要下面任何一點說中你，這個招募就是在找你。</p>
       </div>
@@ -176,7 +264,7 @@
     <!-- 03 職業選擇 -->
     <section class="guild-wrap guild-section" id="classes" aria-labelledby="classes-title">
       <div class="section-head">
-        <p class="kicker">QUEST 02 / 選擇你的職業</p>
+        <p class="kicker">QUEST 03 / 選擇你的職業</p>
         <h2 id="classes-title">代理有哪些角色？</h2>
         <p class="lead">每個人擅長的不一樣，有人愛揪團、有人愛經營，申請時跟我們說你想走哪條路就好。</p>
       </div>
@@ -234,48 +322,10 @@
         <div class="class-pick reveal" aria-live="polite">
           <p class="class-pick-label">已選職業</p>
           <p class="class-pick-name" data-pick>尚未選擇</p>
-          <a class="px-btn px-btn--sm" data-pick-link href="https://line.me/R/ti/p/@slbro" target="_blank" rel="noopener noreferrer"><span>用這個職業申請</span><span class="px-btn-key" aria-hidden="true">▶</span></a>
+          <a class="px-btn px-btn--sm" data-pick-link href="#apply"><span>用這個職業申請</span><span class="px-btn-key" aria-hidden="true">▶</span></a>
         </div>
       </div>
       <p class="fine">＊職業稱號是用來描述你想走的合作方向，不是正式職級，也不代表申請資格。</p>
-    </section>
-
-    <!-- 04 申請流程 -->
-    <section class="guild-section road-section" id="apply" aria-labelledby="apply-title">
-      <div class="guild-wrap section-head">
-        <p class="kicker">QUEST 03 / 申請流程</p>
-        <h2 id="apply-title">怎麼申請成為代理？</h2>
-      </div>
-      <div class="road" data-road>
-        <div class="road-viewport" data-road-viewport>
-          <div class="road-track">
-            <div class="road-tile road-tile--start" data-stop aria-hidden="true"><span>START</span></div>
-            <ol class="road-steps">
-              <li class="road-card" data-stop style="--band:#5168F0">
-                <span class="road-band"><span class="step-no">STAGE 1</span><span class="road-clear">CLEAR ✓</span></span>
-                <h3>加官方 LINE</h3>
-                <p>點下方按鈕，加入晴天兄弟官方 LINE <b>@slbro</b>。</p>
-              </li>
-              <li class="road-card" data-stop style="--band:#F04B07">
-                <span class="road-band"><span class="step-no">STAGE 2</span><span class="road-clear">CLEAR ✓</span></span>
-                <h3>傳一句「我想申請代理」</h3>
-                <p>順便說說怎麼稱呼你、平常玩什麼、身邊有多少玩家朋友，還有你想走哪個方向。</p>
-              </li>
-              <li class="road-card" data-stop style="--band:#FDB95F">
-                <span class="road-band"><span class="step-no">STAGE 3</span><span class="road-clear">CLEAR ✓</span></span>
-                <h3>等我們回你</h3>
-                <p>團隊看過後會跟你聯絡，合作內容、條件這些細節，會一對一講清楚。</p>
-              </li>
-            </ol>
-            <div class="road-tile road-tile--goal" data-stop aria-hidden="true"><span class="road-flag"></span><span>GOAL</span></div>
-            <span class="road-party" data-road-hero aria-hidden="true"><span class="road-hero road-hero--b"></span><span class="road-hero road-hero--a"></span></span>
-          </div>
-        </div>
-        <div class="road-hud" aria-hidden="true">
-          <span class="road-status" data-road-status>READY…</span>
-          <button class="road-replay" type="button" data-road-replay tabindex="-1">再走一次 ↻</button>
-        </div>
-      </div>
     </section>
 
     <!-- 05 FAQ -->
@@ -295,7 +345,7 @@
         </details>
         <details class="reveal">
           <summary><h3>怎麼申請成為合作代理人？</h3></summary>
-          <p>加入晴天兄弟官方 LINE（@slbro），傳「我想申請代理」，再簡單介紹你的遊戲經驗、玩家圈規模和想走的方向，團隊會跟你聯繫後續細節。</p>
+          <p>在本頁的申請表依序填好基本資料、玩家圈和想走的方向，點 GOAL 送出即可；也可以加入晴天兄弟官方 LINE（@slbro）傳「我想申請代理」。團隊看過後會跟你聯繫後續細節。</p>
         </details>
         <details class="reveal">
           <summary><h3>公會長、領主這些職業是正式代理等級嗎？</h3></summary>
@@ -377,7 +427,7 @@
   </div>
 
   <script defer src="js/script.js?v=20261014-shared-header"></script>
-  <script defer src="js/agents.js?v=20261013-flag"></script>
+  <script defer src="js/agents.js?v=20261120-agent-form4"></script>
 </body>
 
 </html>

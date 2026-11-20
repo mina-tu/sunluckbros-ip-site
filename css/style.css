@@ -2673,3 +2673,117 @@ html {
   .header:not(.compact) .menu-btn { display: block; }
   .header .navbar { display: flex; justify-content: space-between; align-items: center; }
 }
+
+/* =====================================================
+   Stake 立即體驗：霓虹招牌按鈕（呼應背景的青／桃紅霓虹燈）
+   - 外框：青 → 藍紫 → 桃紅漸層燈管，持續流動
+   - 內底：深色玻璃＋定時掃過的一道斜光
+   - 光暈：放在文字層的 ::before（不對整顆按鈕套 filter，文字才不會糊）
+   ===================================================== */
+#stake .web3-showcase {
+  --cta-h: clamp(58px, 4.8cqi, 80px);
+}
+#stake .web3-showcase__cta,
+#stake .web3-showcase__cta:hover,
+#stake .web3-showcase__cta:active {
+  --cta-cut: 8px;
+  --neon-a: #2ff3ff;
+  --neon-b: #6b5cff;
+  --neon-c: #ff3fb4;
+  color: #fff;
+  font-weight: 900;
+  letter-spacing: .18em;
+  /* 字本身保持銳利：只留一層貼字的深色描邊＋很淡的外光 */
+  text-shadow:
+    0 1px 0 #061226,
+    0 0 1px #061226,
+    0 0 12px rgba(47, 243, 255, .55);
+  -webkit-font-smoothing: antialiased;
+}
+#stake .web3-showcase__cta::before,
+#stake .web3-showcase__cta::after {
+  clip-path: polygon(8px 0, calc(100% - 8px) 0, calc(100% - 8px) 4px, 100% 4px, 100% calc(100% - 4px), calc(100% - 8px) calc(100% - 4px), calc(100% - 8px) 100%, 8px 100%, 8px calc(100% - 4px), 0 calc(100% - 4px), 0 4px, 8px 4px);
+}
+/* 流動的霓虹燈管外框 */
+#stake .web3-showcase__cta::before {
+  background: linear-gradient(90deg, var(--neon-a), var(--neon-b), var(--neon-c), var(--neon-b), var(--neon-a)) 0 0 / 300% 100%;
+  animation: stakeNeonFlow 3.2s linear infinite;
+}
+/* 深色玻璃內底＋掃光（第一層） */
+#stake .web3-showcase__cta::after,
+#stake .web3-showcase__cta:hover::after {
+  inset: 3px;
+  background:
+    linear-gradient(100deg, transparent 42%, rgba(255, 255, 255, .45) 50%, transparent 58%) 250% 0 / 250% 100% no-repeat,
+    linear-gradient(180deg, rgba(255, 255, 255, .18) 0%, rgba(255, 255, 255, 0) 45%),
+    radial-gradient(120% 140% at 50% 120%, rgba(255, 63, 180, .5) 0%, rgba(255, 63, 180, 0) 60%),
+    linear-gradient(180deg, #123160 0%, #0a1230 60%, #1f0b35 100%);
+  animation: stakeNeonSweep 3.6s ease-in-out infinite;
+}
+#stake .web3-showcase__cta:hover::after { filter: brightness(1.3); }
+
+/* 文字層：span 不設定位，::before 才會以整顆按鈕為基準畫光暈 */
+#stake .web3-showcase__cta > span {
+  display: inline-flex;
+  align-items: center;
+}
+#stake .web3-showcase__cta > span::before {
+  content: "";
+  position: absolute;
+  z-index: -2;
+  inset: 2px;
+  box-shadow:
+    0 0 8px 2px rgba(47, 243, 255, .95),
+    0 0 24px 6px rgba(47, 243, 255, .55),
+    0 0 48px 14px rgba(255, 63, 180, .5),
+    0 0 80px 24px rgba(107, 92, 255, .3);
+  animation: stakeNeonPulse 2.6s ease-in-out infinite;
+  pointer-events: none;
+}
+#stake .web3-showcase__cta:hover > span::before {
+  box-shadow:
+    0 0 10px 3px rgba(47, 243, 255, 1),
+    0 0 30px 8px rgba(47, 243, 255, .7),
+    0 0 60px 18px rgba(255, 63, 180, .65),
+    0 0 100px 30px rgba(107, 92, 255, .4);
+}
+@keyframes stakeNeonFlow { to { background-position: 300% 0; } }
+@keyframes stakeNeonPulse {
+  0%, 100% { opacity: .7; }
+  50% { opacity: 1; }
+}
+
+/* 只移動第一層（掃光），其餘圖層固定 */
+@keyframes stakeNeonSweep {
+  0%, 55% { background-position: 250% 0, 0 0, 0 0, 0 0; }
+  100% { background-position: -150% 0, 0 0, 0 0, 0 0; }
+}
+
+/* 桌機／平板：按鈕加大，下移到場景底部的街道邊緣，文字卡跟著往下讓位 */
+@media (min-width: 601px) {
+  #stake .web3-showcase__cta {
+    top: calc(30cqi - var(--cta-h) * .2);
+    min-height: var(--cta-h);
+    padding: 8px clamp(40px, 3.6cqi, 64px);
+    font-size: clamp(20px, 1.8cqi, 30px);
+  }
+  #stake .web3-showcase__panel {
+    margin-top: calc(var(--cta-h) * .3 + 14px);
+  }
+}
+
+/* 手機：維持在文字卡內，但加高、加大字 */
+@media (max-width: 600px) {
+  #stake .web3-showcase__cta {
+    height: max(54px, 17cqi);
+    padding: 0 8cqi;
+    font-size: max(17px, 5.6cqi);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #stake .web3-showcase__cta::before,
+  #stake .web3-showcase__cta::after,
+  #stake .web3-showcase__cta > span,
+  #stake .web3-showcase__cta > span::before { animation: none; }
+}
