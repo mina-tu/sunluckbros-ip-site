@@ -4,14 +4,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>晴天兄弟代理招募｜從玩家轉職成合作代理人・SLBROS</title>
+  <title>晴天幫代理招募｜從玩家轉職成合作代理人・SLBROS</title>
   <link rel="icon" type="image/jpeg" href="image/favicon-2.jpg" />
   <meta name="description" content="晴天兄弟遊戲代理招募開跑！懂遊戲、有自己的玩家圈，或想挑戰不一樣的角色？公會長、領主、戰隊指揮官等 7 種方向任你選，私訊官方 LINE 就能申請成為合作代理人。" />
 
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="zh_TW" />
   <meta property="og:site_name" content="晴天兄弟 SLBROS" />
-  <meta property="og:title" content="晴天兄弟代理招募｜玩了這麼久，是時候該升級身份了！" />
+  <meta property="og:title" content="晴天幫代理招募｜玩了這麼久，是時候該升級身份了！" />
   <meta property="og:description" content="從玩家轉職成合作夥伴，開啟你的第二職業。7 種代理角色任你挑，私訊官方 LINE 就能申請。" />
   <meta name="twitter:card" content="summary_large_image" />
 
@@ -57,7 +57,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jersey+25&family=Silkscreen:wght@400;700&family=Noto+Sans+TC:wght@500;600;700;800&display=swap" />
-  <link rel="stylesheet" href="css/agents.css?v=20261119-agent-form" />
+  <link rel="stylesheet" href="css/agents.css?v=20261124-picks" />
 </head>
 
 <body>
@@ -67,7 +67,7 @@
       <div class="logo"><a href="index.html">SLBROS</a></div>
 
       <ul class="desktop-nav" aria-label="Desktop navigation">
-        <li><a href="index.html">晴天兄弟</a></li>
+        <li><a href="index.html#about">晴天兄弟</a></li>
         <li><a href="index.html#stake">Web3合作夥伴</a></li>
         <li><a href="index.html#poker">Poker合作平台</a></li>
         <li><a href="agents.html" aria-current="page">成為代理</a></li>
@@ -93,7 +93,7 @@
 
   <nav class="menu" id="menu">
     <ul>
-      <li><a href="index.html">晴天兄弟</a></li>
+      <li><a href="index.html#about">晴天兄弟</a></li>
       <li><a href="index.html#stake">Web3合作夥伴</a></li>
       <li><a href="index.html#poker">Poker合作平台</a></li>
       <li><a href="agents.html" aria-current="page">成為代理</a></li>
@@ -108,7 +108,7 @@
       <div class="guild-wrap guild-hero-inner">
         <div class="guild-hero-copy">
           <p class="hud-tag"><span class="hud-dot" aria-hidden="true"></span>RECRUITING・合作代理人開放申請中</p>
-          <h1 id="guild-title">晴天兄弟<em>代理招募</em></h1>
+          <h1 id="guild-title">晴天幫<em>代理招募</em></h1>
           <p class="guild-subtitle">還在當普通玩家嗎？<br class="mb-br">是時候升級身份了</p>
           <div class="guild-actions">
             <a class="px-btn" href="#apply"><span>成為代理</span><span class="px-btn-key" aria-hidden="true">▶</span></a>
@@ -181,10 +181,20 @@
               <li class="road-card" data-stop style="--band:#F04B07">
                 <span class="road-band"><span class="step-no">STAGE 2</span><span class="road-clear">CLEAR ✓</span></span>
                 <h3>你的玩家圈</h3>
-                <div class="road-field">
-                  <label for="agentGames">平常玩什麼 <i>*</i></label>
-                  <input id="agentGames" name="平常玩的遊戲" type="text" placeholder="例如：德州撲克、老虎機" required />
-                </div>
+                <fieldset class="road-field road-picks" data-picks data-picks-name="玩家派系">
+                  <legend>你是哪一派玩家？ <i>*</i><small>可複選</small></legend>
+                  <div class="road-picks-grid">
+                  <label class="road-pick"><input type="checkbox" value="德州撲克高手" required /><span>德州撲克高手</span></label>
+                  <label class="road-pick"><input type="checkbox" value="球賽達人" required /><span>球賽達人</span></label>
+                  <label class="road-pick"><input type="checkbox" value="娛樂休閒派" required /><span>娛樂休閒派</span></label>
+                  <label class="road-pick"><input type="checkbox" value="靠賽型選手" required /><span>靠賽型選手</span></label>
+                  <label class="road-pick"><input type="checkbox" value="電競玩家" required /><span>電競玩家</span></label>
+                  <label class="road-pick"><input type="checkbox" value="策略遊戲玩家" required /><span>策略遊戲玩家</span></label>
+                  <label class="road-pick"><input type="checkbox" value="卡牌收藏家" required /><span>卡牌收藏家</span></label>
+                  <label class="road-pick"><input type="checkbox" value="桌遊愛好者" required /><span>桌遊愛好者</span></label>
+                  <label class="road-pick"><input type="checkbox" value="其他" required /><span>其他</span></label>
+                  </div>
+                </fieldset>
                 <div class="road-field">
                   <label for="agentCircle">身邊的玩家朋友 <i>*</i></label>
                   <select id="agentCircle" name="玩家圈規模" required>
@@ -373,8 +383,8 @@
       <div class="final-box reveal">
         <p class="final-label">PRESS START</p>
         <h2 id="final-title">你的第二職業，<br class="mb-br">從一則訊息開始</h2>
-        <a class="px-btn" href="https://line.me/R/ti/p/@slbro" target="_blank" rel="noopener noreferrer"><span>LINE 私訊申請</span><span class="px-btn-key" aria-hidden="true">▶</span></a>
-        <p class="final-note">送出訊息不代表取得代理資格，合作條件以雙方確認為準。</p>
+        <a class="px-btn" href="#apply"><span>成為代理</span><span class="px-btn-key" aria-hidden="true">▶</span></a>
+        <p class="final-note">送出訊息不代表取得代理資格，合作條件以雙方確認為準</p>
       </div>
     </section>
   </main>
@@ -437,7 +447,7 @@
   </div>
 
   <script defer src="js/script.js?v=20261014-shared-header"></script>
-  <script defer src="js/agents.js?v=20261120-agent-form4"></script>
+  <script defer src="js/agents.js?v=20261124-picks"></script>
   <script defer src="js/home-music.js?v=20261120-audio4"></script>
 </body>
 

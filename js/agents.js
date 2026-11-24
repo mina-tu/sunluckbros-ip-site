@@ -129,7 +129,16 @@
       if (want !== target) walkTo(want);
     };
 
+    // 「你是哪一派玩家？」複選：至少勾一個才算完成（勾了之後解除其他選項的 required）
+    const pickGroups = [...road.querySelectorAll("[data-picks]")];
+    const boxesOf = (g) => [...g.querySelectorAll('input[type="checkbox"]')];
+    const syncPicks = () => pickGroups.forEach((g) => {
+      const none = !boxesOf(g).some((b) => b.checked);
+      boxesOf(g).forEach((b) => { b.required = none; });
+    });
+
     const refresh = () => {
+      syncPicks();
       cards.forEach((c) => c.classList.toggle("is-active", cardDone(c)));
       const next = firstInvalid();
       road.classList.toggle("is-ready", !next);
@@ -173,6 +182,9 @@
       goal.disabled = true;
       show("傳送中…", false);
       const body = new FormData(road);
+      pickGroups.forEach((g) => {
+        body.set(g.dataset.picksName, boxesOf(g).filter((b) => b.checked).map((b) => b.value).join("、"));
+      });
       Promise.all([
         walkTo(stops.length - 1),
         fetch(AGENT_ENDPOINT, { method: "POST", headers: { Accept: "application/json" }, body })
@@ -187,6 +199,7 @@
       ])
         .then(() => {
           road.reset();
+          syncPicks();
           road.querySelectorAll(".is-touched").forEach((f) => f.classList.remove("is-touched"));
           cards.forEach((c) => c.classList.add("is-active"));
           road.classList.add("is-clear");

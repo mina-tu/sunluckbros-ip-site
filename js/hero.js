@@ -7,7 +7,7 @@
   var hero = document.querySelector(".homeFv");
   if (!hero) return;
 
-  /* ---- 貼紙：點擊導向（data-target 捲到區塊 / data-href 另開連結） ---- */
+  /* ---- 貼紙：點擊導向（data-target 捲到區塊 / data-href 前往連結） ---- */
   function activateSticker(el) {
     var target = el.getAttribute("data-target");
     var href = el.getAttribute("data-href");
@@ -17,7 +17,9 @@
       return true;
     }
     if (href) {
-      window.open(href, "_blank", "noopener");
+      // 外部連結另開分頁，站內頁面直接在原分頁前往
+      if (/^https?:\/\//.test(href)) window.open(href, "_blank", "noopener");
+      else window.location.href = href;
       return true;
     }
     return false;

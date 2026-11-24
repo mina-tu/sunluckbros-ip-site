@@ -721,6 +721,28 @@
   background-color: #fff3ee;
 }
 
+/* 你是哪一派玩家？（複選膠囊） */
+.road-picks { border: 0; margin: 12px 0 0; min-width: 0; }
+.road-picks + .road-field { margin-top: 14px; }
+.road-picks-grid { display: flex; flex-wrap: wrap; gap: 6px; }
+.road-picks legend { margin-bottom: 6px; padding: 0; font-size: 14px; font-weight: 700; color: #303030; }
+.road-picks legend i { font-style: normal; color: var(--primary); }
+.road-picks legend small { margin-left: 6px; font-size: 12px; font-weight: 500; color: #929090; }
+.road-pick { position: relative; cursor: pointer; }
+.road-pick input { position: absolute; inset: 0; width: 100%; height: 100%; min-height: 0; margin: 0; opacity: 0; cursor: pointer; }
+.road-pick span {
+  display: flex; align-items: center;
+  min-height: 34px; padding: 5px 9px;
+  font: 700 13px/1.3 var(--zh); white-space: nowrap; color: #1B1C1C;
+  background: #fff;
+  box-shadow: inset 0 0 0 2px #000, inset 3px 3px 0 rgba(0, 0, 0, .12);
+  transition: background .15s steps(2), box-shadow .15s steps(2), transform .15s steps(2);
+}
+.road-pick:hover span { transform: translateY(-2px); }
+.road-pick input:checked + span { background: var(--band); color: #000; box-shadow: inset 0 0 0 2px #000, 3px 3px 0 #000; }
+.road-pick input:focus-visible + span { box-shadow: inset 0 0 0 2px #000, 0 0 0 3px var(--band); }
+.road-pick input.is-touched:invalid + span { box-shadow: inset 0 0 0 2px var(--primary); background-color: #fff3ee; }
+
 /* GOAL：送出按鈕 */
 button.road-tile--goal {
   border: 0;
